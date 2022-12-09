@@ -1,0 +1,736 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Квантификаторы</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="562e161f-073c-47fd-9567-1e4f1a50b828" class="page sans"><header><h1 class="page-title">Квантификаторы</h1></header><div class="page-body"><p id="2774a17a-0eea-4130-b8e6-c7d4f92745ea" class="">В прошлом уроке мы говорили о наборах и диапазонах. В этом — поговорим о квантификаторах. Они позволяют искать любое количество повторов. А ещё расскажем, почему квантификаторам не чужды человеческие пороки, и что нам это даёт.</p><h2 id="e44d58ce-643d-43ad-ba17-8aa0de36aea1" class="">Основные квантификаторы</h2><p id="77ba1f6c-301d-4de4-83da-e2345bb9f13e" class="">Предположим, мы хотим найти слово «свиной», но не помним, сколько в нём букв «н»:</p><pre id="da5542e9-7ad7-43fa-bbf1-de03cbd22080" class="code"><code>const str = &#x27;Сколько букв «н» в слове «свиной»?&#x27;;
+</code></pre><p id="8bd48b23-97d4-458c-a990-49d544a2224f" class="">Для такого поиска нам нужно регулярное выражение. Оно ищет строку, которая начинается на «сви», затем идёт одна или две буквы «н», и конец слова: «ой».</p><h3 id="db400b80-5259-4ffb-9919-b1491e409e56" class="">От одного до бесконечности повторений — квантификатор <code>+</code></h3><p id="808aa5b1-ea76-4455-a229-13d17ce6ff41" class="">Решить эту задачу поможет квантификатор <code>+</code>. Если поставить плюс после символа, движок ищет все слова, где этот символ встречается один раз или больше:</p><pre id="d7d75199-3c3e-4a63-b6ac-27000f9b6cc8" class="code"><code>const str = &#x27;Правильно писать «свиной», с одной «н»&#x27;;
+const regex = /свин+ой/;
+
+// такое регулярное выражение найдёт оба варианта: и с «н», и с «нн»
+
+str.match(regex); // [ &quot;свиной&quot; ]
+</code></pre><h3 id="f4e3fb4f-1e77-43a3-b321-9e0fbd022d0a" class="">От нуля до бесконечности повторений — квантификатор <code>*</code></h3><p id="451ed441-32a5-4368-aa69-dbce8ae4cd7f" class="">Другой квантификатор для поиска повторяющихся символов — это звёздочка (астериск): <code>*</code>. Работает почти как плюс, но есть одно отличие. Символ, после которого стоит плюс, обязательно должен быть в строке. То есть плюс как бы говорит движку: «Ищи вот этот символ и после него ещё может быть сколько угодно таких же символов».</p><p id="199b36db-50bc-4daf-a866-0e3ef21d452c" class="">Звёздочку же устраивает и полное отсутствие того символа, который перед ней стоит. То есть если звёздочка стоит после символа, этого символа в найденной строке может вовсе не быть:</p><pre id="5b48cced-ccc4-419b-9213-b209a08da187" class="code"><code>const exc = &#x27;экскаватор&#x27;;
+const esc = &#x27;эскалатор&#x27;;
+const regex = /эк*ска[вл]атор/; // буква &quot;к&quot; может встречаться, а может и не встречаться
+
+exc.match(regex); // [ &quot;экскаватор&quot; ]
+esc.match(regex); // [ &quot;эскалатор&quot; ]
+</code></pre><h3 id="97689d97-8c00-4ab5-812e-90349ad31a92" class="">Необязательный символ — квантификатор <code>?</code></h3><p id="8fb6b49c-5add-4d35-9275-c2b073f829e2" class="">Ещё один способ сделать символ необязательным: квантификатор <code>?</code>. Если звёздочка приемлет от нуля до бесконечности символов, то знак вопроса строже — его устраивает лишь 0 и 1: либо есть один символ, либо его нет вообще.</p><pre id="e031b483-d40e-42b4-b8c4-980d0b6c0347" class="code"><code>/* делает букву u необязательной и будет искать
+оба варинта написания favourite и favorite. */
+
+const regex = /favou?rite/g;
+const	str = &#x27;favourite for favorite&#x27;;
+
+str.match(regex); // [&quot;favourite&quot;, &quot;favorite&quot;]
+</code></pre><h3 id="e9574d7d-4846-45cd-9c3c-803af69b0a0d" class="">Либо один символ, либо другой — квантификатор <code>|</code></h3><p id="85ab81c6-d326-48ca-ab8b-3daac16fe9af" class="">Этим квантификатором можно задавать вилки из символов: искать либо один символ, либо другой. То есть если написать <code>a|b</code>, нам подойдёт и символ <code>a</code>, и символ <code>b</code>.</p><pre id="1220d377-63d4-4475-8462-ab89b4a394f5" class="code"><code>const someSimbol = /cent(er|re)/g
+const	str = &#x27;center in centre&#x27;;
+
+console.log(str.match(someSimbol)); // [&quot;center&quot;, &quot;centre&quot;]
+</code></pre><p id="5542a857-a8c7-4450-8a28-d19b90c0657b" class="">Квантификатор <code>|</code> пригождается, когда нужно работать с текстами и на британском, и на американском английском.</p><h3 id="f0f11145-e654-4e72-87bf-12025c0069ba" class="">Контроль повторов — квантификатор <code>{}</code></h3><p id="6f07f0c0-74c9-4ba8-82b4-a40f8f8b5b15" class="">Для поиска набора повторяющихся символов мы перечисляли их подряд в регулярном выражении:</p><pre id="b604817f-17fb-4661-a2cf-9b48cf8a24d7" class="code"><code>const regionCode = /\\d\\d\\d/;
+const	phoneNumber = &#x27;Мой номер телефона: +7(999)123-12-21&#x27;;
+
+phoneNumber.match(regionCode); // [ &quot;999&quot; ]
+</code></pre><p id="c3e8af4e-69d8-47a1-9f6f-aeb78476df3f" class="">Квантификатор <code>{}</code> позволяет этого избежать. После символа можно поставить фигурные скобки и указать в них, сколько повторений этого символа мы хотим найти:</p><pre id="f1d97310-46fd-43ca-af35-8af6dcc114c9" class="code"><code>const regionCode = /\\d{3}/;
+const	phoneNumber = &#x27;Мой номер телефона: +7(999)123-12-21&#x27;;
+
+phoneNumber.match(regionCode); // [ &quot;999&quot; ]
+</code></pre><p id="5a4d3e42-31cc-44dc-abb1-b8a8ab0948ec" class="">Можно также указывать не точное количество повторений, а диапазон. Например, когда нас устроит от 2 до 5 повторений:</p><pre id="a9672982-5fa7-4cee-80ea-5f856dc5de0f" class="code"><code>const str = &#x27;столько, стооолько и вот стооооооооолько&#x27;;
+const regex = /сто{2,5}лько/;
+
+str.match(regex); // [ &quot;стооолько&quot; ]
+
+// в слове &quot;стооооооооолько&quot; повторов &quot;о&quot; больше 5
+</code></pre><p id="ca5f7a01-cccc-41f2-aebd-24ec701a487c" class="">Верхнюю границу числа повторений можно не указывать: например, можно искать от 5 до бесконечности. В таких случаях просто не указывайте в фигурных скобках второе число. Но запятую ставьте — она нужна.</p><pre id="d8ef1f42-8dc8-4a42-8eb3-e829641ff97c" class="code"><code>const someSymbol = /a{1,}/g;
+const	str = &#x27;alohaa&#x27;;
+
+console.log(str.match(someSymbol)); // [&quot;a&quot;, &quot;aa&quot;]
+</code></pre><h2 id="0724ecb5-c576-46ff-a54f-bb6099dd7d7e" class="">Ленивые и жадные квантификаторы</h2><p id="4b593506-83d1-4199-b708-c4752c224a86" class="">У регулярного выражения бывает выбор: иногда подходят сразу две строки.</p><p id="09b3fe1d-3c54-45de-9aaa-370df6bc3daa" class="">Например, нужно найти строку с первой буквой «э», последней «м» и от 2 до 11 символов в промежутке:</p><pre id="e877469d-9c66-452b-9793-5e18650da03b" class="code"><code>const someSymbols = /э.{2,11}м/gi;
+const	str = &#x27;Прогресс может оказаться совершенно безразличным к понятиям доброты и честности, как он был безразличен к этим понятиям до сих пор.&#x27;;
+
+console.log(str.match(someSymbols)); // [&quot;этим понятиям&quot;]
+</code></pre><p id="ade02c43-3ff9-4f04-928d-8b42fd718049" class="">Мы получили «этим понятиям». Но ведь и слово «этим» тоже подходит под регулярное выражение. Оно начинается на «э», заканчивается на «м» и содержит 2 буквы между первой и последней.</p><p id="170ef474-d9e1-468c-84ae-a23517400d4d" class="">Получается, движок предпочёл более длинное совпадение более короткому. Такое поведение называют «жадным». И это поведение квантификатора <code>{}</code> по умолчанию:</p><pre id="b02d3720-009f-427a-b2d0-358679ad6ec4" class="code"><code>const str = &#x27;ооооооооооо&#x27;; // 11 букв «о»
+const regex = /о{1,11}/;
+
+str.match(regex); // [ &quot;ооооооооооо&quot; ] — квантификатор жадный, он собрал все буквы «о», какие сумел найти.
+</code></pre><p id="fc750e0d-9f33-4834-9c97-30b23c6879ef" class="">Безгрешных квантификаторов не бывает. Противоположность жадному поведению у них — ленивое.</p><p id="0f8bf90d-df8f-4735-b3a3-134c80cb6e5d" class="">Ленивый квантификатор предпочтёт короткий вариант совпадения. Чтобы сделать квантификатор <code>{}</code> ленивым, поставьте после него знак вопроса: <code>{}?</code>.</p><pre id="fc307a23-0d9a-4348-8dcd-30b3c04838d3" class="code"><code>const someSymbols = /э.{2,11}?м/gi;
+const	str = &#x27;Прогресс может оказаться совершенно безразличным к понятиям доброты и честности, как он был безразличен к этим понятиям до сих пор.&#x27;;
+
+console.log(str.match(someSymbols)); [ &quot;этим&quot; ]
+
+/* ленивый квантификатор нашёл самое короткое
+совпадение и дальше даже проверять не стал */
+</code></pre><p id="e2542998-2f86-4e1c-ba3a-5a0df4787614" class="">Аналогично можно сделать ленивым квантификатор плюс <code>+</code>:</p><pre id="e6e3e373-5ae0-48e0-9461-1c1038a387f4" class="code"><code>const someSymbols = /э.+?м/gi;
+const	str = &#x27;Прогресс может оказаться совершенно безразличным к понятиям доброты и честности, как он был безразличен к этим понятиям до сих пор.&#x27;;
+
+console.log(str.match(someSymbols)); // [ &quot;этим&quot; ]
+</code></pre><p id="acc3ef21-f2c7-42b4-a840-ffbddc3b0877" class=""><a href="https://www.notion.so/4058240073f846ccb59a0bcf965d0687">И напоследок таблица основных квантификаторов:</a></p><p id="dbe5fc9e-771f-4f75-922f-a9d4f05cb7df" class="">И помните о лени и жадности квантификаторов. Если у квантификатора есть выбор между более длинной и более короткой строкой, подходящей под регулярное выражение, ленивый квантификатор выберет более короткое совпадение, а жадный — более длинное:</p><pre id="13ed8450-1f20-4294-a664-b99469c43532" class="code"><code>const str = &#x27;свободный от забот&#x27;;
+const regexLazy = /свобод.+?[йт]/; // ленивый квантификатор
+const regexGreedy = /свобод.+[йт]/; // жадный квантификатор
+
+str.match(regexLazy); // [ &quot;свободный&quot; ]
+str.match(regexGreedy); // [ &quot;свободный от забот&quot; ]
+</code></pre></div></article></body></html>

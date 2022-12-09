@@ -1,0 +1,722 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Семантика и выразительность HTML</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="b2d71c93-8d34-47f9-93da-9a8ea91037fe" class="page sans"><header><h1 class="page-title">Семантика и выразительность HTML</h1></header><div class="page-body"><p id="1b7701f0-5aaf-4853-999b-cfe11b899f13" class="">Полезная статья:</p><p id="01bc974c-7e04-44ab-af05-2f31824961ef" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element">HTML elements reference (англ. статья на MDN)</a></p><p id="30ed3a85-759a-45cb-84f4-d1ee7a624068" class="">
+</p><p id="1cb3b3a7-31aa-466f-8b2e-0ecc1318ccbd" class="">В предыдущем уроке мы разобрали контейнеры, которые описывают структуру страницы. Контейнеры описывают, из каких основных блоков состоит страница.</p><p id="e7c600ac-eabb-422e-b8d2-bfd4d9670c4e" class="">Но кроме контейнеров полезно применять теги, которые уточняют смысл определённых элементов. Цель у этого та же — семантические теги помогают понимать ваш сайт роботам: браузеру и поисковым машинам (Яндекс, Гугл).</p><p id="981caa01-1944-4b63-98c9-6c37bea5e0ec" class="">Семантических тегов много. Чем больше вы будете писать и читать код, тем шире будет ваш «словарный запас». В этом уроке мы опишем популярные теги, которые позволят писать выразительный HTML-код, а не код, который «просто работает».</p><h2 id="e93dd9e7-f06d-4c5d-90d1-a3d6eedcad7f" class="">Списки</h2><p id="8cc4e713-773e-409f-bbff-b2ea738e8c41" class="">В HTML<em> </em>есть два вида списков: маркированный и нумерованный.</p><p id="f396a2d8-c749-4335-827a-e47d93a30bde" class=""><strong>Маркированный список</strong> используют, когда порядок элементов не важен: список покупок, чеклист. По умолчанию такой список оформлен буллитами — маркерами в виде точек:<div class="indented"><p id="c2573283-c93a-453b-8cb7-1cfef40e3495" class="">Список документов:</p><ul id="81c131a1-7111-4434-a676-38086973b886" class="bulleted-list"><li style="list-style-type:disc">ксерокопия паспорта,</li></ul><ul id="5111555d-6f48-43ae-9529-f64affb0f2bd" class="bulleted-list"><li style="list-style-type:disc">фотография 3 на 4,</li></ul><ul id="fc362645-3cc1-4b04-9d48-872fc39f54ab" class="bulleted-list"><li style="list-style-type:disc">заполненная анкета.</li></ul></div></p><p id="dd025314-016e-4bd9-9b4b-34f427ee7487" class="">Чтобы создать список, используют контейнер {{`ul`}}[web_translate_html_ul]. Внутрь контейнера помещают элементы {{`li`}}[web_translate_html_li].</p><pre id="3376132a-ed0e-42e1-a27b-59ef83763e62" class="code"><code>Список документов:
+&lt;ul&gt;
+	&lt;li&gt;ксерокопия паспорта,&lt;/li&gt;
+	&lt;li&gt;фотография 3 на 4,&lt;/li&gt;
+	&lt;li&gt;заполненная анкета.&lt;/li&gt;
+&lt;/ul&gt;</code></pre><p id="919ad8ff-9458-4bfe-8617-c08625ea1d02" class=""><strong>Нумерованный список</strong> применяют, когда порядок имеет значение: в инструкции, описании процесса. Такой список маркирован цифрами, буквами или их комбинациями:<div class="indented"><p id="930bb85a-9028-484a-a4bd-be4eb28bfdf0" class="">Чтобы участвовать в розыгрыше:</p><ol type="1" id="83fea6c9-e78b-45c9-a308-2c2f4a323dbb" class="numbered-list" start="1"><li>подпишитесь на канал,</li></ol><ol type="1" id="0eb85fd5-c9d7-4c2b-81df-26a6f6e28017" class="numbered-list" start="2"><li>поставьте ролику лайк,</li></ol><ol type="1" id="28a2c8cc-0864-414c-b43a-2c580699eb9d" class="numbered-list" start="3"><li>напишите в комментариях свои контакты.</li></ol></div></p><p id="2542cf28-eecf-4805-a115-c4e6b75a379f" class="">Такой список создают контейнером {{`ol`}}[web_translate_html_ol]. Внутри него размещают такие же элементы {{`li`}}[web_translate_html_li], как и в маркированном списке:</p><pre id="dd54c035-bf9d-4e51-b6ea-f6ebb1ab780d" class="code"><code>Чтобы участвовать в розыгрыше:
+&lt;ol&gt;
+	&lt;li&gt;подпишитесь на канал,&lt;/li&gt;
+	&lt;li&gt;поставьте ролику лайк,&lt;/li&gt;
+	&lt;li&gt;напишите в комментариях свои контакты.&lt;/li&gt;
+&lt;/ol&gt;</code></pre><p id="ad5baaa5-8956-4437-93b5-cf3a767b1982" class="">Маркерами и нумерацией списков можно управлять из CSS. Для этого есть свойство <code>list-style</code>. У него много возможных значений: от квадратных маркеров до маркировки буквами армянского языка. Полный список вариантов есть <a href="https://html5book.ru/css-spiski/#list-style-type">в документации CSS</a>. Этим же свойством задают положение и изображение маркера.</p><p id="87f3a0dc-39ab-4526-b881-9882853251fe" class="">Часто нужно скрыть маркер вовсе. Это делается так:</p><pre id="bae2192c-6afb-4a82-8dfb-6593c01b5829" class="code"><code>ul {
+	list-style: none;
+}</code></pre><h2 id="eea81ed4-1bbc-480c-b72e-9234adf115ea" class="">Тег статьи</h2><p id="319ce7a2-2e8b-4761-8dc7-05541c136a4d" class="">Значительную часть интернета составляют сайты с текстовым контентом: блоги и издания. Основной единицей информации там служит статья.</p><p id="915df7b4-eb3f-4b39-8aa3-ec9901844fba" class="">Для разметки статьи используют контейнер {{`article`}}[web_translate_html_article]. Он позволяет поисковым системам распознавать на странице блок, отведённый под статью.</p><pre id="cc91c1a4-3469-462e-9b97-c8a45a4134da" class="code"><code>&lt;article&gt;
+	&lt;h2&gt;Заголовок статьи&lt;/h2&gt;
+	&lt;p&gt;Основной текст статьи&lt;/p&gt;
+&lt;/article&gt;</code></pre><h2 id="1021e33f-4cc4-482c-8757-716e8239275b" class="">Цитаты</h2><p id="763f619a-065d-4fc0-a235-bc8561ae8ecf" class="">Цитаты в тексте располагают между тегами {{`&lt;blockquote&gt;&lt;/blockquote&gt;`}}[web_translate_html_blockquote].</p><p id="1edbf155-4b99-4e9d-abe6-5e9e455062e4" class="">У этого тега есть необязательный, но полезный атрибут <code>cite</code>. Он позволяет указать автора цитаты.</p><pre id="aa9ed4a0-8410-4ce3-b343-ad4cb8c72ae6" class="code"><code>&lt;blockquote cite=&quot;https://praktikum.yandex.ru&quot;&gt;Достаточно начать — и, конечно, не бросить. 
+Мы поможем приступить к учёбе и справиться с трудностями.&lt;/blockquote&gt;</code></pre><p id="fed49f51-3116-472e-a328-c54449a596bc" class="">По умолчанию цитата оформлена отступами:</p><figure id="f35efcd3-df3b-4838-8a81-3ebe9dd7a317" class="image"><a href="./Семантика и выразительность HTML/Untitled.png"><img style="width:1400px" src="./Семантика и выразительность HTML/Untitled.png"/></a></figure><h2 id="c6e9b4f0-c526-42ca-88e4-129756ba06d6" class="">Таблицы</h2><p id="7e2e7cce-f2fa-47a3-bf9f-a4cfd62ca1d4" class="">Иногда нужно оформить таблицу. Для этого есть тег <code>&lt;table&gt;&lt;/table&gt;</code>.</p><p id="10315a1a-7c72-4605-a655-b7383c26d1dd" class="">Таблица состоит из строк. Их задают тегами <code>&lt;tr&gt;&lt;/tr&gt;</code>. Строки разбивают на ячейки тегами <code>&lt;td&gt;&lt;/td&gt;</code>. Исключение составляют ячейки первой строки, потому что они содержат заголовки колонок. Поэтому такие ячейки задают тегами <code>&lt;th&gt;&lt;/th&gt;</code>.</p><pre id="0ee5971d-d98d-45ca-8acd-67dce5a1476b" class="code"><code>&lt;table&gt;
+	&lt;tr&gt; &lt;!-- первая строка с заголовками - поэтому разбиваем на ячейки тегами th --&gt;
+		&lt;th&gt;строка 1 ячейка 1 - заголовок первой колонки&lt;/th&gt; 
+		&lt;th&gt;строка 1 ячейка 2 — заголовок второй колонки&lt;/th&gt;
+		&lt;th&gt;строка 1 ячейка 3 — заголовок третьей колонки&lt;/th&gt;
+	&lt;/tr&gt;
+	&lt;tr&gt; &lt;!-- вторая и последующие строки — содержимое, поэтому разбиваем их тегами td--&gt;
+		&lt;td&gt;строка 2 ячейка 1&lt;/td&gt;
+		&lt;td&gt;строка 2 ячейка 2&lt;/td&gt;
+		&lt;td&gt;строка 2 ячейка 3&lt;/td&gt;
+	&lt;/tr&gt;
+	&lt;tr&gt;
+		&lt;td&gt;строка 3 ячейка 1&lt;/td&gt;
+		&lt;td&gt;строка 3 ячейка 2&lt;/td&gt;
+		&lt;td&gt;строка 3 ячейка 3&lt;/td&gt;
+	&lt;/tr&gt;	
+	&lt;tr&gt;
+		&lt;td&gt;строка 4 ячейка 1&lt;/td&gt;
+		&lt;td&gt;строка 4 ячейка 2&lt;/td&gt;
+		&lt;td&gt;строка 4 ячейка 3&lt;/td&gt;
+	&lt;/tr&gt;	
+&lt;/table&gt;</code></pre><p id="28e74ccb-94ee-4aec-8569-a1449dc34f93" class="">Располагайте изображения и текст только внутри элементов <code>td</code> и <code>th</code>. Остальные табличные теги — <code>table</code> и <code>tr</code> — предназначены исключительно для разметки.</p><p id="8c8421f5-81bf-4832-8636-fe8e268231fd" class="">В самой простой ситуации число ячеек в каждой строке одинаковое. Однако ячейка таблицы может занять место нескольких ячеек:</p><figure id="2186dbfd-69a6-48bd-aa16-62278bea8b46" class="image"><a href="./Семантика и выразительность HTML/C6CA95F4-A0DB-4C26-A9D3-8D1CD51A8E0F.jpeg"><img style="width:1800px" src="./Семантика и выразительность HTML/C6CA95F4-A0DB-4C26-A9D3-8D1CD51A8E0F.jpeg"/></a><figcaption>Ячейка второй строки занимает 3 столбца</figcaption></figure><p id="98f19f50-03f7-4e8f-987e-08f2de932917" class="">За это отвечают атрибуты {{`rowspan`}}[web_translate_html_rowspan] и {{`colspan`}}[web_translate_html_colspan]. Запись <code>&lt;td colspan=&quot;3&quot;&gt;Ячейка таблицы&lt;/td&gt;</code> означает, что ячейка займёт место трёх столбцов. Следовательно, в строке, где размещена эта ячейка, должно быть на две ячейки меньше, чем в прочих строках — их место «съела» ячейка с <code>colspan=&quot;3&quot;</code>.</p><pre id="71f27e13-0ef0-44aa-a5a6-f88d2363b147" class="code code-wrap"><code>&lt;table&gt;
+  &lt;tr&gt;
+    &lt;th&gt;&lt;/th&gt;
+    &lt;th&gt;&lt;/th&gt;
+    &lt;th&gt;&lt;/th&gt;
+	&lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td colspan=&quot;3&quot;&gt;Ячейка таблицы&lt;/td&gt; &lt;!-- в этой строке только 1 ячейка --&gt;
+	&lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;</code></pre><p id="5413a5c3-ba33-4674-96ae-1ea31026d65c" class="">Верстайте таблицами только настоящие таблицы. Смета, размещённая на сайте, может быть свёрстана в <code>table</code>, а вот секция сайта, выстроенная в сетку — нет. Не используйте тег <code>&lt;table&gt;</code>, чтобы расположить элементы в строку или в колонку — для этого есть флекс.</p><p id="f83c6f98-613d-4516-9d16-0e6be95f0b9b" class="">
+</p><p id="f165894e-3448-4039-a659-0757d1fc3ba3" class="">Ещё раз подчеркнём, что семантическое разнообразие HTML познаётся только опытным путём. Обращайте внимание на специфические элементы и задавайтесь вопросом: «Неужели для этого элемента не придумали специального тега?» Задайте этот же вопрос поисковой системе — и, скорее всего, специализированный семантический тег найдётся.</p></div></article></body></html>

@@ -1,0 +1,689 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>minmax() и fit-content()</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="b53e329f-bf0d-40a6-81fa-dd44aac4ed0a" class="page sans"><header><h1 class="page-title">minmax() и fit-content()</h1></header><div class="page-body"><p id="94217773-8fe7-45d3-baf9-c1233ce9ac68" class="">Мы много говорим о размерах колонок, строк и элементов. Именно подбор размеров и единиц измерений — главная фишка гридов. Она и позволяет создавать адаптивные сайты. </p><p id="b1b511cb-a0b2-482b-aca1-40d2c5b07b6a" class="">Фракция удобна тем, что треки сами пересчитывают свою долю доступного свободного пространства. Но использовать фракцию не всегда выгодно. Расскажем и о других способах задания размеров. </p><p id="696459df-1be5-4e41-84c0-0615480a5b5d" class="">Контролировать сжатие и растяжение элементов удобно. Когда вы верстаете закреплённые боковые панели, хорошо, если они не больше или не меньше какой-нибудь определённой величины — в зависимости от разрешения устройства и контента. </p><h2 id="253684e8-fcd3-428e-9b87-9100d042bc8e" class="">Минимальный и максимальный размер. Функция <code>minmax()</code></h2><p id="700a8305-8b1b-4911-b34b-960e5ebcbfe1" class="">Найти золотую середину помогает <code>minmax()</code>. Эта функция имеет два параметра: минимальный размер <code>min</code> и максимальный <code>max</code>. Трек или элемент с таким размером растягивается и сжимается в пределах этих значений.</p><pre id="ad966728-acec-4714-8b6b-7fd8b68c54e2" class="code"><code>.container {
+  display: grid;
+  grid-template-columns: 1fr 1fr minmax(300px, 1fr);
+	/* третий столбец не может быть меньше 300px и больше одной фракции */
+}</code></pre><figure id="0ff4bc55-6e15-423b-8b88-dc0d1de4d197"><div class="source"><a href="./minmax() и fit-content()/3_cont_300px.mp4">https://s3-us-west-2.amazonaws.com/secure.notion-static.com/310d42cc-56eb-40a0-a091-8531abaa05e8/3_cont_300px.mp4</a></div><figcaption>Контейнер растянется на всё свободное пространство, но не ужмётся меньше 300px</figcaption></figure><p id="8b9a09ef-d2ca-4af7-863f-a56473533b1e" class="">Значения параметров <code>min</code> и <code>max</code> можно задавать в пикселях, процентах, фракциях. Но есть два специфических значения — <code>max-content</code> и <code>min-content</code>. Их можно использовать самостоятельно или в рамках функции <code>minmax()</code>.</p><h3 id="734f09d6-d05f-47f4-a8ac-c4ab32f04f74" class="">Значение <code>max-content</code></h3><p id="f1180485-1ca5-4e31-b079-a3e0218e7120" class="">Значение <code>max-content</code> сообщает строке или столбцу: «Будь такой ширины, чтобы вмещать содержимое без переносов и максимально компактно, без свободного пространства по краям». Это удобно для подписей к картинкам. Значение <code>max-content</code> размещает подпись на одной строке без переносов.</p><pre id="0e4f20e8-8c7e-4240-98aa-557fbe9c75d9" class="code"><code>.container {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  grid-template-columns: 1fr 1fr max-content;
+}</code></pre><figure id="9622b147-385f-4cc7-ab16-40e0702f239f" class="image"><a href="./minmax() и fit-content()/Frame_183.png"><img style="width:1440px" src="./minmax() и fit-content()/Frame_183.png"/></a><figcaption>Подпись к картинке осталась цельной и не перенеслась</figcaption></figure><p id="fc9e8e4f-9230-483d-96fe-c4fa80b10bd7" class="">Но оставлять контент без переносов рискованно. Если мы зададим значение <code>max-content</code> столбцу со всеми обещаниями «начать с понедельника», представьте, какой ширины получится этот столбец!</p><h3 id="880d5696-d8bb-4cf1-a273-d51a9f31bfab" class="">Значение <code>min-content</code></h3><p id="7afa0a3d-ecc2-4c8e-8e90-fe4913c63a66" class="">Для длинных списков подходит свойство <code>min-content</code>. Оно стремится перенести всё, что переносится, чтобы содержимое ячейки занимало как можно меньше места. Значение <code>min-content</code> сообщает треку: «Ориентируйся на самый маленький — картинку или слово.</p><pre id="aa33b585-bb92-4e9e-bb59-9c6e3cf84025" class="code"><code>.container {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  grid-template-columns: 1fr 1fr min-content;
+}</code></pre><figure id="e57820f7-6277-4e55-adf8-5ed47c7dc1e5" class="image"><a href="./minmax() и fit-content()/Frame_184.png"><img style="width:1440px" src="./minmax() и fit-content()/Frame_184.png"/></a><figcaption>Размер третьей колонки ужался под контент и стал равен ширине картинки</figcaption></figure><p id="65cefff7-b09a-4a24-9797-9ac699c44f92" class="">Но по-настоящему удобство этих значений вы оцените в команде с <code>minmax</code>.</p><pre id="771baace-595e-4c13-8400-f080f0f5212d" class="code"><code> grid-template-rows: minmax(/*минимальное значение*/, /*максимальное значение*/);</code></pre><h3 id="1f13c3dc-d514-465f-afd2-23ba7b9f6215" class="">Функция <code>minmax()</code> с параметрами <code>min-content</code> и <code>max-content</code></h3><p id="fcffadc5-b1bb-459b-8ad6-b3fd0e1d8540" class="">Трек со значением <code>minmax(min-content, max-content)</code> будет ориентироваться на контент: не ужмётся меньше содержимого, но и не займёт лишнее место, когда контента мало.</p><pre id="1a021707-7513-444d-8330-d0e42f8a35ef" class="code"><code>.container {
+  display: grid;
+  grid-template-columns: 1fr 1fr minmax(min-content, max-content);
+}</code></pre><figure id="1ebebd91-98b5-401d-9182-e1ca0099a7b3"><div class="source"><a href="./minmax() и fit-content()/min-max.mp4">https://s3-us-west-2.amazonaws.com/secure.notion-static.com/cebc3d6f-af8d-43ea-b4be-24c31d9c0765/min-max.mp4</a></div><figcaption>Правая колонка не растянется и не сожмётся сильнее, чем это необходимо</figcaption></figure><p id="d4286583-d34f-4061-9888-6fad4fd2d365" class="">Функцией <code>minmax(min-content, max-content)</code> мы ограничили размеры трека:<div class="indented"><p id="7bd756fd-061d-4d46-ab52-ee7155b688d9" class="">задали минимальное значение «сузиться до размеров самого большого неделимого элемента: слова или картинки»;</p><p id="21de0003-79e2-41d2-9022-8e2bd8eb35e7" class="">и максимальное значение «вмещать весь контент без переносов и пустых полей вокруг элементов».</p></div></p><p id="fce6030a-91ed-4685-9dd7-769f18e068e1" class="">Сочетание функции <code>minmax()</code> со свойствами <code>min-content</code> и <code>max-content</code> удобно, потому что оно определяет размер трека как «не больше и не меньше, чем требуется».</p><h2 id="57b50032-f49a-41a3-b08a-adc690334abf" class="">Ограничение по размеру. Функция <code>fit-content()</code></h2><p id="022155cd-8f76-41b2-bcfd-3c5f1df4cd66" class="">Трек с <code>fit-content</code> ориентируется на контент, но всегда стремится к указанному в нём значению. Колонка занимает ширину под размер своего контента. Но она не сможет превзойти значение, указанное в <code>fit-content</code>.</p><p id="a9134fef-db9b-425f-a044-178f40116f49" class="">Звучит сложно, приведём аналогию.</p><p id="1ca181ab-712c-437c-b182-b92728ad1c8d" class="">Функция <code>fit-content()</code> — это своего рода пропуск на аттракционы по весу. Когда вес посетителя меньше заявленного, он может попасть на аттракцион. Если же вес превышает заданный предел — доступ закрыт, фейс-контроль на входе будет непреклонен.</p><p id="27148ed0-43f4-489c-9dbd-b7fe251bf681" class="">Вот как это работает:</p><pre id="ff299ffd-1017-4350-8ea0-e2e6c1de929c" class="code"><code>.container {
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr fit-content(200px);
+}</code></pre><p id="50cf49db-8d9f-48af-8c3e-385d6d690797" class="">Мы установили третьей колонке предельный размер в 200px. Шире этого значения колонка не станет.</p><figure id="0cf9cffb-9a9e-4374-97c1-41eb5edf6a92" class="image"><a href="./minmax() и fit-content()/Frame_191.png"><img style="width:1440px" src="./minmax() и fit-content()/Frame_191.png"/></a><figcaption>Здесь контента меньше 200px, поэтому колонка проходит фейс-контроль и ужимается по своим размерам</figcaption></figure><p id="a290a973-b1ad-4068-8a9b-1ec94432ddfb" class="">Добавим контента, чтобы колонка растянулась:</p><figure id="fd446b9b-06d0-4a66-a0f2-9b89ae0e295b" class="image"><a href="./minmax() и fit-content()/Frame_192.png"><img style="width:1440px" src="./minmax() и fit-content()/Frame_192.png"/></a><figcaption>Тут контента намного больше. Фейс-контроль не пройден, придётся ужиматься до 200px</figcaption></figure><p id="90e756de-d294-4c3b-9d07-c705c49ef32c" class="">Ограничивать размер трека удобнее всего одной из двух функций: <code>minmax()</code> и <code>fit-content()</code>.</p><p id="91b6d021-d985-43ad-8f29-6075ad0b1dfd" class="">Функция <code>minmax()</code> работает особенно хорошо со свойствами <code>min-content</code> и <code>max-content</code>. Трек со значением <code>minmax(min-content, max-content)</code> не ужмётся меньше своего контента, но и не займёт больше места, чем контенту необходимо.</p><p id="92d105de-bc87-47dd-aac3-30bf88f7b3b0" class="">Функция <code>fit-content()</code> задаёт только верхнюю границу размера трека. Трек со значением <code>fit-content(200px)</code> ужмётся под размер своего контента, но не сможет растянуться больше <code>200px</code>.</p><p id="aeb45fd6-b74b-4f50-b78b-509923a9fef5" class="">
+</p></div></article></body></html>

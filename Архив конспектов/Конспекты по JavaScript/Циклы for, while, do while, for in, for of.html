@@ -1,0 +1,756 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Циклы for, while, do...while, for..in, for..of</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="b03ef387-9cf2-4757-aa2b-6bb2da633176" class="page sans"><header><div class="page-header-icon undefined"><span class="icon">👓</span></div><h1 class="page-title">Циклы for, while, do...while, for..in, for..of</h1></header><div class="page-body"><p id="6e7366dc-85f2-42bb-8429-2acf70538823" class="">Цикл — это способ запустить один и тот же код несколько раз. Каждый повтор называется итерацией<strong> </strong>(от латинского itero<em> </em>— «опять»). Цикл состоит из условия и тела. Тело цикла — это код, который выполняется, пока выполняется условие цикла. И способов задать это условие несколько.</p><h2 id="a7071f72-0647-419b-8578-93f5386817a1" class="">Цикл с неизвестным числом повторений <code>while</code></h2><p id="f3be5316-92e6-4068-a6db-9750275b5d92" class="">Первый тип цикла — цикл с неизвестным числом повторений. Этот цикл выполняется до тех пор, пока выполняется какое-то условие. Такой цикл объявляется словом <code>while</code>:</p><pre id="db2aa4ed-7ca9-4b90-990b-3dc8340e80ea" class="code"><code>while (условие) {
+	// тело цикла
+}</code></pre><p id="b8878bb3-8f89-436a-9165-72898cfc189d" class="">Тело цикла — это те шаги, которые будут выполняться повторно. Тело цикла должно быть организовано так, чтобы условие рано или поздно перестало выполняться. Иначе цикл будет выполняться бесконечно.</p><p id="b1e2ac88-9c9e-4a54-ad71-b50effe929ae" class="">Следующий цикл напечатает все чётные цифры от 10 до 20:</p><pre id="b8584ef4-f5ca-45e4-9aae-2d3801b9a208" class="code"><code>let number = 10;
+
+while (number &lt;= 20) {
+	console.log(number);
+	number += 2;
+}</code></pre><p id="cceed940-ee73-4bcc-9d39-45c06a299301" class="">Условие цикла содержит только проверку переменной <code>number</code>. Пока эта переменная не больше 20, цикл выполняется. Но тело цикла меняет значение <code>number</code> — прибавляет к нему 2 при каждой итерации. Поэтому после 6 повторений переменная <code>number</code> станет больше 20, и цикл прекратится.</p><h2 id="ae62565f-b785-4b87-96e1-163cee3b6af1" class="">Цикл с известным числом повторений <code>for</code></h2><p id="027fba3e-ec24-49e6-83d0-5b8a43fdae4b" class="">Второй тип цикла — цикл с известным числом повторений. Вот его синтаксис:</p><pre id="00be0c88-f97e-4c38-a10e-77cd0b14c003" class="code code-wrap"><code>for (переменная цикла и её исходное значение; условие выполнения цикла; изменение переменной после каждой итерации) {
+	// тело цикла
+}</code></pre><p id="8ec0196c-3514-467e-89e0-cd7dd079bb5b" class="">Выражение в скобках состоит из трёх частей. Сперва задаётся переменная, затем условие выполнения цикла, и в конце — как переменная должна меняться после каждого повторения.</p><p id="1ca6eb67-b048-41ed-a34b-b6731fd77179" class="">Разберём подробнее, начиная со второй части — условия.</p><ol type="1" id="82788e90-7342-48e2-bfa9-7b61d248d4b4" class="numbered-list" start="1"><li>Условие выполнения цикла <code>for</code> — это почти то же самое, что условие цикла <code>while</code>. Пока оно выполняется, выполняется и цикл. Но в цикле <code>for</code> условие всегда связано с особой переменной — счётчиком цикла.</li></ol><ol type="1" id="1f150070-fa0f-4e50-b662-7107c96e0faa" class="numbered-list" start="2"><li>Счётчик цикла — это переменная, которая определяет число повторений. В начальной точке цикла мы задаём первоначальное значение этой переменной, а затем проверяем перед каждой итерацией, соответствует ли счётчик цикла условию. Если соответствует, цикл совершает ещё одно повторение. Если нет — не совершает.</li></ol><ol type="1" id="02768c8b-a9e3-414b-9ac0-c4456740921b" class="numbered-list" start="3"><li>Последняя часть внутри круглых скобок — это шаг изменения переменной. Он определяет, на сколько счётчик цикла изменяется после каждого повторения.</li></ol><p id="31b7de98-7698-4f9f-8294-6546fd58ab55" class="">Таким образом, сначала мы задаём исходное значение счётчика. Затем устанавливаем условие выполнения цикла. И затем описываем, как счётчик цикла меняется при каждой итерации.</p><p id="f80685e2-8152-45c0-a370-08a1e8271b00" class="">Рассмотрим на примере:</p><pre id="89dadf57-7972-4c27-9f21-fc8bb113d897" class="code"><code>for (let i = 0; i &lt;= 10; i = i + 1) {
+  console.log(i);
+}</code></pre><p id="6c320c85-67b0-4b02-a759-4e13abb3f4b8" class=""><code>let i = 0</code> — создание переменной-счётчика;</p><p id="a92bf1f7-4827-4333-947a-c50d26ebacbf" class=""><code>i &lt;= 10</code> — условие цикла: пока <code>i</code> меньше или равно 10, счётчик будет выполняться.</p><p id="614dc74e-b623-4401-8e50-da5165f0f81c" class=""><code>i = i + 1</code> — инкремент, он определяет, на сколько увеличивается переменная <code>i</code> после каждого повторения.</p><p id="f8bbaa12-a0b5-488d-be29-6069037a32a7" class="">Цикл <code>for</code> —  самый популярный из всех циклов. Его вам предстоит использовать чаще всего.</p><h2 id="e26c7506-26ee-471e-8672-f0f8f9ee2e24" class="">Цикл <code>do...while</code></h2><p id="45e22f3e-ecc7-4756-9ea8-72b917b84297" class="">Третий тип цикла — <code>do...while</code>. Это такой же цикл как <code>while</code>, но с одним отличием: условие проверяется после каждой итерации, а не до неё:</p><pre id="4d896304-c8b0-4031-b3f4-051e67911a46" class="code"><code>do {
+	&lt;тело цикла&gt;
+} while (условие);</code></pre><p id="e59828f8-c786-43f6-a36c-b4b0f83fa7d4" class="">Это гарантирует, что тело цикла выполнится хотя бы один раз. </p><p id="029eb6ed-e654-4531-b201-a8fab4965ca4" class="">Пример цикла, условие которого ложно с самого начала:</p><pre id="95c41d89-702b-4645-a836-2da5748c15e0" class="code"><code>let number = 21;
+
+do {
+	console.log(number);
+} while (number &lt;= 20);</code></pre><p id="116b7c2f-6431-4350-865c-28e41a8b955a" class="">Значение <code>number</code> вывелось в консоль, несмотря на то, что <code>21</code> не меньше <code>20</code>. С циклом <code>while</code> такое бы не сработало.</p><h2 id="7ed4709c-87a4-4718-9ba3-c9939f167738" class="">Остановка цикла. Директива <code>break</code></h2><p id="4ee04dec-019c-4b64-adda-2bffe651f03b" class="">Директива <code>break</code><strong> </strong>останавливает цикл:</p><pre id="4909d8c1-fd75-453a-958c-abf8eaf39997" class="code code-wrap"><code>for (let i = 2019; i &lt; 2119; i++) {
+	if (i % 4 === 0 &amp;&amp; i % 100 !== 0) { // високосный год кратен 4, но не кратен 100
+		console.log(&#x27;Ближайший високосный год: &#x27; + i);
+		break;
+	}
+}
+
+// &#x27;Ближайший високосный год: 2020&#x27;</code></pre><p id="0f2bfe66-3bc2-4356-bf5b-4a7afa2f64b0" class="">Директива <code>break</code><strong> </strong>нужна, когда дальнейшее выполнение цикла бессмысленно или может привести к неправильным результатам.</p><p id="e4e1bba8-3016-4e51-b583-e2968f09117d" class="">Если из примера убрать <code>break</code>, в консоль будут выведены все високосные годы от 2020 до 2116 и каждый с пояснением, что это ближайший високосный год.</p><p id="5e3b610e-983e-462b-8275-e29e17072283" class="">Обратите внимание на <code>i++</code> в примере. Такая запись называется инкремент и означает «прибавь к переменной <code>i</code> единицу». Выражение <code>i--</code> вычтет единицу из <code>i</code>. Это декремент.</p><h2 id="bc347530-801c-4802-8fa0-db56074e29a4" class="">Прерывание итерации цикла. Директива <code>continue</code></h2><p id="bd579ea2-7ad6-4cf7-8633-171d9b35894e" class="">Директива <code>continue</code> не прерывает весь цикл, а только пропускает текущую итерацию.</p><p id="c0d987e3-6536-4049-8f71-c30425548efe" class="">Так мы можем настроить, какие итерации выполнять, а какие нет:</p><pre id="d36566bf-9b59-47c2-8a3c-fe774f410a54" class="code"><code>for (let i = 2090; i &lt; 2110; i++) {
+  if (i % 4 === 0) {
+    if (i % 100 === 0) continue; // пропуск года, кратного 100
+    console.log(&#x27;Високосный год: &#x27; + i);
+  }
+}
+
+// Високосный год: 2092
+// Високосный год: 2096
+// Високосный год: 2104
+// Високосный год: 2108
+
+/* Скрипт вывел все високосные годы от 2090 до 2110, но пропустил год 2100 */</code></pre><h2 id="93e40874-df00-440a-9558-9c2a792d0c77" class="">for...of</h2><p id="004a8016-bc69-4534-b72b-630e1cfbc380" class="">Оператор <code>for...of</code> выполняет обход по элементам коллекций (иначе говоря, итерируемых объектов, например, <code>Array</code>, <code>Map</code>, <code>Set</code>, <code>String</code>, <code>arguments</code>, DOM коллекций и т.д.), вызывая на каждом шаге итерации <strong>значение</strong>, а не ключ.</p><p id="77670e97-3695-47f6-9ebe-23e4d6a2edc6" class="">Оператор <code>for...of</code> для массивов работает аналогично <code>forEach</code>, но имеет преимущества: возможность использовать <code>continue</code> и <code>break</code> для контроля итераций, что невозможно в <code>forEach</code>.</p><p id="92218edb-da44-476c-b525-1d7b153286c3" class="">Обход <code>Array</code>:</p><pre id="12a22a3b-1241-4f49-9bdb-e33ea9a191b4" class="code"><code>let arr = [10, 20, 30];
+
+for (let value of arr) {
+  value += 1;
+  console.log(value);
+}
+// 11 21 31</code></pre><p id="aeae4d1f-e130-4f57-b490-4b51d4642a25" class="">Можно также использовать <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/const"><code>const</code></a> вместо <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let"><code>let</code></a>, если не нужно переназначать переменные внутри блока.</p><p id="3cbb5ff2-d9d8-4ae9-9009-2c80c5f3080b" class="">
+</p><pre id="3233f9f4-f36b-4f96-b01e-e114ef49a712" class="code"><code>let iterable = [10, 20, 30];
+
+for (const value of iterable) {
+  console.log(value);
+}
+// 10 20 30</code></pre><p id="787851ab-e3a1-4d5f-9965-f2e9b4a70f83" class="">Обход <code>String</code></p><pre id="544489e9-7faf-424a-9007-f1cf0d9fca77" class="code"><code>let str = &#x27;cold&#x27;;
+
+for (let value of str) {
+  console.log(value);
+}
+// &quot;c&quot; &quot;o&quot; &quot;l&quot; &quot;d&quot;</code></pre><p id="e86c0b12-b8c3-452d-9f0d-1639a1b7e027" class="">Обход <code>Map</code></p><pre id="3ea0be17-7e98-436c-a303-ccfc26190cf6" class="code"><code>let iterable = new Map([[&#x27;a&#x27;, 1], [&#x27;b&#x27;, 2], [&#x27;c&#x27;, 3]]);
+
+for (let entry of iterable) {
+    console.log(entry);
+}
+// [&#x27;a&#x27;, 1] [&#x27;b&#x27;, 2] [&#x27;c&#x27;, 3]
+
+for (let [key, value] of iterable) {
+    console.log(value);
+}
+// 1 2 3</code></pre><p id="07e6d54d-27cf-4608-b9a3-8010ed789ff3" class="">Обход <code>Set</code></p><pre id="c5daa2a3-19a9-4048-b703-8cc0e376f9c5" class="code"><code>let iterable = new Set([1, 1, 2, 2, 3, 3]);
+
+for (let value of iterable) {
+  console.log(value);
+}
+// 1 2 3</code></pre><p id="aeebdf0f-801f-4d33-8a04-12aa3861158e" class="">Обход объекта <code>arguments</code></p><pre id="c5c95068-034b-4d84-8a21-2ee84fc39ee6" class="code"><code>(function() {
+  for (let argument of arguments) {
+    console.log(argument);
+  }
+})(1, 2, 3);
+
+// 1 2 3</code></pre><h2 id="db90e7dd-cf91-4742-9029-960e2be98c9f" class="">for...in</h2><p id="838b44db-b9aa-4a43-9ad4-d14b54e258d9" class="">Цикл <code>for...in</code> полезно знать, однако его стоит использовать только для объектов. Он проходит через перечисляемые свойства объекта. Он пройдёт по каждому отдельному элементу, вызывая на каждом шаге <strong>ключ</strong>. Цикл <code>for...in</code> проходит по свойствам в произвольном порядке, поэтому его не следует использовать для <code>Array</code>.</p><pre id="0b1483cb-5752-42ac-bb86-d27597f3d241" class="code"><code>const obj = {a:1, b:2, c:3};
+
+for (const prop in obj) {
+  console.log(obj[prop]);
+}
+
+// 1 2 3
+
+for (const prop in obj) {
+  console.log(prop);
+}
+
+// a b c</code></pre><p id="1176473c-4606-4130-8cb6-51cd23231aae" class="">
+</p></div></article></body></html>

@@ -1,0 +1,698 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>БЭМ микс</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="69d2f94c-5d3a-426d-83ea-0d4ceba8079a" class="page sans"><header><h1 class="page-title">БЭМ микс</h1></header><div class="page-body"><p id="cc14ddef-d6ef-41ed-b76f-cb2d1b94adaa" class="">БЭМ построен вокруг идеи создания независимых блоков, которые можно использовать повторно. Но редко можно встретить интерфейс, в котором ни один блок не меняет своих размеров или расположения в разных контекстах.</p><p id="4535a1e8-dd69-4d28-9d1b-7a14c415e4d0" class="">Посмотрите, как сделана шапка <a href="https://www.avito.ru">на сайте Авито</a>. При прокрутке страницы с поиском, шапка следует за пользователем. Но если открыть страницу товара, шапка остаётся прижата к верхней части сайта:</p><figure id="cc46622e-75c1-41df-9162-c3db4748877c"><div class="source"><a href="./БЭМ микс/Screen_Recording_2020-01-22_at_13.39.10.mov">https://s3-us-west-2.amazonaws.com/secure.notion-static.com/8ea15d9e-16ff-4689-824e-6a4260fb56c7/Screen_Recording_2020-01-22_at_13.39.10.mov</a></div></figure><p id="041e59b4-3c7d-492e-b332-8842ffc779ba" class="">Описывать такое поведение на уровне блока не выйдет — нужен другой подход.</p><p id="1a7fc08a-f0d5-4d87-b79a-7a23874f44bf" class="">Ещё один распространённый случай — блок с иконками социальных сетей. В подвале его могут разместить слева, а в блоке с контактам — справа. Или наоборот.</p><p id="b799331d-497d-4eab-ba19-46949a110853" class="">В общем, разработчикам постоянно требуется изменить внешний вид блока в каком-то контексте или дополнить его поведение. Есть два способа сделать это, и один из них вам уже знаком — использовать модификатор блока.</p><h2 id="de6510e7-642b-40da-9cd1-5443010e3e0a" class="">Использование модификатора</h2><p id="52fa4bc4-0f3e-442a-8572-da44f7c8f8cd" class="">Модификаторы используют, чтобы изменить один конкретный экземпляр блока. Хороший пример — модификатор, который меняет цвет текста с темного на светлый при тёмном фоне страницы. Установка и снятие модификатора должны изменять только сам блок и не влиять на его окружение — другие блоки.</p><pre id="69295e5e-353d-4659-a2af-da22bb5cebea" class="code"><code>&lt;button class=&quot;button button_disabled&quot;&gt;&lt;/button&gt;
+&lt;div class=&quot;logo logo_theme_dark&quot;&gt;&lt;/div&gt;
+&lt;div class=&quot;response-status response-status_type_rejected&quot;&gt;&lt;/div&gt;</code></pre><p id="6392a049-d3f8-4944-9258-50b2ce845056" class="">Модификаторы отлично подходят, чтобы обозначать статус или состояние конкретного блока. Но есть и другие ситуации.</p><h2 id="d8310674-8252-4451-ac2e-6ff1fe73051c" class="">Когда модификаторы не подойдут</h2><p id="688d87de-25d3-4c43-9bed-55604dce20fa" class=""><strong>Модификаторы не всегда подходят для расположения элементов.</strong> Технически их можно использовать, но код становится менее понятным, потому что модификатор не сообщает контекста.</p><p id="a8b5bd51-d9a4-46eb-8551-f438bd719c18" class="">Например, мы делаем интернет-журнал. Все картинки на сайте мы обрамили рамкой, добавили небольшую тень:</p><pre id="af52fd7a-8387-4486-a54c-8954a92a0240" class="code"><code>.picture {
+	border: 1px solid grey;
+	box-shadow: 0 0 3px grey;
+}</code></pre><p id="c9b25874-1062-4055-aedd-08c3284828aa" class="">Допустим, картинки внутри статей нужно расположить по центру. В принципе мы можем применить для этого модификатор:</p><pre id="5db97d23-1eff-4f06-bd07-3538a53e2bd2" class="code"><code>.picture_pos_centered {
+	margin: auto;
+}
+/* Но не стоит так делать */</code></pre><p id="7f5ce28e-58f6-4175-8fc7-f2ab12d5b786" class="">При таком подходе модификатор не сообщает контекста, в котором расположен блок. Модификатор говорит лишь «это стили картинки, расположенной по центру». А полезнее было бы знать «это стили картинки, находящейся в зоне контента».</p><p id="9fcc8cc3-6680-4284-aca9-0849c87364fb" class=""><strong>Модификатор также не годится для стилизации однотипных элементов, расположенных в разных блоках. </strong>Например, мы верстаем шапку сайта и хотим активные ссылки окрасить в жёлтый. Для этого создаём модификатор:</p><pre id="e709fa2b-fb57-4aa2-ad0f-653798865733" class="code"><code>.header__link_active {
+	color: yellow;
+}</code></pre><p id="5ab08434-16d7-4e6b-bb50-7cde2f6fd41b" class="">Затем мы хотим окрасить в жёлтый цвет ссылки в контенте. И тут модификатор нам не поможет. Имя модификатора связано с именем блока, поэтому мы не можем добавить одному блоку модификатор другого.</p><pre id="eeca312c-421a-45e2-a725-a6bf2b3c2747" class="code"><code>&lt;div class=&quot;content&quot;&gt;
+	&lt;!-- так делать нельзя --&gt;
+	&lt;a class=&quot;content__link header__link_active&quot;&gt;
+&lt;/div&gt;</code></pre><p id="a91ef025-8fcc-4312-8840-7d7cd8a09dd3" class="">Поэтому для позиционирования и стилизации однотипных элементов модификаторы не годятся. Для этих целей лучше подходят «миксы».</p><h2 id="e474695d-f46f-4f82-b0d6-1060fd209283" class="">Микс: смешивание стилей</h2><p id="5887543e-3d74-482c-a632-e23e88338c68" class="">Микс — это смешение стилей двух блоков. В этом случае мы задаём одному блоку два имени и получаем в результате новый блок, который обладает свойствами двух смешанных блоков.</p><p id="fcbfc820-b3ca-4fc6-a439-a25659893f19" class="">Микс можно сделать двумя способами.</p><h3 id="647fd3d9-496c-4b55-a2fa-ae15815f6059" class="">Микс для общих правил</h3><p id="01e86c1c-ad2d-480d-b85b-2fc160a50641" class="">Первый способ предназначен для того, чтобы определить общие правила для разных блоков. Очень распространённая задача — задать разным блокам одинаковые стили текста и шрифта. Для этого мы стилизуем сразу несколько блоков:</p><pre id="6a03d543-a289-46ab-a099-25f10dc5cc35" class="code"><code>&lt;nav class=&quot;menu&quot;&gt;&lt;/nav&gt;
+&lt;section class=&quot;content&quot;&gt;&lt;/section&gt;
+&lt;footer class=&quot;footer&quot;&gt;&lt;/footer&gt;</code></pre><p id="520cb339-032d-415d-a9ad-c16c1dbf0185" class="">Мы хотим задать блокам <code>content</code><em> </em>и <code>footer</code><em> </em>одинаковые текстовые свойства. Для этого создадим новый селектор и опишем в нём, как должен выглядеть текст. А затем добавим этот класс всем блокам, где хотим видеть такой текст.</p><p id="0b68d393-72e8-419b-8d68-34fa40bb19c1" class="">Создадим БЭМ-блок <code>main-text</code> и стилизуем его:</p><pre id="52c69779-60cc-4db7-8784-ef244f38612a" class="code"><code>.main-text {
+	color: #000;
+	font-family: &#x27;Arial&#x27;, &#x27;Helvetica&#x27;, sans-serif;
+	font-size: 18px;
+	line-height: 1.5;
+	font-weight: normal;
+}</code></pre><p id="c5d1307e-dfc7-471a-bc27-30ef436164dc" class="">И примешаем созданный блок к нужным блокам. Это и называется «сделать микс»:</p><pre id="3afd66ad-4759-4d67-8831-510e9ff325c0" class="code"><code>&lt;nav class=&quot;menu&quot;&gt;&lt;/nav&gt;
+&lt;section class=&quot;content main-text&quot;&gt;&lt;/section&gt;
+&lt;footer class=&quot;footer main-text&quot;&gt;&lt;/footer&gt;</code></pre><p id="88c69ec2-0b7c-4bcf-84b8-7edb70b28d61" class="">Нужным блокам присвоены нужные стили. Мы произвели микс на уровне классов и тем самым стилизовали группу блоков.</p><h3 id="deef2fe5-1a70-4bb0-b0da-f861fa36c492" class="">Примешивание элемента блоку</h3><p id="d0b01d03-9531-44a1-be24-ae9521865e98" class="">Вернёмся к примеру с иконками социальных сетей. Их часто размещают в подвале сайта.  Например, такой блок может располагаться по центру подвала. Таким образом, блок социальных сетей нужно сдвинуть внутри подвала свойством <code>margin</code>. </p><pre id="42f00d86-94c2-4a90-b407-cf4b9942c143" class="code"><code>&lt;footer class=&quot;footer&quot;&gt;
+	&lt;div class=&quot;social-icons&quot;&gt;&lt;/div&gt;
+&lt;/footer&gt;</code></pre><p id="93731735-062b-4dfc-b1c1-55cedb339a45" class="">Согласно БЭМ описывать внешние отступы для блока не рекомендуется. Но нам нужно задать соцсетям <code>margin: 50px auto;</code>.</p><p id="9733bca5-baa5-468f-81c4-8fd6bd41ed28" class="">Хорошая идея — подмешать к стилям блока <code>social-icons</code> класс БЭМ-элемента, который относится к родительскому блоку:</p><pre id="9486f2a9-7675-444d-a925-51ba6852b5ae" class="code"><code>&lt;div class=&quot;footer&quot;&gt;
+	&lt;div class=&quot;social-icons footer__social-icons&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;</code></pre><p id="6109fb9f-53ea-4357-9839-f4a92ca45cd9" class="">Блок <code>social-icons</code><em> </em>теперь представляет собой одновременно и самостоятельный блок, и элемент блока <code>footer</code><em> </em>по имени <code>footer__social-icons</code><em>.</em></p><p id="2a182962-d5b0-4f44-9b99-32426d1b8b22" class="">Так мы можем уточнить поведение нужного блока, сохранив его независимость: ведь <code>margin</code><em> </em>мы указываем не для блока, а для элемента.</p><pre id="29310b6d-8c21-4891-bb94-f53e6d0e2b3b" class="code"><code>.footer__social-icons {
+	margin: 50px auto;
+}</code></pre><p id="44c9dcf4-c123-40a1-9eac-b9739e65d599" class="">Все эти миксы могут казаться сложными поначалу. Но со временем вы наберётесь опыта в именовании селекторов и модифицировании блоков и элементов. </p></div></article></body></html>

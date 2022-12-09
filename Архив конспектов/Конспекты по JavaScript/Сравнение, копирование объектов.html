@@ -1,0 +1,752 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Сравнение, копирование объектов</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="ebcd2b1e-ff10-4418-a1a7-7d56dc21c287" class="page sans"><header><div class="page-header-icon undefined"><span class="icon">👓</span></div><h1 class="page-title">Сравнение, копирование объектов</h1></header><div class="page-body"><p id="421786b7-9c9d-4962-aff2-5b74eb376b30" class="">Мы умеем сравнивать примитивы:</p><pre id="eb483936-3b5b-4f4a-8bce-10e9b42d53f9" class="code"><code>const a = 2;
+const b = 2;
+const c = 3;
+
+console.log(a === b); // true
+console.log(a === c); // false</code></pre><p id="f84219f9-2a17-4f5b-985d-7eeda276272a" class="">Может, и для объектов пройдёт?</p><pre id="6a3bbdf0-180b-4f50-a3b1-3ce88b6218ac" class="code code-wrap"><code>const obj1 = {};
+const obj2 = {};
+console.log(obj1 === obj2); // false</code></pre><p id="63b8b5ea-136c-439a-b377-e648012b5c5b" class="">Не прошло. Дело тут опять в особенностях хранения объектов в памяти. А именно — в том, что примитивы сравниваются по значению, а объекты — по ссылке.</p><p id="78ee73fb-e335-483e-801d-a26d8d76bd2c" class="">При сравнении двух переменных движок JS «смотрит», какое значение записано в каждой. Если оба значения — примитивы, они просто сравниваются, и мы получаем ответ.</p><p id="2d2b3e73-062d-4417-b4e1-b3c6afb2a65d" class="">Если же в переменные записаны ссылки на объекты, движок сравнивает не их содержимое, а проверяет, на один ли объект ведут ссылки. Если на один — возвращает <code>true</code>, если на разные — <code>false</code>.</p><pre id="7246967a-1dfe-4b61-8361-b1694ff1a07f" class="code code-wrap"><code>const time = {};
+const money = time;
+console.log(time === money); // true. Ведь time и money — это две ссылки на один и тот же объект.</code></pre><p id="5da483b4-e360-4082-a0c2-63ae383ec470" class="">Теперь вопрос: что выведет в консоль этот код?</p><pre id="17c43761-79ad-4913-9349-f518076b2773" class="code"><code>const firstObj = { hello: &#x27;world&#x27; };
+const secondObj = { hello: &#x27;world&#x27; };
+
+console.log(firstObj === secondObj); // ???</code></pre><p id="b1772f0f-d94e-4a9f-a4ac-1ffd9e0a9ab2" class="">Правильный ответ — <code>false</code>. <code>firstObj</code> и <code>secondObj</code> ссылаются на разные объекты. Да, их свойства идентичны, но для сравнения это неважно.</p><pre id="1f7b2a10-1f43-4661-ada5-b497f6cfd589" class="code code-wrap"><code>const user1 = {
+	nickname: &#x27;Vasya2000&#x27;,
+	name: &#x27;Вася&#x27;,
+	surname: &#x27;Пупкин&#x27;
+};
+
+const user2 = {
+	nickname: &#x27;Vasya2000&#x27;,
+	name: &#x27;Вася&#x27;,
+	surname: &#x27;Пупкин&#x27;
+};
+
+const user3 = user1;
+
+console.log(user1 === user2); // false
+console.log(user2 === user3); // false
+console.log(user1 === user3); // true</code></pre><p id="8c543ec4-4b06-4812-b67e-a18a3207cf79" class="">Так что ещё раз: сравнение объектов возвращает <code>true</code> тогда (и только тогда!), когда сравниваются две ссылки на один и тот же объект. Во всех других случаях мы получим <code>false</code>, независимо от наполнения объекта.</p><h1 id="f533fd21-f7ee-4720-a29c-d41704c2a317" class="">Поверхностное копирование объектов</h1><p id="7aafe505-4d01-4e9f-bf82-5e6f15c01519" class="">Объекты передаются по ссылке, с этим разобрались. Но что делать, если нужно получить два одинаковых, но независимых объекта? Для этого объекты копируют.</p><p id="8c20bd58-0d9f-4faa-b05f-23c4a8d31123" class="">Копировать объекты можно поверхностно или глубоко.</p><p id="3d4094e1-dfbb-4cea-ab19-293a3d688b6a" class="">Поверхностное копирование работает так:</p><ol type="1" id="ce491f52-45ff-4202-a2ef-95d2b77b76c4" class="numbered-list" start="1"><li>создаётся новый пустой объект;</li></ol><ol type="1" id="1654e801-7525-432c-89c1-fd73a5604d9d" class="numbered-list" start="2"><li>все свойства исходного объекта копируются в новый.</li></ol><p id="b0243aa5-7088-4d07-8db1-2016cd041c2b" class="">Создать поверхностную копию объекта можно методом <code>Object.assign</code>. Он принимает на вход два и более аргументов. Первый аргумент — объект-акцептор: скопированные ключи и их значения будут записаны в него. Второй и последующие аргументы — это объекты-доноры: из них будут скопированы все свойства.</p><p id="0b500b9a-45b9-414e-a774-194ad24c9152" class="">Чтобы скопировать объект, нужно передать его методу <code>Object.assign</code> вторым аргументом, а пустой объект — первым:</p><pre id="238b5b91-02eb-4964-9df8-d6cfd643307f" class="code"><code>const firstObj = {
+	one: 1,
+	two: 2
+};
+
+const secondObj = Object.assign({}, firstObj);
+
+console.log(secondObj === firstObj); // false</code></pre><p id="543ca55c-7217-473e-9e75-5485c5f8705e" class="">Этот код скопировал все свойства объекта <code>firstObj</code> в пустой объект. После копирования ссылка на новый объект была записана в переменную <code>secondObj</code>. Получилась такая картина:</p><figure id="88b11f75-fc2d-468c-9371-702e94dbe8f7" class="image"><a href="./Сравнение, копирование объектов/JS-23.png"><img style="width:1875px" src="./Сравнение, копирование объектов/JS-23.png"/></a></figure><p id="730174e7-dc48-4ea9-9d86-b15ab2a249bb" class="">Мы рассмотрели простой случай: когда значения всех свойств объекта — примитивы. Теперь немного изменим условия: пусть изначально у объекта <code>firstObj</code> есть свойство <code>three</code>, в которое записан объект. Попробуем создать поверхностную копию <code>firstObj</code>:</p><pre id="dc3c8221-7cb9-490f-977e-e7383de83608" class="code"><code>const firstObj = {
+	one: 1,
+	two: 2,
+	three: { message: &#x27;I love JS 🖤&#x27; }
+};
+
+const secondObj = Object.assign({}, firstObj);
+
+console.log(secondObj === firstObj); // false
+console.log(secondObj.three === firstObj.three); // true</code></pre><p id="4d9d091d-6492-4388-a233-7427860fb93c" class="">Копирование произошло, но внутренние ссылки не скопировались:</p><pre id="2b42dc4c-1ac9-4271-ac30-a156507f5699" class="code"><code>console.log(secondObj.three === firstObj.three); // true</code></pre><p id="0981cbab-01d4-4369-90e6-0bac626386a1" class="">Вот что произошло:</p><figure id="dc09aa47-4f46-4224-af43-c3fd614ad52e" class="image"><a href="./Сравнение, копирование объектов/JS-24.png"><img style="width:1876px" src="./Сравнение, копирование объектов/JS-24.png"/></a></figure><p id="d1f741a4-b8ae-415e-bf9f-d9b4e8198148" class="">В этом и заключается суть поверхностного копирования: внутренние ссылки остаются прежними. Фактически вот алгоритм такого копирования:</p><ol type="1" id="6a9402f0-8b28-43d4-ab88-25b07e6cab37" class="numbered-list" start="1"><li>возьми очередной ключ исходного объекта;</li></ol><ol type="1" id="e4c990cc-1e69-4235-90b0-7a63b6195e60" class="numbered-list" start="2"><li>создай в новом объекте такой же ключ;</li></ol><ol type="1" id="26354502-6198-4212-9554-461ed6c0828c" class="numbered-list" start="3"><li>выполни присваивание: созданному в новом объекте ключу присвой значение такого же ключа из старого;</li></ol><ol type="1" id="2df4826f-4458-475f-8673-b2db4997647b" class="numbered-list" start="4"><li>переходи к следующему ключу.</li></ol><p id="4badfda0-afda-454c-8d01-1f1a869bcddd" class="">Обратите внимание на третий пункт, тут важно слово «присваивание». Как вы помните, объекты передаются по ссылке. Так что если значение свойства — объект, то и присваивание, как и прежде, приводит к копированию ссылки на этот объект.</p><p id="819b55dd-0bd5-4f9c-b477-5d3f0b0c54b6" class="">
+</p><p id="a9de76f1-39a4-41b7-ac57-b594f4e8a50b" class="">Также с выходом ES2015+ появилась возможность скопировать объект с помощью оператора <code>Spread(...)</code>:</p><pre id="c48416eb-1415-4e60-85b7-7fd0dbfa4917" class="code code-wrap"><code>const firstObj = {
+	one: 1,
+	two: 2,
+	three: { message: &#x27;I love JS 🖤&#x27; }
+};
+
+const secondObj = {...firstObj};
+
+firstObj === secondObj; // false</code></pre><h1 id="59637931-78e0-4bad-91cf-f46b45137f8e" class="">Глубокое копирование объектов</h1><p id="459de626-df01-48c7-9350-524aa0e81ea3" class="">Как вы уже догадались, глубокое копирование — это такое дублирование объекта, при котором все его непримитивные свойства тоже копируются.</p><p id="1d2a5af1-cbe5-4452-aa29-39bfb918f64c" class="">Логика глубокого копирования неоднозначна, но в общем случае её можно описать так:</p><ol type="1" id="94962c19-33e9-4e26-8f7f-2872407525a1" class="numbered-list" start="1"><li>создаётся новый пустой объект;</li></ol><ol type="1" id="b3275728-9f5b-466f-be85-fa2b002565ff" class="numbered-list" start="2"><li>примитивные свойства исходного объекта копируются в этот новый объект;</li></ol><ol type="1" id="14360f72-445d-4b13-bd98-330780695eb7" class="numbered-list" start="3"><li>для каждого из непримитивных свойств исходного объекта выполнить этот алгоритм, начиная с шага 1.</li></ol><p id="7ce1e8ff-8581-4af2-b446-d830ea8329d6" class="">Описывающий эту логику код весьма запутанный, поэтому мы не будем приводить его здесь. Просто опишем примерный алгоритм работы такой программы:</p><ol type="1" id="3b906232-58cd-48e0-9bde-c4e1449d67e6" class="numbered-list" start="1"><li>циклом начинаем проходить по всем свойствам объекта;</li></ol><ol type="1" id="65084000-06c5-4688-aecd-9066bd255055" class="numbered-list" start="2"><li>если встречаем примитивное свойство — копируем;</li></ol><ol type="1" id="96d2c53e-e5fe-465b-bac8-36c1dd9b8f7f" class="numbered-list" start="3"><li>если встречаем свойство-объект — повторяем для него все шаги, начиная с первого.</li></ol><p id="f8ba65a3-4844-4900-84c9-acbe01621321" class="">Казалось бы, «ура, глубокое копирование выполнено!» Отчасти да, но не всё так просто.</p><p id="8f8036e2-fd66-4d21-a590-bdf4ff06e5b2" class="">В JavaScript нет встроенного способа глубокого копирования объектов. Чтобы понять, почему, рассмотрим пример:</p><pre id="a78e7a9e-b657-447a-979f-3ef04123b1d2" class="code"><code>const original = {
+	one: 1,
+	two: 2
+};
+
+original.three = original;</code></pre><p id="9ea04507-ecd8-4031-a185-a492b7ff7fa0" class="">Получилось, что свойство <code>three</code> объекта <code>original</code> — это ссылка на сам объект <code>original</code>. Если попробовать глубоко скопировать этот объект, мы придём к бесконечному циклу. </p><p id="f2c509e5-37a1-4691-8298-2268131694f8" class="">Есть разные техники глубокого копирования и разбирать их все очень долго.</p><p id="e0012f20-5ba7-45cf-ac0c-8f30310c571a" class="">Но, скорее всего, прибегать к глубокому копированию придётся нечасто. Ведь вместо этого можно копировать только то, что нужно.</p><p id="69ffb89a-19ba-414d-9a37-d55fa89bb2a6" class="">От слов к делу — попробуем выполнить глубокое копирование:</p><pre id="982ba9a6-bfe3-4285-904f-b846a1689347" class="code code-wrap"><code>const original = {
+	one: 1,
+	two: 2,
+	three: { message: &#x27;I love JS&#x27; }
+};
+
+const copy = Object.assign({}, original);
+copy.three = Object.assign({}, original.three);
+
+// копия
+console.log(copy);
+
+// { one: 1, two: 2, three: { message: &quot;I love JS&quot; } } 
+
+// копия имеет общие корни с оригиналом?
+console.log(copy === original); // false
+
+// свойство three копии имеет общие корни
+// со свойством three оригинала?
+console.log(copy.three === original.three); // false</code></pre><p id="3d652e0f-b010-4c69-9f1b-1f1ece207540" class="">Мы записали в свойство <code>three</code> объекта <code>copy</code> поверхностную копию объекта <code>original.three</code>. Вручную скопировав объект на нескольких уровнях, мы чётко определили, что должна содержать копия <code>copy</code>, сделали код более понятным и предсказуемым, не прибегая к хитрым способам копирования.</p><h2 id="5124f9a3-4bf2-4afa-befa-8379e8f6102d" class="">Библиотека Lodash</h2><p id="123ee9a4-ede8-4b01-9cfb-536420d0a870" class="">Альтернативным вариантом глубокого копирования является использование библиотек, например <a href="https://lodash.com/docs/4.17.15">lodash</a>. В её документации приведено огромное количество методов на разные случаи жизни, нас интересует метод <a href="https://lodash.com/docs/4.17.15#cloneDeep">cloneDeep</a>:</p><pre id="dd86a392-3b57-4c39-b846-bcdcc094e74d" class="code"><code>const objects = [{ &#x27;a&#x27;: 1 }, { &#x27;b&#x27;: 2 }];
+ 
+const deep = _.cloneDeep(objects);
+console.log(deep[0] === objects[0]);
+// =&gt; false
+</code></pre><p id="779b0622-fe78-4fb5-a4e8-f5d0d361e65f" class="">
+</p><p id="c22520a5-2557-48d8-9248-7e0960086048" class=""><a href="https://www.notion.so/1048d0f124c74980bb3be6cf89571f05">https://www.notion.so/9-1048d0f124c74980bb3be6cf89571f05</a></p></div></article></body></html>

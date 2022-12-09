@@ -1,0 +1,724 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Методы для регулярных выражений</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="dd2fe069-7168-4e99-afb4-6cf3a50ef915" class="page sans"><header><h1 class="page-title">Методы для регулярных выражений</h1></header><div class="page-body"><p id="53c28e34-65e3-404d-9811-e8204020c6ec" class="">Хорошие новости: мы закончили со спецсимволами и флагами. Осталось изучить несколько удобных методов. Вы уже знакомы с методом <code>String.match</code>. В этом уроке мы расскажем ещё о четырёх.</p><h2 id="72b89d63-ddbc-4146-916e-e55ae700a258" class="">Метод <code>String.search</code></h2><p id="555933d8-2eea-4e85-8c35-2bf4ffcfe4df" class="">Метод <code>String.search</code> принимает на вход регулярное выражение и возвращает индекс символа, на котором произошло совпадение:</p><pre id="d17c1331-4990-4a4a-bc89-c63e4826a8cd" class="code code-wrap"><code>const regex = /\d{3,}/i;
+const string = &#x27;12! равен 479001600&#x27;;
+
+string.search(regex); // 10</code></pre><p id="5e69b097-75f9-4b71-b258-31098e1f09b2" class="">Метод <code>String.search</code> не работает с глобальным поиском — он всегда возвращает индекс первого совпадения:</p><pre id="04e2d386-a9d6-4580-a674-fe78037bdcd3" class="code code-wrap"><code>const regex = /\d/ig;
+const string = &#x27;12! равен 479001600&#x27;;
+
+string.search(regex); // 0 - индекс первого совпадения, то есть &quot;1&quot;.</code></pre><p id="bf484261-a20b-421f-b670-31bd0047cc6e" class="">Если же совпадения не было вовсе — нам вернётся <code>-1</code>:</p><pre id="28f2fd22-ba40-4e04-afda-022e338d978b" class="code code-wrap"><code>const regex = /[тут]$/i;
+const string = &quot;Тут царь мимо не проходил?&quot;;
+
+string.search(regex); // -1</code></pre><h2 id="0f14c43b-e0be-430d-ade9-fded29cbc030" class="">Метод <code>String.split</code></h2><p id="19147f45-efd7-48f0-83bf-7a8ed2d04825" class="">Метод <code>String.split</code> вы уже встречали в теме о примитивах. Им мы создавали из строки массив:</p><pre id="eb049c60-3658-4576-a1aa-637200364377" class="code code-wrap"><code>&#x27;Пришёл. Увидел. Победил.&#x27;.split(&#x27; &#x27;); // [&quot;Пришёл.&quot;, &quot;Увидел.&quot;, &quot;Победил.&quot;]
+&#x27;Пришёл. Увидел. Победил.&#x27;.split(&#x27;. &#x27;); // [&quot;Пришёл&quot;, &quot;Увидел&quot;, &quot;Победил.&quot;]</code></pre><p id="1ff776ec-1ddf-4666-a3a7-e4b49ff0bc5f" class="">Тут мы указываем разделитель как строку. Методу <code>String.split</code> можно передать на вход и регулярное выражение. Тогда на выходе мы получим массив элементов, которые находили между строчками, найденными нашей регуляркой:</p><pre id="8146e99d-0ddc-47bc-adc8-d72ddd792b04" class="code code-wrap"><code>const regex = /\n/im;
+
+`Мой дядя самых честных правил,
+Когда не в шутку занемог,
+Он уважать себя заставил
+И лучше выдумать не мог.`.split(regex);
+
+/* [
+	&quot;Мой дядя самых честных правил,&quot;,
+	&quot;Когда не в шутку занемог,&quot;,
+	&quot;Он уважать себя заставил&quot;,
+	&quot;И лучше выдумать не мог.&quot;
+] */</code></pre><p id="85f5c544-4f42-4009-8a08-847d32b896dc" class="">Обратите внимание: метод <code>String.split</code> ожидает, что какой-то элемент должен быть и до, и после разделителя. Поэтому если ваша строка начинается с разделителя или заканчивается разделителем, в полученном массиве первым или последним элементом будет пустая строка.</p><h2 id="dbbb99fb-ceda-4130-bac0-904779305d14" class="">Метод <code>RegExp.exec</code></h2><p id="61eaa0fa-bb91-469b-b969-dde7945c37a5" class="">Метод {{`RegExp.exec`}}[web_translate_js_RegExp.exec] похож на <code>String.match</code>. Если в регулярном выражении нет флага <code>g</code>, <code>String.match</code> и <code>RegExp.exec</code> вернут одинаковый результат:</p><pre id="b68c8031-c3eb-4c56-a278-2ccad27a7bd4" class="code code-wrap"><code>let regex = /\w+/;
+let str = &#x27;Someone must have been telling lies about Josef K.&#x27;;
+
+str.match(regex); // [&quot;Someone&quot;]
+regex.exec(str); // [&quot;Someone&quot;]</code></pre><p id="38c4f4a4-83c0-4005-812d-726d13558bf2" class="">Но если установить флаг <code>g</code>, метод <code>RegExp.exec</code> будет вести себя совсем иначе. Он вернёт первое совпадение, а затем — запишет в свойство <code>lastIndex</code> регулярного выражения номер символа в тексте, на котором это совпадение произошло.</p><p id="699ac314-2c7b-41bd-97f3-17e1bee1a6fd" class="">Если запустить метод <code>RegExp.exec</code> снова, он будет искать не с начала строки, а с того символа, на котором остановился в прошлый раз. То есть с записанного в свойство <code>lastIndex</code>:</p><pre id="11a7804d-670a-43d9-aaf0-4f5aed7c11a9" class="code code-wrap"><code>const str = `Идёт без проволочек
+И тает ночь, пока
+Над спящим миром лётчик
+Уходит в облака.`;
+let regex = /.+/g;
+
+regex.exec(str); // [&quot;Идёт без проволочек&quot;]
+regex.exec(str); // [&quot;И тает ночь, пока&quot;]
+regex.exec(str); // [&quot;Над спящим миром лётчик&quot;]
+regex.exec(str); // [&quot;Уходит в облака.&quot;]</code></pre><p id="29b8a17f-4648-4dc5-bf2b-367a6afb79d6" class=""><code>RegExp.exec</code> обновляет свойство <code>lastIndex</code> после каждого вызова.</p><p id="51d9610b-37c0-444a-b0cf-444a1dd691ae" class="">Таким образом, метод <code>RegExp.exec</code> помнит, где закончил поиски в прошлый раз. Если запустить этот метод в цикле, мы можем точно контролировать, сколько совпадений хотим найти.</p><p id="72626fc8-56a1-4ec6-9ac3-2c7343404083" class="">Если очередной поиск не дал результатов, в свойство <code>lastIndex</code> регулярного выражения записывается 0. То есть новый поиск начнётся с начала.</p><h2 id="3c0ef29f-e5b6-4edd-aa2b-4794a4470a77" class="">Метод <code>RegExp.test</code></h2><p id="69c3157a-d74b-45a5-a9a2-f62c14dd8892" class="">Мы уже упоминали о методе <code>RegExp.test</code>. Он вызывается на регулярном выражении, а строку принимает на вход. Результат работы метода — булево значение. Если совпадение найти удалось, <code>RegExp.test</code> вернёт <code>true</code>:</p><pre id="bb23ae7b-ef6c-4ca3-8c70-6b8c9b887455" class="code code-wrap"><code>const regex = /\w+@\w+\.\w+/; // шаблон для поиска email
+const str = &#x27;Stas Basov: stasbasov@yandex.ru&#x27;;
+
+regex.test(str); // true</code></pre><p id="f9063454-2331-4bed-a36f-079d73da4f66" class="">Если же совпадений с регулярным выражением в строке нет, получим <code>false</code>:</p><pre id="8ce5bc6c-e093-4229-af31-a5368ea05386" class="code code-wrap"><code>const regex = /\w+@\w+\.\w+/;
+const str = &#x27;Stas Basov&#x27;;
+
+regex.test(str); // false - в строке нет email.</code></pre><p id="0f9bdc09-bb5e-4488-9fad-d67d0e2822e7" class="">Метод <code>RegExp.test</code> тоже обладает памятью — как и <code>RegExp.exec</code>. Если передать ему регулярное выражение с флагом <code>g</code>, в свойство <code>lastIndex</code> этого регулярного выражения попадёт номер символа, где было найдено совпадение. И следующий поиск регулярного выражения начнётся с этого символа, а не с начала строки:</p><pre id="5767dcee-8fc7-4356-8c5a-a5b838c5fc02" class="code code-wrap"><code>const regex = /\w+@\w+\.\w+/g;
+const str = &#x27;Stas Basov: stas-basov@yandex.ru&#x27;;
+
+regex.test(str); // true
+regex.lastIndex; // 32
+
+// Вызовем метод RegExp.test ещё раз:
+regex.test(str); // false
+regex.lastIndex; // 0
+
+/* предыдущий поиск не дал результатов,
+поэтому свойство lastIndex было сброшено до нуля */</code></pre><h2 id="def525fc-2c87-445b-8a03-fafaa11f2601" class="">Метод <code>String.replace</code></h2><p id="a430d44c-bdaa-4236-a3be-937b76bf8a93" class="">И, наконец, последний метод — {{`String.replace`}}[web_translate_js_String.replace]. Он позволяет на ходу собирать новый текст из исходного. Работает он так: ищет в тексте совпадение с регуляркой, составляет какую-то новую строку из полученной и возвращает её нам.</p><p id="8945926c-2528-42a3-9fac-9c7276262862" class="">Всего у метода два параметра. Первый — это шаблон регулярного выражения. Вторым аргументом может быть строка или функция. Именно второй параметр определяет, как именно будет составлена новая строка из совпадения.</p><p id="051a6e85-b10e-4287-98a5-9dfc12de2b46" class="">Чаще всего методу <code>String.replace</code> {{передают строку}}[web_theme6.6_lesson7_передают-строку]. Все совпадения в исходном тексте будут заменены этой строкой.</p><pre id="385e7baf-f2cc-4540-8304-385e8dc8f827" class="code"><code>const strObj = &#x27;Пробел всегда нужно ставить после запятой ,а не до неё.&#x27;;
+const regex = /\s,/g;
+
+strObj.replace(regex, &#x27;, &#x27;); // &quot;Пробел всегда нужно ставить после запятой, а не до неё.&quot;</code></pre><p id="a1ce652d-306b-49b7-bb21-1ecf1829afd0" class="">В этой строке можно использовать спецсимволы. Тогда движок не будет просто заменять совпадения какой-то строкой. Спецсимволы применяются редко, поэтому мы не будем их разбирать в этой теме.</p></div></article></body></html>

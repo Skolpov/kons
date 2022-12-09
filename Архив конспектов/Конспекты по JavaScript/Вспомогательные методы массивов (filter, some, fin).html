@@ -1,0 +1,785 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Вспомогательные методы массивов (filter, some, find, every, sort</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="9c1005d1-d212-4565-81ce-5c0937f9ff64" class="page sans"><header><div class="page-header-icon undefined"><span class="icon">👓</span></div><h1 class="page-title">Вспомогательные методы массивов (filter, some, find, every, sort</h1></header><div class="page-body"><h1 id="be6c6e65-c0b8-43d9-9cd5-865824f6329a" class="">Отбор элементов массива: метод <code>filter</code></h1><p id="26346c8d-4f8b-4a20-9a9b-54adeac90bc7" class="">Метод <code>filter</code> отсеивает элементы массива по заданному признаку. Как <code>forEach</code> и <code>map</code>, метод <code>filter</code> принимает колбэк в качестве аргумента. Этот колбэк будет вызван на каждом элементе. Он должен вернуть <code>true</code> или <code>false</code> в зависимости от того, хотим мы оставить текущий элемент массива или отфильтровать:</p><pre id="bbced3be-0dd8-4778-ac1a-7c712cbc3cbc" class="code code-wrap"><code>const a = [1, 9, 2, 2, 3, 4, 1, 7, 8, 0, 9, 0, 1, 5, 3];
+
+// отберём элементы больше 5
+const b = a.filter(function (item) {
+  return item &gt; 5
+});
+
+console.log(b); // [9, 7, 8, 9]</code></pre><p id="99d64846-fd96-4863-bb04-4e83de2adc09" class="">Метод <code>filter</code> создаёт новый массив из элементов, для которых функция-фильтр вернула <code>true</code>. При этом исходный массив не меняется.</p><p id="f567cae2-c12a-45d0-85eb-17aa2c1aab65" class="">Колбэк метода <code>filter</code> — те же три параметра, что и у <code>map</code> и <code>forEach</code>. Текущий элемент, его индекс и исходный массив:</p><pre id="10df90bd-1d0b-40a8-8c0d-e607389f12b9" class="code code-wrap"><code>const a = [1, 9, 2, 2, 3, 4, 1, 7, 8, 0, 9, 0, 1, 5, 3];
+
+const b = a.filter(function (item, position, array) {
+  return array.lastIndexOf(item) === position; // вернём уникальные элементы
+});
+
+console.log(a); // [1, 9, 2, 2, 3, 4, 1, 7, 8, 0, 9, 0, 1, 5, 3]
+console.log(b); // [2, 4, 7, 8, 9, 0, 1, 5, 3]</code></pre><h1 id="ce049f25-dcc8-4104-a30f-0a7f0656fa47" class="">Методы some, every, find</h1><h2 id="4348c122-bb1a-416b-85f3-97f309fe031b" class="">Проверка элементов массива. Метод <code>some</code></h2><p id="2efbdbf7-0992-478b-84bf-ec9ee542f9ae" class="">Метод <code>some</code> проверяет, есть ли в массиве хотя бы один элемент, который соответствует определённому правилу. Колбэк с этим правилом проверяет каждый элемент и возвращает <code>true</code> или <code>false</code>:</p><pre id="8de66c24-087c-4f62-b46e-50f3cedec271" class="code"><code>const oceanResidents = [&#x27;Флаундер&#x27;, &#x27;Немо&#x27;, &#x27;Губка Боб&#x27;, &#x27;Аквамен&#x27;];
+
+const nemo = oceanResidents.some(function (resident) {
+	return resident === &#x27;Немо&#x27;;
+});
+
+console.log(nemo); // true</code></pre><p id="6dbcb22e-0938-4d60-9789-e1e6f7f13d03" class="">Колбэк принимает на вход всё те же аргументы:</p><ul id="5f153af1-2a38-4515-a6ab-f117ed9a828a" class="bulleted-list"><li style="list-style-type:disc">текущий элемент массива,</li></ul><ul id="5e32e06d-caea-4fbf-9e60-da9e171c95a8" class="bulleted-list"><li style="list-style-type:disc">его индекс,</li></ul><ul id="d53489b0-4e6b-4898-a9d8-56743d7ba554" class="bulleted-list"><li style="list-style-type:disc">сам исходный массив.</li></ul><p id="a18484ce-494b-4c47-b391-5329008985e0" class="">Метод <code>some</code> начинает проверку с первого элемента и продолжает, пока не встретит первое значение, для которого колбэк вернёт <code>true</code>. Если оно найдено, метод прекратит проверку и тоже вернёт <code>true</code>. Если нет — вернёт <code>false</code>:</p><pre id="cf15f248-054e-4a7b-8652-7e0c323fb1ad" class="code code-wrap"><code>const haystack = [&#x27;сено&#x27;, &#x27;сено&#x27;, &#x27;сено&#x27;, &#x27;сено&#x27;, &#x27;сено&#x27;, &#x27;сено&#x27;];
+
+const needle = haystack.some(function(item) {
+	return item === &#x27;иголка&#x27;;
+});
+
+console.log(needle); // false</code></pre><h2 id="80dfc2ee-9996-42c9-80c5-7a8319c0b1bc" class="">Поиск элемента в массиве. Метод <code>find</code></h2><p id="140c28b0-5a3d-4abf-b0cb-1a5ced072006" class="">Метод <code>find</code> очень похож на <code>some</code>. Единственное отличие: <code>some</code> возвращает булево значение, а <code>find</code> — значение элемента, на котором он завершил проверку:</p><pre id="59666274-b457-499b-9556-ae51610e7ffc" class="code code-wrap"><code>const birds = [
+	&#x27;Ворона&#x27;,
+	&#x27;Чёрно-белая ворона&#x27;,
+	&#x27;Белая ворона&#x27;,
+	&#x27;Ворона обыкновенная&#x27;
+];
+
+const includesCrow = birds.some(function (bird) {
+	return bird.includes(&#x27;ворона&#x27;);
+});
+
+const crow = birds.find(function (bird) {
+	return bird.includes(&#x27;ворона&#x27;);
+});
+
+console.log(includesCrow); // true
+console.log(crow); // &quot;Чёрно-белая ворона&quot;</code></pre><p id="de2fe108-9e5e-4c52-a0f2-a2d74dc25359" class="">Метод <code>forEach</code> не получится завершить досрочно директивой <code>break</code>. Методы <code>some</code> и <code>find</code> умнее — они прерывают своё выполнение, когда колбэк впервые вернул <code>true</code>.</p><h2 id="d0aea62e-9182-4d07-a9ec-8d2b7398d43b" class="">Проверка элементов массива. Метод <code>every</code></h2><p id="e22c9934-f89d-4acc-9b45-9fc24d267615" class="">Метод <code>every</code> тоже похож на <code>some</code>, но проверяет все элементы массива и возвращает <code>true</code>, только если все элементы прошли проверку.</p><p id="4a210ad2-da6a-448f-88f7-2f5c8742e8d8" class="">Колбэк — единственный аргумент метода. Он содержит логику проверки каждого элемента и возвращает <code>true</code> или <code>false</code>:</p><pre id="9769d918-4f58-4e54-b75a-42d32217270d" class="code"><code>const jokes = [
+  &#x27;смешная шутка и доля правды&#x27;,
+  &#x27;не очень смешной анекдот + доля правды&#x27;,
+  &#x27;доля правды в дурацкой шутке, услышав которую, все улыбнулись из вежливости&#x27;
+];
+
+const allJokesWithTruth = jokes.every(function (joke) {
+  return joke.indexOf(&#x27;доля правды&#x27;) &gt; -1;
+});
+
+console.log(allJokesWithTruth); // true</code></pre><p id="56963323-ee39-4598-b016-cca6f497ff81" class="">Если по мере перебора элементов колбэк возвращает <code>false</code>, метод <code>every</code> завершает проверку и тоже возвращает <code>false</code><em>.</em></p><h1 id="25db125d-fde1-4702-9728-cab671d8ceeb" class="">Сортировка массива</h1><p id="5978d196-a322-4c30-b7cf-a974e8b954ef" class="">Сейчас расскажем о более простом методе <code>sort</code>. Он сортирует массив по возрастанию, убыванию и вообще как угодно.</p><h2 id="9632ed17-b9de-45ac-8959-81f2cdc27a05" class="">Сортировка без функции обратного вызова</h2><p id="7d4808c1-b18b-4276-98d5-b37c76ab08fc" class="">Метод <code>sort</code> принимает на вход колбэк. Но для других методов колбэк обязателен, а для <code>sort</code> нет:</p><pre id="082781ba-ca5c-404f-9b18-de138b1c6c95" class="code"><code>const myNumbers = [0, 3.14, 2.718, 13];
+myNumbers.sort();
+myNumbers; // [0, 13, 2.718, 3.14]</code></pre><p id="060d445f-6101-4fae-b13b-ff9002cdc3fc" class="">Элементы поменялись местами, но их порядок не поддаётся логике: они не выстроены ни по возрастанию, ни по убыванию.</p><p id="5604cc2f-5b88-4162-aafc-cd1eef95d6fc" class="">Но логика тут всё-таки есть. Метод <code>sort</code><strong> </strong>работал с элементами массива как со строками. Будь это слова, они бы выстроились по алфавиту:</p><pre id="291306a4-36d1-4815-b7ca-64d41ef314c7" class="code code-wrap"><code>const fruits = [&#x27;яблоко&#x27;, &#x27;банан&#x27;, &#x27;апельсин&#x27;, &#x27;томат&#x27;];
+fruits.sort(); // [&quot;апельсин&quot;, &quot;банан&quot;, &quot;томат&quot;, &quot;яблоко&quot;]</code></pre><p id="4f8fe9a4-2801-44c9-9790-328ba7f445f2" class="">В алфавите нет цифр, чтобы их сортировать. Но в JS каждый символ зашифрован в <a href="https://ru.wikipedia.org/wiki/%D0%AE%D0%BD%D0%B8%D0%BA%D0%BE%D0%B4">системе Unicode</a>. Любой букве, числу и знаку соответствует какой-то код. Метод <code>sort</code>, если не передавать ему аргументы, пытается сортировать элементы массива по возрастанию этих кодов.</p><h2 id="27e84229-931d-4803-8f78-568af7782813" class="">Функции обратного вызова для сортировки</h2><p id="47862440-bdfa-4913-98ac-1288f34e8899" class="">На практике метод <code>sort</code> редко вызывают без аргументов. По двум причинам:</p><ul id="b56aab43-d47a-4418-90cf-0b9a0e332bf3" class="bulleted-list"><li style="list-style-type:disc">нам не всегда нужна сортировка по возрастанию,</li></ul><ul id="e6af3c14-690d-4194-8ba0-d42bf86a436a" class="bulleted-list"><li style="list-style-type:disc">нам точно не нужно сортировать числа как строки.</li></ul><p id="32468f62-dcb9-4942-926d-db9d165fae21" class="">Поэтому <code>sort</code> принимает на вход колбэк, в котором описана логика сортировки элементов.</p><p id="3022277f-411b-4ad6-b332-985c5b9dae33" class="">Любой алгоритм сортировки — это последовательное сравнение двух элементов. Один из них будет стоять в итоговом массиве раньше, другой — позже. Логику, по которой элементы будут сравниваться, описывают внутри колбэка метода <code>sort</code>.</p><p id="9321251e-5bd9-4add-aa9c-3aaa90a0383a" class="">Колбэк принимает на вход два аргумента — два элемента массива, которые предстоит сравнивать. Способ сравнения нужно описать в колбэке. Метод <code>sort</code> расставляет элементы исходя из значения, которое возвращает колбэк.</p><p id="93c85652-1356-4320-9a12-4492c08fcec5" class="">Есть ограничение: колбэк обязан возвращать число. Оно может быть:</p><ol type="1" id="b91f11e4-8f3d-4ae9-bc9b-60e9e348bdfd" class="numbered-list" start="1"><li>Меньше нуля — первый элемент, переданный как аргумент колбэка, встанет в массиве раньше второго.</li></ol><ol type="1" id="b4c70474-e976-4df7-87d8-2b4b1e5db1c1" class="numbered-list" start="2"><li>Больше нуля — наоборот, второй элемент окажется раньше первого.</li></ol><ol type="1" id="7b516491-7957-4984-b68d-4fbbf0aa4cc1" class="numbered-list" start="3"><li>Равно нулю — порядок не изменится: будут стоять, как в исходном массиве.</li></ol><p id="f5201974-d315-456a-8a30-b4eeb12d560a" class="">Вернёмся к массиву с числами и отсортируем его по возрастанию:</p><pre id="d8cfe4ce-418b-4a65-8bc8-14db351973fb" class="code code-wrap"><code>const myNumbers = [0, 3.14, 2.718, 13];
+
+myNumbers.sort(function (a, b) {
+	return a - b;
+
+  /* Если a меньше b, вернётся отрицательное число.
+  Это значит, что a должно расположиться в итоговом массиве
+  раньше, b — позже. Например:
+
+    a = 0, b = 3.14
+    a - b = -3.14
+
+  Получили отрицательное число, значит a стоит раньше b */
+});
+
+console.log(myNumbers); // [0, 2.718, 3.14, 13] — так и есть</code></pre><p id="3f9bbcd7-e652-4481-96f8-e87b8d4b89fe" class="">Для чисел такой подход отлично работает: если вы хотите отсортировать массив по возрастанию, колбэк должен возвращать <code>a - b</code>, по убыванию — <code>b - a</code>.</p><p id="737e9bf1-ed64-4bae-92cd-6f4aeba65b0d" class="">Если же элементы массива — строки, трюк не пройдёт: вычитание одной строки из другой вернёт <code>NaN</code>. Придётся указывать, какая строка считается «большей», а какая — «меньшей», и прописывать для разных случаев возвращаемое значение:</p><pre id="3b2b114f-d66e-40b4-9468-00dd556f6a57" class="code code-wrap"><code>/* Диагнозы записаны в том порядке,
+в каком поступили пациенты. Отсортируем его по алфавиту. */
+
+const diagnoses = [
+  &#x27;мизофобия&#x27;,
+  &#x27;синдром упущенной выгоды&#x27;,
+  &#x27;боязнь красного цвета&#x27;
+];
+
+diagnoses.sort(function(a, b) {
+  /* приведём строки к нижнему регистру,
+  чтобы сравнение прошло коректно */
+  a = a.toLowerCase();
+  b = b.toLowerCase();
+
+	if (a &lt; b) return -1; // a расположится раньше b
+	if (b &lt; a) return 1; // b расположится раньше a
+
+  return 0;
+});
+
+console.log(diagnoses);
+
+/* [&quot;боязнь красного цвета&quot;, &quot;мизофобия&quot;, &quot;синдром упущенной выгоды&quot;] */</code></pre><h1 id="4311b21b-5b65-40f3-8733-a783ec74a2e6" class="">Дополнительно: императивное и декларативное программирование</h1><p id="73b8e1cd-7ec5-45d2-bf5a-1bd38ac31288" class=""><mark class="highlight-teal_background">Обещанный бонусный урок.</mark></p><p id="378fe5b4-2f7a-4137-85da-81cefcff2d46" class="">Вернёмся к вопросу из урока о <code>reduce</code>. Зачем нужны все эти методы работы с массивом, если обычный цикл <code>for</code> уже позволяет делать с ним всё, что нужно?</p><p id="63dc8a56-8e85-4286-84ad-e0a7556d119e" class="">Приведём аналогию из жизни. Знакомый позвал вас на день рождения и объясняет, как до него добраться:</p><blockquote id="6e0979a0-0bfd-4509-a0ac-527af4366b91" class="">Выйдешь из метро ВДНХ — увидишь подземный переход. Проходишь по нему, поднимаешься, затем налево метров 400 до перекрёстка. На нём направо на улицу Бориса Галушкина. По ней минут 15 быстрым шагом. У Пятёрочки сверни во дворы. Почти сразу увидишь девятиэтажку — заходи в первый подъезд. На лифте на третий этаж, крайняя дверь справа.</blockquote><p id="e3e28ce9-b725-4c49-ad6f-3d9f575f3666" class="">Или он мог сказать так:</p><blockquote id="545dd759-f07d-4697-bf55-521bb665157d" class="">Улица Касаткина, дом 22, квартира 16.</blockquote><p id="4eb64a7b-915f-49c1-9573-e2398c139783" class="">Разница этих объяснений не только в том, что одно из них короче. Первый вариант фокусируется на том, как достичь результата, второй — на самом результате.</p><p id="fec576fa-805e-46d1-a938-eb5dba3bf0fe" class="">В первом случае вы просто следуете инструкции, во втором — используете GPS, спрашиваете дорогу у прохожих или заказываете такси.</p><p id="46d488bd-00cf-44eb-8f88-4b35dbfd4883" class="">Так декларативный стиль программирования отличается от императивного.</p><p id="b92465a7-2baf-44df-9119-13bb40e04cf8" class="">Первый вариант объяснения адреса — императивный. В нём мы фокусируемся на описании последовательности шагов, которые нужно совершить, чтобы достичь результата:</p><pre id="c4931c3e-b588-42c2-9f51-3a2e7cc793ae" class="code"><code>const a = [1, 2, 3];
+const b = []; // создадим новый массив
+
+/* чтобы проходить по массиву a, создадим переменную-счётчик,
+будем увеличивать её на единицу на каждой итерации цикла;
+cам цикл прекратим, когда счётчик достигнет длины массива */
+
+for (let i = 0; i &lt; a.length; i += 1) {
+  /* будем обращаться к элементам исходного массива по индексу,
+  умножать на 2 и записывать в новый массив */
+  b[i] = a[i] * 2;
+}
+
+console.log(b); // [2, 4, 6]</code></pre><p id="a1fec80f-3db0-4adc-a720-c8f978dc9ed2" class="">Декларативный стиль описывает, чего нужно достичь — не фокусируясь на том, как:</p><pre id="77efe677-798c-4302-8dc3-74ba0168c214" class="code"><code>const a = [1, 2, 3];
+
+/* создадим новый массив на основе исходного;
+элементами нового массива должны стать элементы исходного,
+умноженные на 2 */
+
+const b = a.map(function (item) {
+  return item * 2;
+});
+
+console.log(b); // [2, 4, 6]</code></pre><p id="481e8e95-fe7f-4717-89f1-83167f29b653" class="">Эти примеры иллюстрируют разные подходы к написанию программ.</p><p id="9ae89eca-49af-4417-ba2e-4d842f2b51c7" class="">Декларативный подход приобрёл огромную популярность в последние годы: многие считают его более изящным. Такой код проще поддерживать и развивать, и меньше шансов запутаться в императивной последовательности шагов.</p><p id="21c85711-6c3b-422c-b1c8-d3c4f152d422" class="">Императивный и декларативный подходы ещё называют парадигмами. Это наборы идей, которые определяют стиль написания программы. Только представьте, в двух простых примерах выше мы с вами использовали разные парадигмы программирования! </p><p id="f366006c-5aa5-4e1e-ac4c-61770ef0dd76" class="">Мир парадигм — большой мир. <a href="https://ru.wikipedia.org/wiki/%D0%9F%D0%B0%D1%80%D0%B0%D0%B4%D0%B8%D0%B3%D0%BC%D0%B0_%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F">Статья про парадигмы программирования на Википедии</a> ужасает своей непонятностью. Но вы только что сделали первый шаг к пониманию этой темы.</p><p id="46c56a7d-6484-4cc4-b020-ef6e422c734a" class="">Если у вас возникнет желание забыть про все эти <code>map</code>, <code>filter</code><strong> </strong>и <code>reduce</code> и всегда использовать цикл <code>for</code>, рекомендуем преодолеть соблазн и попытаться чаще применять их на практике. Это небольшой шаг в огромный новый мир.</p></div></article></body></html>

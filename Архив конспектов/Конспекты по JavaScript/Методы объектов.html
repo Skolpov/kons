@@ -1,0 +1,835 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Методы объектов</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="f4263e1d-0656-48b3-8112-ce9c8efca426" class="page sans"><header><div class="page-header-icon undefined"><span class="icon">👓</span></div><h1 class="page-title">Методы объектов</h1></header><div class="page-body"><p id="2d57dcfa-6b02-4608-9bfa-7ea3e153623c" class="">Методами объектов называют их свойства-функции. Например:</p><pre id="3662aa5b-463b-4348-902d-583ba226f038" class="code"><code>const obj = {
+  name: &#x27;Стас&#x27;, // Это свойство нашего объекта
+	lastname: &#x27;Басов&#x27;, // Это тоже свойство
+	greeting: function() { // А вот это метод, потому что в него записана функция
+		// (С помощью this мы обращаемся к свойствам нашего объекта)
+		console.log(`Привет, ${this.name} ${this.lastname}`)
+	}
+};
+
+obj.greeting(); // &quot;Привет, Стас Басов&quot;</code></pre><p id="d3e07cce-050a-46ec-a723-f71ce708787c" class="">Таким образом, мы можем создать нужный нам метод в любом нужном нам объекте, записав в него функцию.</p><p id="610845e2-ed62-4481-b2c6-c2abf6c1cb62" class="">Также в JS существуют встроенные методы, присущие любому объекту.</p><h2 id="fa7d6299-725c-4be2-af1c-30b2832d7210" class="">Удаление ключа из объекта</h2><p id="7749f05f-4306-434a-98e3-345d70b52343" class="">Что если мы хотим удалить свойство? Первое, что приходит в голову, — обратиться к нему по ключу и записать значением <code>undefined</code>:</p><pre id="d4f7d755-351c-4836-afee-da3c6f4ea38b" class="code"><code>const obj = {
+  one: 1
+};
+
+console.log(obj.one); // 1
+
+obj.one = undefined;
+console.log(obj.one); // undefined</code></pre><p id="86966e13-73a7-476d-a8d1-f667ae95e31a" class="">Правда, в этом случае технически ключ не будет удалён:</p><pre id="7300f02a-8bdf-4293-9292-26b3be5a6588" class="code"><code>console.log(obj); // { one: undefined } </code></pre><p id="749cac89-2d43-4fda-8d06-49d97ca1aedf" class="">Поэтому в js есть встроенный способ удаления ключей — оператор <code>delete</code>. Вот его синтаксис:</p><pre id="bc4e10c3-7576-4484-9429-8355613d6e34" class="code"><code>const obj = { one: 1 };
+console.log(obj.one); // 1
+
+delete obj.one;
+console.log(obj.one); // undefined</code></pre><p id="ec9d8dbe-32fa-4872-a059-26fc115ac5b9" class="">В этом случае удалится и сам ключ <code>one</code>:</p><pre id="b8ddeecf-f51a-4e0a-a0c5-29f14c26f213" class="code"><code>console.log(obj); // {} </code></pre><p id="a614a790-4f19-4060-8679-c220fa06e459" class="">Если вы знаете наверняка, что ключ в объекте вам больше не понадобится, удаляйте его оператором <code>delete</code>. Когда мы разберём методы перебора свойств объекта, вам станет яснее, почему от «мусорных» свойств объект лучше очищать.</p><h2 id="acc53fe3-6d91-473b-9e07-ab6fb008e84a" class="">Проверка наличия ключа в объекте</h2><p id="de830d53-871b-43cd-8ff1-ec4e4d9c197c" class="">Проверить, есть ли ключ в объекте, можно оператором <code>in</code>. Для этого нужно указать имя ключа в кавычках, затем написать <code>in</code> и имя объекта, в котором ищем это свойство:</p><pre id="6941479c-8865-4db4-aa25-0a684de92b81" class="code code-wrap"><code>const whoIsAtHome = { // англ. who is at home, «кто есть дома?»
+	father: &#x27;папа&#x27;,
+	mother: &#x27;мама&#x27;
+};
+
+console.log(&#x27;father&#x27; in whoIsAtHome); // true</code></pre><p id="bf8026b9-14bd-43e5-a870-5948e8a49ba8" class="">Это полезно для условных конструкций:</p><pre id="ecac4701-b090-40a3-b493-f61ad61bf66e" class="code code-wrap"><code>const home = { // англ. home, «дом»
+  mother: &#x27;мама&#x27;,
+	father: &#x27;папа&#x27;,
+	children: {
+		child1: &#x27;сыночек&#x27;,
+		child2: &#x27;сыночек&#x27;,
+		child3: &#x27;сыночек&#x27;,
+		child4: &#x27;сыночек&#x27;,
+		child5: &#x27;лапочка-дочка&#x27;,
+	}
+};
+
+if (&#x27;mother&#x27; in home) {
+	console.log(&#x27;Позовите маму&#x27;);
+} else if (&#x27;father&#x27; in home) {
+	console.log(&#x27;Позовите папу&#x27;);
+} else {
+	console.log(&#x27;Попозже зайду&#x27;);
+} // &quot;Позовите маму&quot;
+
+delete home.mother;
+
+if (&#x27;mother&#x27; in home) {
+	console.log(&#x27;Позовите маму&#x27;);
+} else if (&#x27;father&#x27; in home) {
+	console.log(&#x27;Позовите папу&#x27;);
+} else {
+	console.log(&#x27;Попозже зайду&#x27;);
+} // &quot;Позовите папу&quot;</code></pre><p id="26224096-673f-4588-be00-a5dc022c0e38" class="">Часто нам нужно проверить не столько наличие в объекте ключа, сколько является ли его значение <code>truthy</code>:</p><pre id="ab59dff2-b1af-41ed-a12a-9e9c87e0974f" class="code code-wrap"><code>const home = { 
+	father: &#x27;папа&#x27;,
+	children: {
+		child1: &#x27;сыночек&#x27;,
+		child2: &#x27;сыночек&#x27;,
+		child3: &#x27;сыночек&#x27;,
+		child4: &#x27;сыночек&#x27;,
+		child5: &#x27;лапочка-дочка&#x27;,
+	}
+}
+
+if (home.father) {
+  console.log(&#x27;Откройте, пожалуйста&#x27;);
+} else {
+  console.log(&#x27;Позовите, пожалуйста, кого-нибудь из взрослых&#x27;);
+}</code></pre><p id="ab7bdca9-e8d2-4fdd-a50d-869489d2f926" class="">В этом случае обходятся без оператора <code>in</code>, передавая условной конструкции само свойство: в этом случае оно преобразовывается к логическому типу.</p><h2 id="4b2f9698-8e81-4e60-ae4a-ef3a0116bec3" class="">Перебор свойств</h2><p id="4cc1dd89-1f3f-4c11-82a2-e455a86a7879" class="">Есть несколько способов перебора ключей в объекте. У каждого способа есть свои преимущества и недостатки. Мы разберём те из них, что используются в реальной практике.</p><p id="631fae01-ef20-49d7-bf40-6359333102af" class="">Начнём с цикла<mark class="highlight-yellow"> </mark><code>for…in</code>. </p><h2 id="72fc9454-3e61-423a-853b-fc76cef48242" class="">Цикл for...in</h2><p id="d50750e6-cd15-4fee-b5b5-30fccea6341a" class="">Здесь ключевые слова <code>for</code> и <code>in</code> переводятся с английского как «для» [того-то] «в» [том-то]. Синтаксис цикла выглядит так:</p><pre id="336ee103-19f9-4215-a664-15e2189b83d7" class="code code-wrap"><code>for (let переменная перебора in имя объекта) {
+	&lt;тело цикла&gt;
+}</code></pre><p id="71b1466a-4869-4dcd-ad65-d89d2ab97e10" class="">Этот цикл обходит все свойства, по очереди сохраняя ключ каждого в переменной перебора.</p><pre id="0b1c1f1e-39a5-4602-b9be-21c47c14aba3" class="code"><code>const emojis = {
+  smile: &#x27;😃&#x27;,
+  kiss: &#x27;😚&#x27;,
+  smirk: &#x27;😏&#x27;,
+  disappointment: &#x27;😞&#x27;,
+  astonishment: &#x27;😲&#x27;,
+  dizziness: &#x27;😵&#x27;
+};
+
+for (let emotion in emojis) {
+  console.log(`${emotion} - ${emojis[emotion]}`);
+}
+
+/* в консоли появится:
+  smile — 😃
+  kiss — 😚
+  smirk — 😏
+  disappointment — 😞
+  astonishment — 😲
+  dizziness — 😵
+*/</code></pre><p id="9908d68f-38f2-42c5-9423-a0ba0dfccc1e" class="">Ещё раз: при каждой итерации в переменную перебора записывается очередной ключ объекта. Похоже на поведение функции обратного вызова, перебирающей массив.</p><h2 id="8f53996e-330d-417a-adf6-74e98905a9ba" class="">Object.keys</h2><p id="9727029d-5478-4669-8eef-8a92d792e1f9" class="">Второй способ перебора ключей объекта — получить полный их список в массив и дальше перебирать уже изученными способами, например <code>forEach</code>. </p><p id="36989ec6-6472-43c4-b1c7-bfd16c74726e" class="">Массив ключей объекта удобно получить, передав объект как аргумент методу <code>Object.keys</code>:</p><pre id="3e6c8db8-1037-448a-8f9e-1e5fd1cb83f0" class="code code-wrap"><code>Object.keys({ name: &#x27;Алан&#x27;, surname: &#x27;Кей&#x27; }); // [&quot;name&quot;, &quot;surname&quot;]</code></pre><p id="94c42723-a099-453c-9d06-e324d56b215e" class="">Object<em> </em>— доступный в JavaScript глобальный объект. Он создаётся, как только вы открываете браузер. У него много полезных методов, некоторые мы разберём в этой теме. </p><p id="f26b38be-c567-4a11-b843-9bb2d47550b0" class="">Итак, полученный массив перебирается методом <code>forEach</code>:</p><pre id="a41bad48-286d-4bd8-a689-b0c80d3671b2" class="code"><code>const expenses = {
+  &#x27;руп&#x27;: &#x27;на суп&#x27;,
+  &#x27;трёшку&#x27;: &#x27;на картошку&#x27;,
+  &#x27;пятёрку&#x27;: &#x27;на тетёрку&#x27;, 
+	&#x27;десятку&#x27;: &#x27;на куропатку&#x27;,
+  &#x27;сотку&#x27;: &#x27;на *одку&#x27;
+};
+
+/* в виде объекта записано стихотворение Николая Олейникова 
+«Перечень расходов на одного делегата» */
+
+Object.keys(expenses).forEach(function (a) {
+	console.log(a);
+});
+
+/* в консоли выводятся ключи:
+
+    руп
+    трёшку
+    пятёрку
+    десятку
+    сотку
+
+*/</code></pre><p id="99cba09b-010f-4505-830e-6eb7d7791c73" class="">Теперь серьёзный вопрос. В каком порядке выведутся элементы? Первое, что приходит в голову: в порядке их добавления, то есть <code>руп</code>, <code>трёшку</code>, <code>пятёрку</code>, <code>десятку</code> и <code>сотку</code>.</p><p id="d6375eed-c90d-4bce-ad05-41f9bb170c41" class="">Но на самом деле правильный ответ — «неизвестно». Согласно спецификации ECMA, объект есть неупорядоченная коллекция элементов. Свойства могут храниться в любом порядке, это зависит только от реализации движка. Однако в большинстве современных браузеров элементы, действительно, будут выведены в том порядке, в котором вы их добавляли в объект: </p><pre id="7b66ad9f-1870-4665-8f79-ec3e07f37de6" class="code code-wrap"><code>/* Представим, что делегат писательского съезда
+записывал сначала самые крупные расходы: */
+
+const expenses = {
+  &#x27;сотку&#x27;: &#x27;на *одку&#x27;,
+  &#x27;десятку&#x27;: &#x27;на куропатку&#x27;,
+  &#x27;пятёрку&#x27;: &#x27;на тетёрку&#x27;,
+  &#x27;трёшку&#x27;: &#x27;на картошку&#x27;,
+  &#x27;руп&#x27;: &#x27;на суп&#x27;
+};
+
+Object.keys(expenses).forEach(function (a) {
+  console.log(a);
+});
+
+/* в консоли ключи выводятся так:
+
+    сотку
+    десятку
+    пятёрку
+    трёшку
+    руп
+
+*/</code></pre><p id="2d565d65-eff6-439a-83f8-2640f03556d9" class="">Есть исключение: если ключами в объекте оказались строки, которые можно привести к числам, большинство JS-движков упорядочит их в целях оптимизации:</p><pre id="5898fac8-2c31-4477-a26e-db44ef596aee" class="code"><code>// Делегат записал суммы расходов числами:
+
+const expenses = {
+  &#x27;100&#x27;: &#x27;на *одку&#x27;,
+  &#x27;10&#x27;: &#x27;на куропатку&#x27;,
+  &#x27;5&#x27;: &#x27;на тетёрку&#x27;,
+  &#x27;3&#x27;: &#x27;на картошку&#x27;,
+  &#x27;1&#x27;: &#x27;на суп&#x27;
+};
+
+Object.keys(expenses).forEach(function (a) {
+    // для наглядности выведем вместе с ключами их значения 
+    console.log(`${a} — ${expenses[a]}`);
+});
+
+/* движок упорядочил ключи в порядке возрастания, 
+и вывод получился практически как у Олейникова
+
+    1 — на суп
+    3 — на картошку
+    5 — на тетёрку
+    10 — на куропатку
+    100 — на *одку
+
+*/</code></pre><p id="73233736-5564-47fa-a03a-319b2fbf22b2" class="">Это исключение никак не оговорено в спецификации языка, но оно работает. Обычно вещи, не оговорённые в спецификации, использовать не принято, потому что есть опасность, что они изменят своё поведение в будущих версиях языка. С перебором ключей-чисел такое маловероятно: стоит поменять незадокументированную логику, как поломается много сайтов, чьи разработчики на неё опирались. Тем не менее, лучше не полагаться на порядок ключей в объекте. И код будет понятнее, и перемен можно не бояться. Поэтому когда порядок элементов важен — используйте массивы.</p><h2 id="fb52825a-bfab-4e47-ab54-075acd76a141" class=""><strong>Object.entries и Object.values</strong></h2><p id="78f7ddf9-19cd-4ec9-959c-533158f9a7ee" class="">В стандарте ECMAScript 2017 появилось два новых метода для работы с объектами: <code>Object.entries</code><strong> </strong>и<strong> </strong><code>Object.values</code><strong>. </strong>Метод <code>Object.values</code> возвращает значения всех свойств и методов объекта, а <code>Object.entries</code> — все пары «ключ-значение». Будьте аккуратны с этими методами<strong>:</strong> их не поддерживает даже последняя версия Internet Explorer.</p><pre id="15d5164c-8c5a-44cc-bd57-e9c8b1eff210" class="code"><code>const paulMcCartney = {
+	yesterday: &#x27;all my troubles seemed so far away&#x27;
+};
+
+console.log( Object.values(paulMcCartney) ); // [&quot;all my troubles seemed so far away&quot;]
+console.log( Object.entries(paulMcCartney) ); // [[&quot;yesterday&quot;, &quot;all my troubles seemed so far away&quot;]]</code></pre><p id="671c248d-3cd6-4970-9ed0-0c4ef85bce5f" class="">В разделе про удаление ключей мы говорили о важности избавления объектов от &quot;мусорных&quot; свойств с помощью метода <code>delete</code>. Теперь этот принцип становится понятнее: если в вашем объекте присутствуют такие свойства, то при переборе и обработке таких объектов у вас будут возникать неприятности вроде попадания &quot;undefined&quot; в список нужных вам значений.</p><p id="480830f1-5059-41a3-8ad3-533b677f7bfc" class="">
+</p></div></article></body></html>

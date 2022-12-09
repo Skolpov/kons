@@ -1,0 +1,686 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Оптимизация векторных изображений</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="83f56191-f37a-44be-af5c-1c052044755f" class="page sans"><header><h1 class="page-title">Оптимизация векторных изображений</h1></header><div class="page-body"><p id="2a0c4384-fac3-4514-9ce7-5bb7d10f6ab5" class="">Для логотипов и иконок в современной вёрстке принято использовать векторные изображения в формате .svg. В первую очередь, это гарантирует чёткость на всех видах устройств. Помимо этого, svg-графикой можно управлять средствами CSS и JavaScript.</p><p id="c704f51c-2f03-40f9-85f4-1805d69e3636" class="">Обычно файл в формате .svg создают в векторных графических редакторах, таких как Sketch, Adobe Illustrator или Figma. Если открыть svg-файл в текстовом редакторе, виден его код. Примерно такой:</p><pre id="57e40aba-ae0a-43a3-930e-48d5c594b56d" class="code"><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;
+&lt;svg xmlns=&quot;&lt;http://www.w3.org/2000/svg&gt;&quot; version=&quot;1.1&quot; width=&quot;98&quot; height=&quot;39&quot;&gt;
+
+&lt;g transform=&quot;matrix(1.25,0,0,-1.25,209.15146,959.834)&quot;&gt;
+
+&lt;g transform=&quot;translate(-157.01488,752.9562)&quot;&gt;
+&lt;path d=&quot;m 0,0 -1.535,0 c -2.412,0 -4.751,1.754 -4.751,6.14 0,4.568 2.193,6.432 4.422,6.432 L 0,12.572 0,0 z m 2.412,14.911 -4.166,0 c -4.094,0 -7.565,-3.107 -7.565,-9.137 0,-3.618 1.681,-6.286 4.678,-7.601 l -5.592,-10.087 c -0.183,-0.329 0,-0.585 0.292,-0.585 l 2.595,0 c 0.219,0 0.366,0.073 0.439,0.256 l 5.08,9.904 1.827,0 0,-9.904 c 0,-0.11 0.11,-0.256 0.256,-0.256 l 2.266,0 c 0.219,0 0.292,0.11 0.292,0.292 l 0,26.753 c 0,0.255 -0.146,0.365 -0.402,0.365&quot; style=&quot;fill:#ed1e24;&quot;/&gt;&lt;/g&gt;
+
+&lt;g transform=&quot;translate(-140.86568,758.7815)&quot;&gt;&lt;path d=&quot;m 0,0 -2.266,0 c -0.183,0 -0.292,-0.146 -0.292,-0.256 l 0,-6.98 -4.203,0 0,6.98 C -6.761,-0.073 -6.834,0 -7.017,0 l -2.266,0 c -0.182,0 -0.292,-0.11 -0.292,-0.256 l 0,-17.762 c 0,-0.182 0.073,-0.292 0.255,-0.292 l 2.303,0 c 0.146,0 0.256,0.11 0.256,0.292 l 0,8.479 4.203,0 0,-8.479 c 0,-0.182 0.109,-0.292 0.292,-0.292 l 2.266,0 c 0.183,0 0.256,0.147 0.256,0.292 l 0,17.762 C 0.256,-0.11 0.146,0 0,0&quot; style=&quot;fill:#231f20;&quot;/&gt;&lt;/g&gt;
+
+&lt;g transform=&quot;translate(-89.129977,741.6412)&quot;&gt;&lt;path d=&quot;m 0,0 -0.292,1.242 c -0.037,0.11 -0.073,0.147 -0.183,0.147 -0.183,0 -1.169,-0.402 -2.595,-0.402 -2.777,0 -4.13,2.668 -4.13,6.907 0,3.728 1.133,7.419 3.034,7.419 0.511,0 1.133,-0.146 2.119,-1.06 0.11,-0.11 0.183,-0.146 0.293,-0.146 0.11,0 0.219,0.073 0.329,0.256 l 0.987,1.608 c 0.073,0.109 0.109,0.219 0.109,0.329 0,0.146 -0.146,0.255 -0.365,0.365 -1.499,0.768 -2.522,0.914 -3.399,0.914 -3.435,0 -6.103,-4.093 -6.103,-10.489 0,-5.518 2.558,-8.698 6.213,-8.698 1.535,0 3.179,0.731 3.837,1.206 C 0,-0.292 0.037,-0.146 0,0&quot; style=&quot;fill:#231f20;&quot;/&gt;&lt;/g&gt;
+	 
+&lt;g transform=&quot;translate(-105.01378,750.522)&quot;&gt;&lt;path d=&quot;M 0,0 4.386,8.004 C 4.459,8.113 4.422,8.26 4.276,8.26 l -2.156,0 C 1.498,8.26 1.279,8.04 1.06,7.565 L -2.229,0.731 C -2.412,0.329 -2.595,0.073 -2.778,-0.037 l 0,8.041 c 0,0.146 -0.073,0.256 -0.219,0.256 l -2.376,0 c -0.109,0 -0.219,-0.11 -0.219,-0.256 l 0,-17.798 c 0,-0.11 0.073,-0.256 0.219,-0.256 l 2.376,0 c 0.146,0 0.219,0.11 0.219,0.256 l 0,9.173 c 0.11,-0.073 0.183,-0.183 0.256,-0.329 l 4.166,-8.552 c 0.22,-0.438 0.549,-0.548 1.024,-0.548 l 2.339,0 c 0.146,0 0.183,0.146 0.109,0.256 L 0,0&quot; style=&quot;fill:#231f20;&quot;/&gt;&lt;/g&gt;
+
+&lt;g transform=&quot;translate(-129.90198,742.7742)&quot;&gt;&lt;path d=&quot;m 0,0 -5.299,0 c 1.864,3.179 2.595,6.761 2.851,11.147 0.073,0.95 0.109,1.936 0.109,2.558 L 0,13.705 0,0 z M 3.947,0 3.509,0 C 2.96,0 2.814,0.219 2.814,0.658 l 0,15.093 c 0,0.183 -0.073,0.256 -0.219,0.256 l -7.309,0 c -0.183,0 -0.293,-0.109 -0.293,-0.256 l 0,-1.315 C -5.007,10.014 -5.262,4.312 -7.601,0 l -0.805,0 c -0.219,0 -0.292,-0.11 -0.292,-0.292 l 0,-5.336 c 0,-0.183 0.146,-0.256 0.256,-0.256 l 1.754,0 c 0.402,0 0.548,0.292 0.548,0.548 l 0,3.034 7.821,0 0,-3.326 c 0,-0.146 0.11,-0.256 0.256,-0.256 l 1.864,0 c 0.219,0 0.439,0.183 0.439,0.548 l 0,5.044 C 4.24,-0.11 4.13,0 3.947,0&quot; style=&quot;fill:#231f20;&quot;/&gt;&lt;/g&gt;
+
+&lt;g transform=&quot;translate(-118.90158,751.2895)&quot;&gt;&lt;path d=&quot;m 0,0 c -0.84,0 -2.156,-0.146 -2.156,-0.146 0,0 0,0.548 0.073,1.133 0.329,3.106 1.096,4.678 2.376,4.678 1.169,0 1.9,-1.608 2.083,-4.423 C 2.412,0.658 2.412,0 2.412,0 L 0,0 z m 0.402,7.93 c -3.947,0 -5.701,-4.97 -5.701,-10.379 0,-5.518 2.485,-8.807 6.14,-8.807 1.79,0 3.362,0.694 4.166,1.206 0.146,0.073 0.183,0.182 0.146,0.329 l -0.292,1.242 c -0.037,0.146 -0.11,0.219 -0.293,0.219 -0.146,0 -1.206,-0.402 -2.704,-0.402 -2.814,0 -4.13,2.449 -4.13,5.665 l 0,0.865 c 0,0 1.426,-0.171 2.266,-0.171 l 5.336,0 0,1.535 c 0,5.665 -2.01,8.698 -4.934,8.698&quot; style=&quot;fill:#231f20;&quot;/&gt;&lt;/g&gt;&lt;/g&gt;&lt;/svg&gt;
+</code></pre><p id="56ae2462-97c5-454a-a90f-aa86e14931ee" class="">Графические редакторы обычно формируют не самый оптимальный svg-код. Он часто содержит множественные метаданные, повторяющиеся строчки, встроенные ненужные стили и другую дополнительную информацию. Поэтому svg-файлы перед использованием на сайте стоит оптимизировать. Для этого разработаны вспомогательные онлайн-инструменты. Один из таких — <strong>SVGOMG</strong>, который разработал Jake Archibald. Зайдите по ссылке <a href="https://jakearchibald.github.io/svgomg/">https://jakearchibald.github.io/svgomg/</a> , выберите файл на компьютере или вставьте код вашего svg-файла, потом отключите всё лишнее в визуальном редакторе. Вы заметите, как уменьшится вес вашего svg-файла. Скачайте его или скопируйте его код.</p><p id="d9350536-9007-4a68-9152-20a5b20debdc" class="">Файл в формате <em>.svg</em> можно поместить на страницу так:</p><ol type="1" id="7a3fb53c-7891-4c0d-a33a-33a5e115951d" class="numbered-list" start="1"><li>через атрибут <code>src</code> тега <code>img</code>;</li></ol><ol type="1" id="420e939b-d85f-4d72-a8d7-62454f8397e7" class="numbered-list" start="2"><li>через свойство <code>background-image</code> в CSS;</li></ol><ol type="1" id="b938bc61-2db4-4635-a8c2-449d4aa09951" class="numbered-list" start="3"><li>как <code>iframe</code>;</li></ol><ol type="1" id="5df27593-3524-4a50-8386-3724c7e40d2c" class="numbered-list" start="4"><li>через атрибут <code>src</code> **тега <code>&lt;embed&gt;</code>;</li></ol><ol type="1" id="3c5f84ef-c736-4317-b3ac-30e9c580f742" class="numbered-list" start="5"><li>через атрибут <code>data</code> **тега <code>&lt;object&gt;</code>;</li></ol><ol type="1" id="4d5d1ed1-6e2c-48ee-98e5-1ddf98ca3d92" class="numbered-list" start="6"><li>вставив код svg-файла в HTML.</li></ol><p id="f966d336-af61-4d7e-9cfa-98028b7f24d5" class="">Первые два способа вам знакомы. Их минус — невозможность преобразования формул изображения внешними CSS- и JS-файлами. Обычно это требуется, чтобы делать сложную анимацию, управляющую геометрией svg-изображения.</p><p id="79196eac-cbe0-4f4d-afc2-33800962ac44" class="">Третий и четвертый способы на практике не используются, а тег <code>object</code> **не поддерживается ни одним современным браузером, кроме Edge от компании Microsoft.</p><p id="f63d584d-e40f-4ebb-955b-09ba276a0a13" class="">Самый оптимальный путь работы с svg **— вставлять его код прямо в код HTML-страницы. Если задачи не предполагают преобразования формул, создающих svg, можно работать с этим форматом, как с любым другим изображением.</p></div></article></body></html>

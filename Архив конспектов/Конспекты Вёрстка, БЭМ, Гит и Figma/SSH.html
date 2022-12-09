@@ -1,0 +1,679 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>SSH</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="3d566d7b-a700-4f51-8829-b2797513b1ce" class="page sans"><header><h1 class="page-title"><a href="https://www.notion.so/ee2af17130e248aeba8e69a8f55c604a">SSH</a></h1></header><div class="page-body"><h2 id="9a469d89-e19b-4490-96af-2978f120333c" class="">Что такое SSH</h2><p id="2df4785a-46ee-444d-bc3c-801c209c6f23" class="">В сети компьютеры обмениваются данными. Для этого они подключаются друг к другу через сетевые протоколы. Это похоже на автомагистрали: платные и бесплатные.</p><p id="a66c1ed2-acdf-4f62-8c9d-8bfe865f0f62" class="">Представьте, что вы хотите доставить посылку из одного города в другой. На бесплатной автомагистрали дороги не очень хорошие, ехать долго — да и сохранность посылки под вопросом. На платную автомагистраль пускают по пропускам, зато есть гарантия, что посылка доедет целой.</p><p id="e79350d1-9a33-4948-8d79-8d1b63c7ecd2" class="">Транспортный протокол — та самая «платная магистраль». Через протокол можно получить данные с удалённого компьютера или их на него записать. Протокол шифрует трафик и поэтому безопасен. Сейчас вам нужен SHH для взаимодействия только с «Гитхабом», в дальнейшем — и с удалённым сервером.</p><p id="223b0c08-2987-4fce-a08c-86011f277cfa" class="">Чтобы выехать на платную магистраль, нужно создать пропуск. В SSH это пара ключей.</p><h2 id="66f8b7a9-f41a-468f-8ca3-fa1917307ff6" class="">Проверка наличия SSH-ключа</h2><p id="7a900cf2-22d8-46a0-ab30-675006aa125a" class="">Убедитесь, что у вас ещё нет пропуска.</p><p id="15bde614-a3fb-4392-a0af-47901a6e9078" class="">По умолчанию все SSH-ключи хранятся в домашней директории вашего компьютера:</p><pre id="f05a3f68-8d25-46f8-830f-e887a63370b2" class="code"><code>ls -al ~/.ssh
+# перешли в домашнюю директорию и посмотрели список созданных ключей</code></pre><p id="7f68921c-0a90-450d-8e5d-dae48d554d7b" class="">Если папка пустая или её нет, то всё хорошо. </p><p id="e843651b-1ee2-4175-b6c5-12cbbe0e989d" class="">Если есть с похожим названием, SSH-ключи уже создавались:</p><ul id="45a35c85-e17f-43b8-845e-35869288e2fd" class="bulleted-list"><li style="list-style-type:disc">id_dsa.pub</li></ul><ul id="391f09e7-b92e-4fcc-b965-85177d68aebe" class="bulleted-list"><li style="list-style-type:disc">id_ecdsa.pub</li></ul><ul id="2a952da7-bf69-4857-ae06-a9a028fbaf69" class="bulleted-list"><li style="list-style-type:disc">id_ed25519.pub</li></ul><ul id="4aeb4671-2c83-44bc-8cc7-b062566a905e" class="bulleted-list"><li style="list-style-type:disc">id_rsa.pub</li></ul><p id="484b51da-4319-4f91-8120-b1a07312eb1f" class="">Если вы не создавали их, удалите все эти файлы.</p><h2 id="0ea156b0-374b-4224-b48d-4f0887493059" class="">Генерация SSH-ключа</h2><ol type="1" id="ba8d7212-bddb-4d0a-a758-bc9a8d5830fb" class="numbered-list" start="1"><li>Сгенерируйте в терминале приватный и публичный ключи. У публичного расширение <code>.pub</code>, у приватного расширения нет. Оба ключа сохранятся на вашем компьютере. Публичный нужен для привязки к «Гиту». В строке e-mail обязательно укажите адрес почты, которая привязана к «Гитхабу»:<pre id="80c056e7-f4ad-47da-b74f-9f92940954de" class="code"><code>ssh-keygen -t rsa -b 4096 -C &quot;students-yandex@yandex.com&quot;</code></pre><p id="c79b87bd-3273-4220-a291-cf9b8a77d0a6" class="">После ввода отобразится сообщение:</p><pre id="e4835bc2-f228-4556-a01a-724205277f8e" class="code"><code>&gt; Generating public/private rsa key pair.</code></pre><p id="e34bc0ae-bae7-4729-a5ea-09c0edf939f2" class="">
+</p></li></ol><ol type="1" id="d323c22e-6881-429d-93f6-785672e94082" class="numbered-list" start="2"><li>Укажите место хранения ключей. Простой вариант — сделать домашний каталог пользователя путём по умолчанию. Для этого нажмите Enter:<p id="fb7865bc-4056-41a7-b4fd-14b713951e14" class="">macOS</p><pre id="299d477a-ff1e-48b3-8bfe-e780884a7860" class="code"><code>&gt; Enter a file in which to save the key (/Users/you/.ssh/id_rsa): [Press enter]</code></pre><p id="68d93e8f-f984-4d08-8109-0e154ddcac53" class="">Windows</p><pre id="a6e79be2-e064-4a63-8b96-8bd9dcfe8523" class="code"><code>&gt; Enter a file in which to save the key (C:\Users\&lt;имя_пользователя&gt;\.ssh\):[Press enter]</code></pre><p id="ccb94041-6734-44cc-aad7-9f40cd70de48" class="">Теперь в указанной директории появится пара ключей.</p></li></ol><ol type="1" id="3f3d5786-c818-4c6e-af72-1239ac103672" class="numbered-list" start="3"><li>Создайте пароль доступа к SHH-ключу. Его нужно вводить при каждом соединении через протокол. Поэтому запомните его или запишите:<pre id="44da5282-1678-49c6-958e-2fb2abf809f3" class="code"><code>&gt; Enter passphrase (empty for no passphrase): [Type a passphrase]
+&gt; Enter same passphrase again: [Type passphrase again]</code></pre><p id="970714d3-a134-4ca0-b208-dee561cfec7c" class="">Но вы можете оставить поле пустым, чтобы никогда не вводить пароль. Для этого нажмите Enter:</p></li></ol><ol type="1" id="c7876839-9f7f-49b8-be15-d7864dcf1d8b" class="numbered-list" start="4"><li>Запустите фоном команду <code>ssh-agent</code>. Она ищет SSH-ключ на вашем компьютере:<pre id="114b3f7f-72d2-405c-b7cc-093718df364b" class="code"><code>eval $(ssh-agent -s)</code></pre></li></ol><ol type="1" id="7ed08f24-8892-4be2-baec-cdc77e352fda" class="numbered-list" start="5"><li>Привяжите приватный ключ к <code>ssh-agent</code>. Тогда вы сможете не вводить пароль при каждой работе с репозиторием:<pre id="6323e3d5-4dbe-4718-80bf-8786cf381d3f" class="code"><code>ssh-add ~/.ssh/id_rsa</code></pre><h2 id="93812682-691f-44b9-b564-a6f5ec98cf95" class="">Привязка SSH-ключа к аккаунту GitHub</h2><ol type="1" id="fff0f947-38d6-4221-af1c-cb2fd62428e0" class="numbered-list" start="1"><li>Скопируйте публичный ключ в буфер обмена:</li></ol></li></ol><p id="22754974-6eb0-422e-aef8-623f5d87fefe" class="">macOS</p><pre id="424744d8-8a26-43b7-9c68-9b3b0814a6c6" class="code"><code>pbcopy &lt; ~/.ssh/id_rsa.pub
+# Скопировать содержимое ключа в буфер обмена</code></pre><p id="f06e9a24-e3e3-4f62-a08c-ebe00ec9a8fe" class="">Windows<strong> </strong></p><pre id="48163f4f-ae44-4540-97b0-85b7d16310ca" class="code"><code>clip &lt; ~/.ssh/id_rsa.pub
+# Скопировать содержимое ключа в буфер обмена</code></pre><p id="5ab9527d-3457-4777-84cd-320fc8df9286" class="">Если clip не сработает, найдите скрытую папку <code>.ssh</code>, откройте файл <code>id_rsa.pub</code> в любом текстовом редакторе. Скопируйте его содержимое в буфер обмена.</p><p id="b8ca9ff5-9e3b-429c-bc3f-16dafaa0ad2f" class="">
+</p><p id="f1fefabe-d50e-4f5f-a768-ca74e0e7626e" class="">2. Перейдите на «Гитхаб» и откройте настройки аккаунта:</p><figure id="9ada85c0-cc6f-4742-98d7-1e0159c71fa0" class="image"><a href="./SSH/Frame_259.png"><img style="width:1440px" src="./SSH/Frame_259.png"/></a></figure><p id="01882df6-5858-4a25-9df6-f9c5c8f1c865" class=""><mark class="highlight-gray">Настройки аккаунта на «Гитхабе»</mark></p><p id="e5f60a27-b23e-4946-a267-bb684e45eb3a" class="">
+</p><p id="4f4ae6ec-f13d-47d9-8523-59913877ebd3" class="">3. В левом меню выберите пункт ″SSH and GPG keys″:</p><figure id="782dcb4d-5b2a-4a22-9c2c-2f8f3a0a1a2f" class="image"><a href="./SSH/Frame_260.png"><img style="width:1440px" src="./SSH/Frame_260.png"/></a></figure><p id="25b7f7e2-a02d-4c70-8d62-869457ea2021" class=""><mark class="highlight-gray">Выбор настройки ″SSH and GPG keys″</mark></p><p id="53d2b956-ec5e-4aec-84bb-cfbf59c7e4be" class="">
+</p><p id="493b196a-7930-42b1-808c-813ddbdc3e86" class="">4. В открывшейся вкладке выберите ″New SSH key or Add SSH key″:</p><figure id="0fccd283-f496-4250-9870-3a85483edf8b" class="image"><a href="./SSH/3.png"><img style="width:1440px" src="./SSH/3.png"/></a></figure><p id="5548f62d-cfc9-4b03-9c14-2b552f3c5c06" class=""><mark class="highlight-gray">Выбор подпункта ″New SSH key or Add SSH key″</mark></p><p id="501545a4-e510-4db0-afce-919ebc02cb43" class="">
+</p><p id="8894c6ec-f7e9-4cd9-8883-04720bbc4953" class="">5. В поле ″Title″ напишите заголовок. Например, ″Personal key″.</p><p id="e5cd4352-6315-4891-9adc-960e878f7d57" class="">6. В поле ″key″<strong> </strong>скопируйте ваш ключ из буфера обмена:</p><figure id="2c79c339-b037-4666-8829-9341879b9c2f" class="image"><a href="./SSH/Frame_261.png"><img style="width:1440px" src="./SSH/Frame_261.png"/></a></figure><p id="0f031f6a-af3c-438d-b4de-8d7459500a15" class=""><mark class="highlight-gray">Копия SSH-ключа из буфера обмена</mark></p><p id="0f46df1e-9733-4892-ab35-f8946a55b618" class="">
+</p><p id="f22c89ab-0781-44fe-b359-473a88c4cb04" class="">7. Нажмите кнопку ″Add SSH key″:</p><figure id="03c97751-0e2c-4cfd-bc0c-fce7f80e9c6c" class="image"><a href="./SSH/Frame_262.png"><img style="width:1440px" src="./SSH/Frame_262.png"/></a></figure><p id="241e532a-8286-4449-9b4b-7604b8e05ca0" class=""><mark class="highlight-gray">Персональный SSH-ключ добавлен</mark></p><p id="4741a397-194f-4af4-9eaa-53cea519ab2f" class="">Всё, ваш ключ привязан к «Гитхабу». Если вы установили пароль для SSH-ключа, для работы с репозиторием его придётся вводить.</p></div></article></body></html>

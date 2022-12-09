@@ -1,0 +1,701 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Неявное и явное преобразование типов</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="67a4390b-92a9-4e20-898e-af2e86e57e1d" class="page sans"><header><div class="page-header-icon undefined"><span class="icon">👓</span></div><h1 class="page-title">Неявное и явное преобразование типов</h1></header><div class="page-body"><h1 id="36319493-25a7-42c9-98ed-7d0662e58b54" class="">Неявное преобразование типов</h1><p id="d34b874c-25f7-48a7-bb88-a0be60b94e55" class="">Перед вами пример с конкатенацией:</p><pre id="ad4e1c99-b5fd-457b-8baa-25e0f6ece4d9" class="code code-wrap"><code>console.log(100 + &#x27;500&#x27;); // &quot;100500&quot;</code></pre><p id="fd9030c8-7389-43f2-a034-dd503a3ff6b7" class="">При сложении любого значения со строкой движок превращает все значения в строки.</p><p id="9b067f23-564e-424b-9daa-18c798fb6d5e" class="">JavaScript — язык со слабой типизацией:</p><ul id="4959a235-a28d-4811-a8e7-e0630dba8c7a" class="bulleted-list"><li style="list-style-type:disc">данные могут менять свой тип, даже если разработчик об этом не просил;</li></ul><ul id="d0baa05f-e1cf-4fdc-9871-8970d9a0135a" class="bulleted-list"><li style="list-style-type:disc">невозможно сложить строку с числом, а две строки можно.</li></ul><p id="b56e6000-3ee1-4616-b33b-bf3aeba69365" class="">Поэтому при сложении числа со строкой движок превратит число в строку и только потом выполнит конкатенацию.</p><p id="a333453c-ddad-45df-9219-56a97175f910" class="">При попытке сложить строку и число многие языки программирования начинают «ругаться» и показывать ошибки. Но JavaScript такое прощает. Это накладывает дополнительную ответственность на разработчика: нужно следить за поведением переменных. Иначе можно не заметить незапланированное преобразование типа:</p><pre id="57cce9dc-8514-4a4a-9afb-0cda58772be7" class="code code-wrap"><code>const a = 30; // Количество отжиманий в первом подходе
+const b = 10; // Количество отжиманий во втором подходе
+
+console.log(&#x27;За сегодня вы отжались: &#x27; + a + b + &#x27; раз&#x27;);
+
+// &quot;За сегодня вы отжались 3010 раз&quot;</code></pre><p id="f4820fda-79b2-4d43-9d70-f76532d9dcd6" class="">Неявное преобразование типа — то, которое происходит без прямого указания разработчика. В JavaScript три вида неявного преобразования типов для примитивных значений:</p><ul id="4d9c6d52-b5a0-469c-a64c-bb360fe6b6f1" class="bulleted-list"><li style="list-style-type:disc">приведение к строке,</li></ul><ul id="b9f24898-e548-48b6-a472-51f1cbc97a28" class="bulleted-list"><li style="list-style-type:disc">приведение к числу,</li></ul><ul id="a50340a9-6a3e-4290-b72e-4508286541fe" class="bulleted-list"><li style="list-style-type:disc">приведение к логическому типу.</li></ul><h2 id="719fbf5e-c254-4db3-917d-505cb47cd1e1" class="">Приведение к строке</h2><p id="1342bdea-5d5f-435c-b5cd-dd2883d47f63" class="">Неявное преобразование к строчному типу происходит при сложении со строкой:</p><pre id="7404edac-d46a-4974-8e2b-3c2be7595f68" class="code"><code>1 + &#x27;&#x27;; // &quot;1&quot;
+undefined + &#x27;&#x27;; // &quot;undefined&quot;</code></pre><h2 id="ac9cec10-6f0e-4c11-a22e-cea08a23f539" class="">Приведение к числу</h2><p id="b1af7a07-3846-4081-a14e-c7afc67bc1d4" class="">Движок JavaScript приводит данные разных типов к числам, а затем их сравнивает:</p><pre id="aa8758c8-2410-41bb-be83-67bbe59b3d0f" class="code"><code>null &gt;= 1; // false
+&#x27;451&#x27; &lt; 452; // true</code></pre><p id="8945720b-e626-4738-8a1a-03ec02a2c20d" class="">Оператор <code>унарный плюс</code> приводит нечисловые значения после + к численному типу. Так <code>+&#x27;33&#x27;</code> вернёт число 33, <code>+&#x27;-77&#x27;</code> вернет число -77.
+Стоящие рядом операторы сложения и унарный плюс не мешают друг другу:</p><pre id="dedcb2a6-c649-43ea-8b89-b558ecd0d181" class="code"><code>console.log(67 + +&#x27;33&#x27;); // 100</code></pre><p id="40afd388-f6e3-44d4-b4ac-32f57ab7107e" class="">Приведение к числу выполнит и любой другой арифметический оператор. Кроме сложения со строкой — оно будет воспринято как конкатенация:</p><pre id="9b174ebd-0372-4077-a37a-f60fb6b6af01" class="code code-wrap"><code>console.log(&#x27;3&#x27; - 1); // 2 — выполнилось приведение к числу
+console.log(&#x27;4&#x27; / 4); // 1 — тоже привелось к числу
+console.log(&#x27;2&#x27; * 2); // 4 — опять привелось
+console.log(&#x27;4&#x27; + 4); // 44 — а здесь выполнится конкатенация</code></pre><h2 id="79c93b1d-0030-4496-a6ef-6f6f1b6dd11b" class="">Приведение к булевым значениям</h2><p id="fc6f5877-6c41-4847-b380-bfa9cf2ae318" class="">В круглых скобках условия <code>if</code> данные любого типа всегда приводятся к логическому типу:</p><pre id="6ad6c337-a5d2-400d-9b36-b6a40cd18ab8" class="code code-wrap"><code>const usernameElement = document.querySelector(&#x27;.username&#x27;);
+
+if (usernameElement) {
+  console.log(&#x27;Привет, &#x27; + usernameElement.textContent);
+}</code></pre><p id="9c423a20-cf2c-4008-ad1a-90f7ab484c93" class="">Если элемента с классом <code>username</code> на странице нет, в переменную <code>usernameElement</code> запишется <code>null</code>. В круглых скобках условной конструкции <code>null</code> приводится к логическому типу и становится <code>false</code>. Поэтому тело условия <code>if</code> выполнено не будет.</p><h1 id="04ec1dd9-fd90-4c82-aa30-97ee661e11c7" class="">Явное преобразование типов</h1><p id="3f886ee7-1ba5-4d26-8504-f4ebb2cb57f2" class="">О неявном преобразовании важно знать, но намеренно использовать его не стóит. Другие разработчики могут неправильно трактовать такой код или попросту не заметить неявное преобразование типа. Более того, вы и сами можете о нём забыть. </p><p id="f812f2e7-2868-4280-8d90-ed928639f5b7" class="">Это ведёт к ошибкам в программе, которые очень сложно отловить: они не всегда отображаются в консоли.</p><p id="387a7a6b-6ca9-40df-8da9-d138b2bc6a42" class="">Явно приводите один тип к другому. Разберёмся, как это делать.</p><h2 id="cd050977-ec8d-4ad7-ad46-ff70c9c5fcb3" class="">Приведение к строке</h2><p id="8633a26e-fe21-4558-a4e9-62cb1f2b8d69" class="">Глобальный объект <code>String</code> превращает переданный ему аргумент в строку:</p><pre id="ea7e7aae-c407-4534-ac44-7d21eb2e8ce3" class="code"><code>const numberToString = String(2); // &quot;2&quot;
+const nanToString = String(NaN); // &quot;NaN&quot;
+const undefinedToString = String(undefined); // &quot;undefined&quot;
+const nullToString = String(null); // &quot;null&quot;
+const booleanToString = String(true); // &quot;true&quot;</code></pre><h2 id="977c6408-b4bf-4832-b93e-e1334f0bb61d" class="">Приведение к числу</h2><p id="6a30477d-8724-42eb-8f4a-263594f5e5cd" class="">Глобальный объект <code>Number</code> приводит переданный ему аргумент к числовому типу:  </p><pre id="2c5816d2-4510-44dd-bca5-11573c7cd62e" class="code"><code>const stringToNumber = Number(&#x27;2&#x27;); // 2
+const nullToNumber = Number(null); // 0</code></pre><p id="26b77149-bb60-4f81-91ea-2d249d27c4db" class="">Если передать произвольную строку или <code>undefined</code>, вернётся <code>NaN</code>.</p><pre id="9b4ec4c7-9826-4db9-9586-89b87129589e" class="code code-wrap"><code>const anotherStringToNumber = Number(&#x27;счастье не за горами&#x27;); // NaN
+const undefinedToNumber = Number(undefined); // NaN</code></pre><h2 id="74be0cfd-55a8-4ed5-a60b-566110787359" class="">Приведение к булевым значениям</h2><p id="58250ea3-46bb-4fbc-b0ba-2d13c0f8aaff" class="">Метод <code>Boolean</code> преобразует переданный ему аргумент к «булю»:</p><pre id="7f00998f-9813-44e5-9580-73d07d1db4c1" class="code code-wrap"><code>Boolean(2) // true
+Boolean(0) // false
+Boolean(&#x27;&#x27;) // false
+Boolean(&#x27;Непустая строка&#x27;); // true</code></pre><p id="7f8c68ed-e80c-42a5-93fd-59dc92e58568" class="">Разберёмся подробнее, как разные значения приводятся к логическому типу. В JavaScript значения условно делятся на <code>truthy</code><strong> </strong>(англ. «правдивые») и <code>falsy</code><strong> </strong>(англ. «ложные»). Правдивые значения при приведении типа становятся Истиной, а ложные — Ложью.<strong> </strong>Правила такие:</p><ul id="a0ce5cbc-cab1-41d1-a47c-6ea55dd6e428" class="bulleted-list"><li style="list-style-type:disc">все непустые строки — <code>truthy</code>,</li></ul><ul id="d6f9f8f9-66eb-434d-a9b0-f8101f50031f" class="bulleted-list"><li style="list-style-type:disc">пустая строка (<code>&#x27;&#x27;</code>) — <code>falsy</code>,</li></ul><ul id="f3453f24-107b-49a0-a6fb-1598f0a00220" class="bulleted-list"><li style="list-style-type:disc">все ненулевые числа — <code>truthy</code>,</li></ul><ul id="572ecce7-5b88-415e-83a4-ddc43fae407e" class="bulleted-list"><li style="list-style-type:disc">ноль — <code>falsy</code>,</li></ul><ul id="8b2969f9-4c1b-43b1-b30d-9999c08b193a" class="bulleted-list"><li style="list-style-type:disc">NaN, null и undefined — <code>falsy</code>,</li></ul><ul id="cc2538ca-81f8-44a2-8629-fafadcbefb1d" class="bulleted-list"><li style="list-style-type:disc">объекты, массивы и функции — <code>truthy</code>.</li></ul><pre id="789aca76-dc2e-4e33-8eb6-2f246b99a31b" class="code code-wrap"><code>Boolean(&#x27;Непустая строка&#x27;); // true
+Boolean(&#x27;&#x27;); // false
+Boolean(1); // true
+Boolean(0); // false
+Boolean(NaN); // false
+Boolean(null); //false
+Boolean(undefined); // false
+Boolean({}); // true
+Boolean([]); //true</code></pre><p id="feb72148-99a8-4922-8349-8fdee83c58a8" class="">Запоминать и заучивать это не нужно. Доверьтесь интуиции. Всё интуитивно пустое — ноль, <code>NaN</code>, <code>null</code>, <code>undefined</code>, пустая строка — приводится к <code>false</code>. Всё остальное к <code>true</code>.</p></div></article></body></html>

@@ -1,0 +1,670 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Конспекты. Вёрстка, БЭМ, Гит и Figma</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+./Конспекты Вёрстка, БЭМ, Гит и Figma
+</style></head><body><article id="800c6c88-3e1d-4842-8812-f3a30f6e7fc1" class="page sans"><header><div class="page-header-icon page-header-icon-with-cover"><span class="icon">📼</span></div><h1 class="page-title">Конспекты. Вёрстка, БЭМ, Гит и Figma</h1></header><div class="page-body"><h1 id="00139a66-884d-4c3f-ad68-3474ef11d97c" class="">Вёрстка</h1><h2 id="f582e6c2-f11d-48ed-a0e0-daff8ebe8abc" class="">Общая информация</h2><figure id="e64f43c2-01bd-4b60-b06a-a823694d2f26" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Установка программ.html">Установка программ</a></figure><figure id="4f8e33b4-850a-4d61-8ded-353af3ad3d2d" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Браузерные стили.html">Браузерные стили</a></figure><figure id="4a9a36f1-5646-4e86-993c-e26c40e5d9d2" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Основные базовые знания перед началом.html">Основные базовые знания перед началом</a></figure><figure id="2288ae55-1268-4925-8b66-53dbdc650d03" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Идентификаторы.html">Идентификаторы</a></figure><figure id="65d29baa-a9a2-4416-ab11-e1a9ac37ddb7" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Кроссбраузерность и префиксы.html">Кроссбраузерность и префиксы</a></figure><figure id="3ceb0d89-2ef9-4026-8d29-21d176d01b10" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Селекторы.html">Селекторы</a></figure><h2 id="e4f9802b-65d3-4553-a0a6-ef27afff0f65" class="">Флекс</h2><figure id="0e19a3c6-1d18-4161-8eca-9f93049da4f2" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Общая информация о контейнере.html">Общая информация о контейнере</a></figure><figure id="06a5429d-10ad-4c38-a91f-fba3fca48ec8" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Свойства flex-контейнера.html">Свойства flex-контейнера</a></figure><figure id="1b7fa99d-ea52-44be-8d50-9db002a45d66" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Свойства флекс-элементов.html">Свойства флекс-элементов</a></figure><h2 id="439b9448-4b5d-4f53-829b-1b2922718e9c" class="">Анимации и трансформации</h2><figure id="919decc4-acdc-4954-88e6-d81c08523583" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Трансформации.html">Трансформации</a></figure><figure id="e2c4407e-609c-4547-b25a-49ca42d9bfbd" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Плавность переходов.html">Плавность переходов</a></figure><figure id="5d254d1f-5b18-4ac6-be00-e86174e3f4d3" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Тени.html">Тени</a></figure><figure id="f84504bc-6176-41ac-b2f8-98b5edecf3d0" class="link-to-page"><a href="%D0%9A%D0%BE%D0%BD%D1%81%D0%BF%D0%B5%D0%BA%D1%82%D1%8B%20%D0%92%D0%B5%CC%88%D1%80%D1%81%D1%82%D0%BA%D0%B0,%20%D0%91%D0%AD%D0%9C,%20%D0%93%D0%B8%D1%82%20%D0%B8%20Figma%20800c6c883e1d48428812f3a30f6e7fc1/%D0%9B%D0%B8%D0%BD%D0%B5%D0%B8%CC%86%D0%BD%D1%8B%D0%B8%CC%86%20%D0%B3%D1%80%D0%B0%D0%B4%D0%B8%D0%B5%D0%BD%D1%82%20f84504bc617641acb2f898b5edecf3d0.html">Линейный градиент</a></figure><figure id="db149b60-489b-4895-adb5-b0e5492a6e09" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Радиальный градиент.html">Радиальный градиент</a></figure><figure id="4886bc47-5717-4e18-a9ee-ef28b1119f8c" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Переполнение блоков.html">Переполнение блоков</a></figure><figure id="60c25287-a02e-4ef1-a1f5-987e38a9ae92" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Кейфреймы.html">Кейфреймы</a></figure><figure id="4f15093e-226b-4f77-97ca-4a744084df77" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Анимации.html">Анимации</a></figure><h2 id="a94145f2-210a-40f8-ad0a-20d465acc18f" class="">Именование, семантика, псевдоклассы</h2><figure id="2a8e831d-8217-4d96-9692-4d62afd30de2" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Дополнительные настройки тега head, метатеги, всп.html">Дополнительные настройки тега head, метатеги, вспомогательные атрибуты</a></figure><figure id="b2d71c93-8d34-47f9-93da-9a8ea91037fe" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Семантика и выразительность HTML.html">Семантика и выразительность HTML</a></figure><figure id="925d02e2-c064-4356-91e2-d6412b608d7b" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Псевдоклассы и псевдоэлементы.html">Псевдоклассы и псевдоэлементы</a></figure><h2 id="e1a5d7c0-9cdc-4ca5-8e24-70fa62cf0885" class="">БЭМ</h2><figure id="002ca85d-6ff3-4976-b04a-8a3c970757ba" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/БЭМ — концепция.html">БЭМ — концепция</a></figure><figure id="14510b02-09e2-49a3-bdd5-02f6da011e20" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/БЭМ — блоки, элементы и модификаторы.html">БЭМ — блоки, элементы и модификаторы</a></figure><figure id="69d2f94c-5d3a-426d-83ea-0d4ceba8079a" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/БЭМ микс.html">БЭМ микс</a></figure><figure id="f482b6fd-936a-45ee-88b0-f7891bf7038c" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Файловая структура по БЭМ.html">Файловая структура по БЭМ</a></figure><h2 id="38fc7280-e7d5-42de-b6ef-b905d78b8490" class="">Позиционирование</h2><figure id="b56cee1d-d69c-4e1f-9fb0-b8be54e67b60" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Статическое позиционирование и понятие потока.html">Статическое позиционирование и понятие потока</a></figure><figure id="be91fd32-529c-45f5-8d39-2054739a2ed4" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Relative Position.html">Relative Position</a></figure><figure id="0a9c7380-ed71-4f78-b82e-f88877a45616" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Fixed Position.html">Fixed Position</a></figure><figure id="690201be-38f7-43e0-b532-7b88853f35d8" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Absolute Position.html">Absolute Position</a></figure><figure id="38691925-6185-4947-b89f-9a33cb0a1279" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/z-index.html">z-index</a></figure><figure id="a5bf7b46-3675-49c8-861e-064f8ecb1db1" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Sticky Position.html">Sticky Position</a></figure><h2 id="d7c876f7-a0f9-4e02-8deb-d5cd48d59772" class="">Файловая структура и пути к файлам</h2><figure id="7d4fb088-d9cf-473d-8273-511510b5ee82" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Описание типовой файловой структуры.html">Описание типовой файловой структуры</a></figure><figure id="3c2f3f1d-60ae-4654-bbe1-596dbbf0752c" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Абсолютный путь в вебе и на компьютере.html">Абсолютный путь в вебе и на компьютере</a></figure><figure id="638e6e30-41eb-4137-a8b5-3b85541767f5" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Относительные пути в вебе и внутри проекта.html">Относительные пути в вебе и внутри проекта</a></figure><figure id="3dfaa548-ef5b-4e97-a6af-ec9947d3deb1" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Директива import.html">Директива import</a></figure><figure id="91ce0b2c-72e6-4dfa-9d7e-95c87e4df191" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Файловая структура по БЭМ.html">Файловая структура по БЭМ</a></figure><h2 id="185a7d23-d95d-4bf1-9670-f6e7def464eb" class="">Шрифты и типографика</h2><figure id="025daf73-9b65-4a41-aad1-3b77ce731a21" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Подключение шрифтов.html">Подключение шрифтов</a></figure><figure id="bb628b60-d256-4bc6-a568-4e6dd965eeda" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Кернинг и сглаживание.html">Кернинг и сглаживание</a></figure><figure id="4cbc54cd-6b8b-4768-bacd-20eb00c903e6" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Относительные единицы измерения шрифтов.html">Относительные единицы измерения шрифтов</a></figure><h2 id="5229f4f5-7bb6-4749-9fa2-f881cc429cd4" class="">Медиасодержимое</h2><figure id="59e7fceb-eb26-4ecc-9d5e-a506848a700d" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/iframe.html">iframe</a></figure><figure id="2fb02432-07ee-423f-8f45-183b9c4ed144" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/video.html">video</a></figure><figure id="6006df06-1bed-4c00-984a-798e83fff1fd" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/audio.html">audio</a></figure><h2 id="8cd67ba5-bc20-48f6-82de-6cab71606ad1" class="">Формы</h2><figure id="84b06b91-b77a-4e3a-a3c8-9241df3ffa0c" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Тег form и атрибуты.html">Тег form и атрибуты</a></figure><figure id="72da6eae-c59f-4f55-b81a-334fdfda474e" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Типы полей ввода.html">Типы полей ввода</a></figure><figure id="a7f67121-e11c-4658-9b71-08a613117c97" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Атрибуты name и value.html">Атрибуты name и value</a></figure><figure id="679e805d-5227-4265-8e36-c4328faa7710" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Ярлыки.html">Ярлыки</a></figure><figure id="4e59e1c9-e4f8-4a7e-96ff-cf713fb17291" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/value и placeholder.html">value и placeholder</a></figure><figure id="386e2fff-c0ed-48e4-bb50-bb7ce561e86c" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Стилизация полей ввода.html">Стилизация полей ввода</a></figure><figure id="6ddd5719-c0dd-4f68-b6ce-4aea1ba3dcbe" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Стилизация переключателей.html">Стилизация переключателей</a></figure><figure id="64f7afe8-a280-42f3-978a-565d73f2e0b4" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Стилизация плейсхолдеров.html">Стилизация плейсхолдеров</a></figure><h2 id="0d07cf77-0e47-4f3b-ab62-ddff8e974ab2" class="">Figma</h2><figure id="51ca4930-e1e1-4cdc-b868-d61130170207" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Страницы и фреймы.html">Страницы и фреймы</a></figure><figure id="c666c4a1-0701-4c1d-bfa0-f0bf889d2424" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Группы элементов.html">Группы элементов</a></figure><figure id="91ff4f0d-f532-4320-94db-87853bbb30f9" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Работа с отступами.html">Работа с отступами</a></figure><figure id="0c1105a8-00b0-4b63-8634-448f4a0669a0" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Текст и цвет.html">Текст и цвет</a></figure><figure id="7cb805f1-6c01-4671-b375-752eec50ee15" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Экспорт элементов.html">Экспорт элементов</a></figure><figure id="83f56191-f37a-44be-af5c-1c052044755f" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Оптимизация векторных изображений.html">Оптимизация векторных изображений</a></figure><h2 id="c0e7fa5c-cc89-4a5d-83ed-f8646ca6b848" class="">Grid Layout</h2><figure id="4b74279e-5ac3-4a99-b8ed-79f200c6b1bd" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Общие понятия о контейнере и терминология.html">Общие понятия о контейнере и терминология</a></figure><figure id="9c6ff441-d2f8-44f1-8188-a1bc83d53de0" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Cтолбцы и строки в темплейте.html">Cтолбцы и строки в темплейте</a></figure><figure id="f0d9f2bf-1dd4-461b-b74c-5b8349738b54" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Отступы.html">Отступы</a></figure><figure id="29f6abb8-38fe-4e86-be14-f34f96eaf3a8" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Функция repeat.html">Функция repeat</a></figure><figure id="8191e83d-36c8-46ca-b002-ffd577e861cc" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Фракция.html">Фракция</a></figure><figure id="e377ce2b-bb21-4bf3-a255-4b18d018086a" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Расположение элементов в контейнере (зоны).html">Расположение элементов в контейнере (зоны)</a></figure><figure id="57f3200d-5522-438c-b162-f47c75e31a06" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Грид-области.html">Грид-области</a></figure><figure id="79b58329-00f6-4b7b-a44f-937876765685" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Неявные строки, столбцы и auto-flow.html">Неявные строки, столбцы и auto-flow</a></figure><figure id="b53e329f-bf0d-40a6-81fa-dd44aac4ed0a" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/minmax() и fit-content().html">minmax() и fit-content()</a></figure><figure id="c3296d3f-5eb0-4214-8d53-8a9de23baba0" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/auto-fit и auto-fill.html">auto-fit и auto-fill</a></figure><figure id="67d90e5a-cb1a-4567-9354-970abc87b8c9" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Выравнивание всех строк и колонок сразу.html">Выравнивание всех строк и колонок сразу (контейнер)</a></figure><figure id="d2e6ac50-456a-49ab-bfd2-407bc4c12ee6" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Выравнивание грид-элементов по отдельности.html">Выравнивание грид-элементов по отдельности</a></figure><figure id="9c0df4c8-da1d-491f-aa5d-9a498ab43841" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Наложение элементов в гриде.html">Наложение элементов в гриде</a></figure><h2 id="7a64f5b4-4c07-491e-8c37-fe94f862f24b" class="">Адаптивная и резиновая верстка</h2><figure id="c0037677-3237-412a-9d76-26ab159b0b35" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Относительные единицы измерения.html">Относительные единицы измерения</a></figure><figure id="c44c9db2-887b-497f-afa1-f1a35ef00dc5" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Метатеги масштабирования страницы.html">Метатеги масштабирования страницы</a></figure><figure id="e8772789-3186-4a0c-acf7-44229f77f505" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Медиазапросы.html">Медиазапросы</a></figure><figure id="22a1afaa-7071-41e7-b447-10d1684fa376" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Калькуляция.html">Калькуляция</a></figure><h2 id="4f45ad25-8ce3-4b1b-9baf-66f836f679aa" class="">Изображения и графика</h2><figure id="18f864dd-0c4c-48d7-bc3b-46f3addf81e3" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Векторные и растровые форматы изображений.html">Векторные и растровые форматы изображений</a></figure><h1 id="78d69073-067a-4234-8693-69295f9d5f0a" class="">Инфраструктура</h1><h2 id="d363bd1b-cdac-4d3e-ba93-e1699cb5f213" class=""><strong>Bash</strong></h2><figure id="f6d48ab3-405a-4b45-a9b2-edccfc0cfba8" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Как работать в bash быстро.html">Как работать в bash быстро</a></figure><figure id="4d0317d6-3fb1-457c-846d-c65f912ae583" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Горячие клавиши.html">Горячие клавиши</a></figure><figure id="35905ab2-7e8f-464a-9d11-675f22d1b626" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Bash — основные команды.html">Bash — основные команды</a></figure><figure id="469158c2-ba22-485b-8034-6e7fca13629c" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Копирование и перемещение в bash.html">Копирование и перемещение в bash</a></figure><figure id="f4461259-5ad8-419e-8053-ba5392029acf" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Просмотр и редактирование в bash.html">Просмотр и редактирование в bash</a></figure><figure id="3d566d7b-a700-4f51-8829-b2797513b1ce" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/SSH.html">SSH</a></figure><h2 id="eaad932b-4ebe-4949-bef3-fa753b38bd5c" class="">Git</h2><ul id="8ea5001f-f02c-4a7b-acc8-d314a4264d5c" class="bulleted-list"><li style="list-style-type:disc">Что такое Git и как он работает<figure id="e5f03255-a224-4d0e-81ee-86da64f613f2" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Git для самых маленьких Введение.html">Git для самых маленьких. Введение</a></figure><figure id="61d2e93a-3ffe-4e17-9f78-20b8e5cba974" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Установка Git.html">Установка Git</a></figure></li></ul><ul id="ad09dbfb-3562-4023-a770-6536582640cb" class="bulleted-list"><li style="list-style-type:disc">Базовые команды init, add, commit, remote, push, pull<figure id="c81f1cd2-4b2f-49bd-ad44-734212197e84" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Настройка Git.html">Настройка Git</a></figure><figure id="8cbb1bd1-7e96-4efb-8672-f65290067159" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/git init, git add.html">git init, git add</a></figure><figure id="31f97f6a-2934-4fa4-9765-ae5a7bdd4072" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/git commit, git log.html">git commit, git log</a></figure></li></ul><ul id="426d9908-a159-449c-a334-7773acf53c3e" class="bulleted-list"><li style="list-style-type:disc">Про логи и хеши в git</li></ul><figure id="b891cfeb-7577-49c6-bac8-31163b735508" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Логи и хеши в git.html">Логи и хеши в git</a></figure><ul id="d2a059d1-e3b1-4918-b67d-81940ee34d0f" class="bulleted-list"><li style="list-style-type:disc">Git diff<figure id="c5a391d1-6bda-488b-91f3-00ffce6b9ded" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Git diff.html">Git diff</a></figure></li></ul><ul id="b8603135-11fc-4c3d-8682-7c49d95a4347" class="bulleted-list"><li style="list-style-type:disc">Что делать если закомители что-то не то<figure id="d5b3eeea-0a5f-40d5-b81e-dfd86817970b" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Что делать если закомители что-то не то.html">Что делать если закомители что-то не то</a></figure></li></ul><ul id="5b5388df-28bf-4e12-ab27-80294f92ed0b" class="bulleted-list"><li style="list-style-type:disc">Работа с ветками<figure id="fec4a220-4060-446b-bc10-478dfa0f1e18" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Работа с ветками.html">Работа с ветками</a></figure><figure id="b21dcba2-eb80-4cd7-a2c3-850cea5809b7" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Деплой.html">Деплой</a></figure></li></ul><ul id="cf93da12-347c-42da-a0de-4a9f4d90ac95" class="bulleted-list"><li style="list-style-type:disc">Конфликты в Git<figure id="b3368a00-cb47-494f-97e4-d2d811d99476" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Конфликты в Git.html">Конфликты в Git</a></figure></li></ul><ul id="a08cab21-7237-4838-88cb-85daa02ec93d" class="bulleted-list"><li style="list-style-type:disc">Отмена слияния<figure id="6e510a3b-5fca-4d4a-8620-f9f52de8b970" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Отмена слияния.html">Отмена слияния</a></figure></li></ul><ul id="24de6862-1d15-417e-b256-8bcee63b0f97" class="bulleted-list"><li style="list-style-type:disc">Идеальный коммит<figure id="250bbf9e-cfce-4ad9-b7e8-7ecb850f5062" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Идеальный коммит.html">Идеальный коммит</a></figure></li></ul><ul id="08b77657-7ddd-434d-8a9b-49abb128b010" class="bulleted-list"><li style="list-style-type:disc">Хоткей про гит<figure id="7831deac-9aef-4e60-8cfb-cd887c34be17" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Шпаргалка Git.html">Шпаргалка: Git</a></figure><figure id="919ec00f-231b-423f-9b02-63f54dc37730" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Шпаргалка Отмена коммитов и сохранение незакоммиче.html">Шпаргалка. Отмена коммитов и сохранение незакоммиченных изменений</a></figure></li></ul><p id="9b199f2a-53c8-4668-9f3e-729d4eeb843b" class="">
+</p><h2 id="32f56327-c8cd-49ba-9859-e750b9da110b" class="">Регулярные выражения</h2><figure id="ac4390ce-5dcb-4a8d-a4b9-0ef178d11935" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Регулярные выражения История.html">Регулярные выражения. История</a></figure><figure id="a18e74ad-fa21-45c6-9589-0e346801c8a0" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Регулярные выражения в JS.html">Регулярные выражения в JS</a></figure><figure id="109c360a-a858-492f-8a40-36f8db34e06c" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Методы и флаги.html">Методы и флаги</a></figure><figure id="01c2b83d-5d35-4d03-ba1b-325a94b73a9e" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Спецсимволы и их обратные классы.html">Спецсимволы и их обратные классы</a></figure><figure id="391c9bb5-cddc-4023-af96-5ba0df2dcc00" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Наборы и диапазоны.html">Наборы и диапазоны</a></figure><figure id="562e161f-073c-47fd-9567-1e4f1a50b828" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Квантификаторы.html">Квантификаторы</a></figure><figure id="ea334d9b-63cf-4ca2-b02b-47dbcc7d1fff" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Начало и конец строки Флаг m.html">Начало и конец строки. Флаг m</a></figure><figure id="dd2fe069-7168-4e99-afb4-6cf3a50ef915" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Методы для регулярных выражений.html">Методы для регулярных выражений</a></figure><figure id="73786969-ee48-4593-a4da-7d1a27c10f2d" class="link-to-page"><a href="./Конспекты Вёрстка, БЭМ, Гит и Figma/Регулярные выражения Заключение.html">Регулярные выражения. Заключение</a></figure></div></article></body></html>

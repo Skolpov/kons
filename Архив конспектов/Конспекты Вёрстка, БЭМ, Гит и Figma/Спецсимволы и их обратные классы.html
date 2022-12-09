@@ -1,0 +1,777 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Спецсимволы и их обратные классы</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="01c2b83d-5d35-4d03-ba1b-325a94b73a9e" class="page sans"><header><h1 class="page-title">Спецсимволы и их обратные классы</h1></header><div class="page-body"><p id="c50b6569-da5a-4c56-8bea-e5e694538997" class="">В прошлом уроке мы говорили о флагах — одной из трёх сущностей для работы с регулярными выражениями. Теперь переходим к спецсимволам. Расскажем об основных, а ещё разберём, что такое обратные классы спецсимволов. Поехали.</p><p id="3a7dc878-8d2d-44e7-9962-02dfd4f07697" class="">Представьте, что к нашей статье о телефонах появились новые комментарии. Теперь из всех комментаторов мы хотим отобрать пользователей тех моделей, у которых есть s на конце: Xs, 5s, 6s. Напишем регулярку:</p><pre id="fe54663b-88e5-43c8-a227-37135c05ca1c" class="code"><code>const regex = /iPhone .s/gi; // Поставим точку вместо номера модели
+</code></pre><p id="14ffa5b1-d72b-4d25-b91c-44ae4103106a" class="">Нам приходит на помощь точка. В шаблоне регулярного выражения она заменяет любой символ. Неважно, какая цифра стоит перед s, поэтому на её место в шаблоне мы ставим точку.</p><p id="be3d23a3-a77a-4d95-a445-4bd75f1a929b" class="">В шаблоне может быть сколько угодно точек.</p><pre id="3eb3c193-dbc9-49c3-912b-af3c4bfbe405" class="code"><code>const str = `
+  Не помню, как именно его зовут:
+  то ли Сортини, то ли Сордини.
+  Быть может, и Сардини, через «а».
+`;
+
+const regex = /С.р.ини/g; // Точки в регулярном выражении заменяют любой символ.
+
+str.match(regex); // [ &quot;Сортини&quot;, &quot;Сордини&quot;, &quot;Сардини&quot; ]
+</code></pre><p id="6a4caf82-8ada-4d4d-aaac-b1ef7d837ac5" class="">Но у точки есть одна слабость: она не найдёт перенос строки.</p><pre id="f354b362-e3d0-4a89-a5dd-86fb2323b357" class="code"><code>const str = `Внезапный
+перенос`;
+
+const regex = /Внезапный.перенос/;
+
+str.match(regex); // null
+</code></pre><p id="7d1cc66f-243c-4555-b47b-37670fa9ba52" class="">Но не беда — эту проблему можно решить спецсимволами.</p><h2 id="e83c269f-a4eb-44bc-b390-6799bc47e809" class="">Спецсимволы</h2><p id="da41b38e-0a37-47ce-b21b-cdfb056a6d19" class="">Спецсимволы — это такие конструкции из символов в регулярных выражениях, которые позволяют искать не один символ, а сразу группу.</p><p id="89c570e0-ad0f-42e5-b35c-747337d0a790" class="">Есть одиночные спецсимволы — точка, например. Но многие спецсимволы — это буквы. И чтобы движок понимал, что это не простая буква, а особый символ, в регулярном выражении такой символ нужно экранировать — то есть поставить перед ним обратный слеш <code>\\w</code>.</p><p id="1ea7cbcf-8e8a-43cf-80b9-a0957d1f3a35" class="">Если экранировать спецсимвол, который должен идти без слеша, движок будет его воспринимать как обычный символ. Например, если поставить обратный слеш перед точкой, движок будет искать только точки, а не любые символы:</p><pre id="54301441-da92-45e2-ab62-9885dcefbb1a" class="code"><code>const str1 = &#x27;yandex.ru/maps/&#x27;;
+const regex1 = /\\.ru/; // экранировали точку
+const regex2 = /\\/maps/; // экранировали слеш перед словом maps
+
+str1.match(regex1); // [ &quot;.ru&quot; ]
+str1.match(regex2); // [ &quot;/maps&quot; ]
+
+// Чтобы найти обратный слеш, его тоже нужно экранировать
+
+const str2 = &#x27;C:\\\\&#x27;;
+const regex3 = /\\\\/; // экранировали слеш
+
+str2.match(regex3); // [ &quot;\\&quot; ]
+</code></pre><h3 id="12978e38-e9f2-44d5-946e-85c1d45d4083" class="">Спецсимвол <code>\\w</code></h3><p id="539d295f-bb15-4fd4-9d37-3013beb1e1b3" class="">Этот спецсимвол говорит движку искать любую цифру, латинскую букву или нижнее подчёркивание:</p><pre id="12de7fa3-5b5d-4822-b3b7-30838b0104f8" class="code"><code>const str = &#x27;Простите, я отправил старую версию файла диплом_финал_2_копия_3.docx. Не смотрите не неё. Высылаю вам актуальную диплом_финал_2_копия_4.docx&#x27;;
+
+const regex = /диплом\\wфинал\\w\\w\\wкопия\\w\\w.docx/g;
+
+str.match(regex);
+
+// [ &quot;диплом_финал_2_копия_3.docx&quot;, &quot;диплом_финал_2_копия_4.docx&quot; ]
+</code></pre><p id="366833b6-e502-4026-8ad5-48e017d471ae" class="">У спецсимвола <code>\\w</code> есть обратный класс: <code>\\W</code>. Если <code>\\w</code> ищет цифры, латинские буквы и нижние подчёркивания, то <code>\\W</code> ищет всё что угодно: знаки вопроса, пробелы, слеши, кириллические символы, — но только не цифры, буквы базовой латиницы и нижние подчёркивания.</p><p id="07500eb8-1c8f-4044-97f8-14f5e80c49b1" class="">Итак, обратный класс — это всё равно, что сказать «ищи НЕ такой-то спецсимвол».</p><pre id="ebc3e812-f4e5-4d58-8a23-ad15743a6d44" class="code"><code>const str = `
+  Даты основания некоторых IT-компаний:
+  Yandex: 23.09.1997
+  Apple: 01/04/1976
+  IBM: 16-06-1911
+`;
+
+const regex = /\\w\\w\\W\\w\\w\\W\\w\\w\\w\\w/g;
+
+/* цифры в дате мы обозначили строчной \\w, а разделители —
+заглавной \\W. Разделитель это НЕ цифра, НЕ латинская буква
+и НЕ нижнее подчёркивание. */
+
+str.match(regex); // [ &quot;23.09.1997&quot;, &quot;01/04/1976&quot;, &quot;16-06-1911&quot; ]
+</code></pre><h3 id="b253188c-d777-4b12-9a88-0a532fb86d56" class="">Спецсимвол <code>\\d</code></h3><p id="7eafff69-4344-4bd8-a521-1ed498781619" class="">Спецсимвол {{<code>\\d</code>}}[web_translate_js_d] совпадает с любой цифрой:</p><pre id="a33b936d-8fc1-481f-9eb6-e3ab3f83ecc0" class="code"><code>const str = &#x27;Владивосток 2000&#x27;;
+const regex = /\\d\\d\\d\\d/g;
+
+str.match(regex); // [ &quot;2000&quot; ]
+</code></pre><p id="f7543e89-1373-406c-bd66-85d5e530bc62" class="">Обратный класс этого символа совпадает со всеми не-цифрами: буквами, пробелами, спецсимволами.</p><pre id="beec5789-625a-4ed1-a6b2-666f3886a213" class="code"><code>// найдёт все символы, кроме цифр
+
+const someSimbol = /\\D/g;
+const string = &#x27;I was born in 1987&#x27;;
+
+string.match(someSimbol);
+
+// [&quot;I&quot;, &quot; &quot;, &quot;w&quot;, &quot;a&quot;, &quot;s&quot;, &quot; &quot;, &quot;b&quot;, &quot;o&quot;, &quot;r&quot;, &quot;n&quot;, &quot; &quot;, &quot;i&quot;, &quot;n&quot;, &quot; &quot;]
+</code></pre><h3 id="1e5ee157-28fc-4bec-9178-c864a4aada5a" class="">Спецсимвол <code>\\s</code></h3><p id="3498bb9a-6ed5-42a1-b3c7-ccb8c8569120" class="">Спецсимвол <code>\\s</code> ищет «пустоты» в тексте: пробелы (в том числе неразрывные), переносы строк и табуляции.</p><pre id="92277451-4d10-4eb2-a146-d7ea0edbc2dd" class="code"><code>const str = &#x27;Сдают паспорта,\\n&#x27; +
+					&#x27;              и я&#x27; +
+					&#x27;                сдаю&#x27;;
+
+const regex = /\\s/g;
+
+str.match(regex).length; // 32 — Маяковский любил пробелы
+</code></pre><p id="25effcc6-7a5e-4027-8ac6-f3266f40bd20" class="">Его обратный класс <code>\\S</code> ищет любые символы, только не пробелы, табуляции и переносы:</p><pre id="861576db-d684-4915-86ed-ab944633b79f" class="code"><code>const str = &#x27;Сдают паспорта,\\n&#x27; +
+					&#x27;              и я&#x27; +
+					&#x27;                сдаю&#x27;;
+
+const regex = /\\S/g;
+
+str.match(regex).length; // 22
+
+// букв с запятыми получилось на десяток меньше
+</code></pre><h3 id="ad3d1e83-bf3a-4d68-a49c-8943b2554b47" class="">Ещё немного о методе <code>String.match</code></h3><p id="2540f16f-b0b4-42ae-af66-21013c5203d6" class="">Мы говорили, что он возвращает массив найденных значений. И у этого массива есть важная особенность.</p><p id="f2d87e11-3ac2-4c6a-a8cb-b185f06d274b" class="">Если передать методу <code>String.match</code> регулярное выражение без флага <code>g</code>, полученному массиву будут определены дополнительные свойства:</p><pre id="cf921856-a095-46e7-b46b-652784c6ef6e" class="code"><code>const str = &#x27;тро-ло-ло&#x27;;
+const result = str.match(/ло/);
+
+result[0]; // &quot;ло&quot;
+result.index; // 4
+result.input; // &quot;тро-ло-ло&quot;
+</code></pre><p id="3503b18f-5bdb-4e10-944a-71a901e0170e" class="">Если искать по регулярному выражению с флагом <code>g</code>, дополнительных свойств в итоговом массиве не будет. Мы получим просто массив, состоящий из строк:</p><pre id="358101fa-ff6a-49c1-8c90-9794cba85cc1" class="code"><code>const str = &#x27;тро-ло-ло&#x27;;
+const result = str.match(/ло/g);
+
+result; // [&quot;ло&quot;, &quot;ло&quot;]
+</code></pre><h3 id="e4def39c-35ea-4114-86e5-0f1952361af5" class="">Спецсимвол <code>\\b</code></h3><p id="a71dd675-b82f-4e48-94ea-172e0a42c199" class="">Возвращаемся к спецсимволам. <code>\\b</code> означает границу слова. Движок считает границей слова:</p><ul id="48e7e569-b20e-4f9c-8e2d-f21b90806c48" class="bulleted-list"><li style="list-style-type:disc">начало строки;</li></ul><ul id="38399289-8c95-4b1c-81e4-85cd821b4a59" class="bulleted-list"><li style="list-style-type:disc">конец строки;</li></ul><ul id="791f02a8-132d-477b-b75c-7f3006bdc020" class="bulleted-list"><li style="list-style-type:disc">любой символ, кроме цифр, латинских букв и нижнего подчёркивания.</li></ul><p id="00d3ff74-e05e-43bf-90cb-16468fe90e78" class="">Так мы можем находить символы в начале и в конце строки:</p><pre id="37671fb3-17b9-4f76-97f5-9df688898d17" class="code"><code>const string = &#x27;sadness&#x27;;
+
+string.match(/\\bs/).index; // 0 — это первая буква s
+// спецсимвол указал границу левее неё, т. е. начало
+
+string.match(/s\\b/).index; // 6 - а это последняя
+// спецсимвол указал границу правее неё, т. е. конец
+</code></pre><p id="2610cdc0-92d3-4d55-b621-7962a85724a4" class="">Обратите внимание: любая нелатинская буква прочитывается движком как отдельное слово. Поэтому с кириллицей спецсимвол <code>\\b</code> не работает.</p><pre id="1e646363-cf07-45c6-8d4f-4f5392695596" class="code"><code>/* Попробуем найти в номере автомобиля код региона.
+Поскольку он в конце строки и состоит из цифр,
+составим такое регулярное выражение: */
+
+&#x27;А333НР99&#x27;.match(/\\d\\d\\b/);
+
+// [&quot;33&quot;, index: 2, input: &quot;А333НР99&quot;, groups: undefined]
+
+/* Мы хотели получить регион, но получили цифры
+в середине номера, потому что движок счёл кириллический
+символ «Н» за конец слова «333». */
+</code></pre><p id="063ee4d4-29b7-4826-9449-2ebc9882e7c8" class="">Но на самом деле в автомобильных номерах допускаются только буквы, подобные которым есть в латинице. Если записать номер латинскими буквами, всё получается:</p><pre id="5938e968-cde3-4979-bf4f-f7c63df74f3f" class="code"><code>&#x27;A333HP99&#x27;.match(/\\d\\d\\b/);
+//[&quot;99&quot;, index: 6, input: &quot;A333HP99&quot;, groups: undefined]
+</code></pre><p id="1503de22-d5db-4a4e-a03a-1d833e1b086d" class="">Также есть обратный класс <code>\\B</code> — он ищет не конец слова: цифру, латинскую букву или нижнее подчёркивание. Таким образом, <code>\\B</code> делает то же самое, что <code>\\w</code>.</p><p id="6f95ac23-4658-4dc3-ab75-b7ef69b89bc9" class="">Полный перечень спецсимволов <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/RegExp">можно посмотреть на MDN</a>.</p></div></article></body></html>

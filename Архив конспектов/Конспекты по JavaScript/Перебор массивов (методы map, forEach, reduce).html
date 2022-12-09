@@ -1,0 +1,1050 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Перебор массивов (методы map, forEach, reduce)</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="bebd52a4-1f79-4932-ae0a-8f127932d7d2" class="page sans"><header><div class="page-header-icon undefined"><span class="icon">👓</span></div><h1 class="page-title">Перебор массивов (методы map, forEach, reduce)</h1></header><div class="page-body"><h2 id="ba8ef8ff-c422-48c5-b613-f6913ddfb951" class="">Обход массива: метод <code><strong>forEach</strong></code></h2><p id="efcc87a5-4d3e-4a11-9b68-52488ce57d24" class="">Метод <code>forEach</code> нужен для обхода массива. В качестве аргумента <code>forEach</code> принимает функцию. Она будет вызвана на каждом элементе массива поочерёдно:</p><pre id="e6497f49-9ed4-425d-bad8-11b29cf76957" class="code code-wrap"><code>const how = [&#x27;быстрее&#x27;, &#x27;выше&#x27;, &#x27;сильнее&#x27;];
+
+how.forEach(function (item) {
+	console.log(item + &#x27;.&#x27;);
+});
+
+/*
+  быстрее.
+  выше.
+  сильнее.
+*/</code></pre><p id="21287638-0dd8-48b9-9fed-1e9a90452d3b" class="">Методу <code>forEach</code> мы передали функцию. <code>forEach</code> вызовет её столько раз, сколько элементов в массиве <code>how</code>. При каждом вызове <code>forEach</code> передаёт функции текущий элемент массива в качестве аргумента. Поэтому в передаваемой нами функции <code>item</code> — это текущий элемент массива. Параметр <code>item</code> можно назвать и по-другому. Но лучше называть так, чтобы название отражало содержание.</p><p id="a6385cd3-de01-4f84-bcf5-c0dd139500e3" class="">Метод  <code>forEach</code> удобно использовать для работы с массивоподобными объектами. Например, с <code>NodeList</code>. Частая задача — пройтись по нескольким DOM элементам, вызвав для каждого из них функцию:</p><p id="26b9fd3f-46e2-4773-884a-94d198d8590c" class="">
+</p><pre id="6b102515-9321-49b7-8d30-7f43e3cd1b91" class="code"><code>const elements = document.querySelectorAll(&#x27;.text&#x27;);
+
+elements.forEach((item) =&gt; {
+   item.classList.add(&#x27;text_is-active&#x27;);
+});</code></pre><figure id="5b6fb106-2286-4fda-97fe-4c65050df59d"><div class="source"><a href="./Перебор массивов (методы map, forEach, reduce)/somegif.mov">https://s3-us-west-2.amazonaws.com/secure.notion-static.com/58d4fe2b-df6e-45bf-878e-bd05abef44a7/somegif.mov</a></div></figure><p id="809e4529-546a-4d8c-833d-a8155eee0307" class="">Метод <code>forEach</code> — более удобная для работы с массивом версия цикла <code>for</code>:</p><pre id="87205d92-301c-4eb5-b2c6-1302035566e8" class="code code-wrap"><code>const how = [&#x27;быстрее&#x27;, &#x27;выше&#x27;, &#x27;сильнее&#x27;];
+
+for (let i = 0; i &lt; how.length; i += 1) {
+	console.log(how[i] + &#x27;.&#x27;);
+}
+
+// Этот цикл работает аналогично методу forEach выше</code></pre><p id="c9d056e9-384e-48f8-9eca-de87a8e960eb" class="">Но с <code>forEach</code> нельзя использовать директивы <code>continue</code> и <code>break</code>. Поэтому метод не используют, когда нужно прервать выполнение цикла каким-то условием.</p><h2 id="6dd4f5fb-6b8d-45bc-b5e8-ac5268a0d8d8" class="">Создание одного массива из другого: метод <code><strong>map</strong></code></h2><p id="febf44aa-780c-4fd9-8de1-d69a9e1f0b78" class="">Метод <code>map</code> создаёт новый массив на основе существующего. В качестве аргумента <code>map</code>, как и <code>forEach</code>, принимает функцию. Эта функция должна вернуть значение, которое станет элементом нового массива.</p><p id="eed804c5-ae84-4a2a-887d-2a9c77196ab4" class="">Проще понять на примере:</p><pre id="cd0cce18-4121-4c6e-8dfa-073cb498324e" class="code code-wrap"><code>const firstArr = [0, 1, 2, 3, 4];
+
+const secondArr = firstArr.map(function (item) { // Берём каждый элемент массива
+  return item * item; // Возводим каждый элемент в квадрат
+}); 
+
+console.log(secondArr); // [0, 1, 4, 9, 16]</code></pre><p id="248868ac-e3a9-45e1-8305-632671c82ce2" class="">Результат работы функции — то, что указано после ключевого слова <code>return</code>. Если не прописать <code>return</code>, функция сработает, но вернёт <code>undefined</code>:</p><pre id="b122ddc5-6b89-4bf1-9e94-a46560012337" class="code code-wrap"><code>const firstArr = [0, 1, 2, 3, 4];
+
+const secondArr = firstArr.map(function (elem) {
+	console.log(&#x27;Это сообщение будет выведено пять раз&#x27;);
+});
+
+console.log(secondArr); // [undefined, undefined, undefined, undefined, undefined].</code></pre><h2 id="3b7d2fb5-8748-4b07-bab4-6ec8859c0722" class="">Отличия между <code><strong>forEach</strong></code> и<strong> </strong><code><strong>map</strong></code></h2><p id="07f23edd-0a3c-4bb9-9e03-9e0dfde17020" class="">У методов схожая логика: они перебирают массив и выполняют для каждого элемента свой код.</p><p id="a4a82773-e100-41f1-8ad7-7eecdae39e29" class="">Метод <code>forEach</code> нужен, когда мы хотим просто пройтись по массиву и для каждого элемента что-то сделать.</p><p id="d46d9dce-06f6-4f88-8a41-5154767c3d9d" class="">Например, вывести твиты в консоль:</p><pre id="02dc7ef8-44d6-4ae9-bd2d-8632617f65f0" class="code code-wrap"><code>const tweets = [
+  &#x27;Какой-то странный тред&#x27;,
+  &#x27;Твит, адресованный Илону Маску&#x27;,
+  &#x27;Ответ на инфоповод&#x27;
+];
+
+tweets.forEach(function (tweet) {
+	console.log(tweet);
+});
+
+/*
+  &quot;Какой-то странный тред&quot;
+  &quot;Твит, адресованный Илону Маску&quot;
+  &quot;Ответ на инфоповод&quot;
+*/</code></pre><p id="d29445c2-b278-4db4-8129-93b5021542a8" class="">Метод <code>map</code> нужен, когда мы хотим создать новый массив из старого и преобразовать его элементы.</p><p id="5d6c9b5a-47a0-41d4-8d38-afdfa4b67e07" class="">Всё те же твиты:</p><pre id="ad055f6a-51c8-44e9-b49a-a7bea6822cce" class="code code-wrap"><code>const tweets = [
+	{
+    user: &#x27;@elonmusk&#x27;,
+    date: &#x27;16 марта 2019 года&#x27;,
+    text: &quot;I&#x27;m from South Africa.&quot;
+  },
+	{
+    user: &#x27;@realDonaldTrump&#x27;,
+     date: &#x27;24 марта 2019 года&#x27;,
+    text: &#x27;Good Morning, Have A Great Day!&#x27;
+  },
+	{
+    user: &#x27;@BillGates&#x27;,
+    date: &#x27;24 марта 2019 года&#x27;,
+    text: &#x27;I never ate apple in my life&#x27;
+  }
+];
+
+const tweetsTextOnly = tweets.map(function (el) {
+	return el.text;
+});
+
+tweetsTextOnly.forEach(function (el) {
+	console.log(el);
+});
+
+/*
+  I&#x27;m from South Africa.
+  Good Morning, Have A Great Day!
+  I never ate apple in my life
+*/</code></pre><h1 id="1906d1fa-4b36-4020-b175-8880d7245d83" class="">Функции обратного вызова и их аргументы</h1><p id="a8f19d12-2f52-4023-92e8-de01cf5766c1" class="">Мы можем передать функцию как аргумент другой функции, чтобы та её вызывала. Вы уже проделывали это с методом <code>addEventListener</code>:</p><pre id="5931cefd-54ea-4a21-9424-eef0e04cfb77" class="code code-wrap"><code>const element = document.getElementById(&#x27;my-element&#x27;);
+
+// второй аргумент метода — колбэк
+element.addEventListener(&#x27;click&#x27;, function () {
+  console.log(&#x27;Мы кликнули по элементу&#x27;);
+});</code></pre><p id="c3ea8032-c64c-4ca9-85ce-49df767fe9c6" class="">Метод <code>addEventListener</code> получил вторым аргументом функцию. Если функцию передают как аргумент, её называют «колбэком».</p><p id="3dd9c5be-956b-4554-9012-067f12118d4c" class="">Методы <code>forEach</code> и <code>map</code> работают по схожему принципу: перебирают все элементы массива и для каждого вызывают колбэк.</p><p id="afd28944-fdb7-4f73-87e4-f286d4f068ae" class="">Колбэк, который мы передаём методам <code>forEach</code> и <code>map</code>, при каждом исполнении получает три аргумента. Разберём, что это за аргументы и зачем они нужны.</p><h2 id="e6fe5603-f3cb-4623-a384-df3e7f844ceb" class="">Аргумент 1. Текущий элемент массива</h2><p id="710eec3f-176a-4517-9f4d-f375bcb7e277" class="">Текущий элемент массива используется часто, поэтому и стоит на первом месте. Если другие аргументы не нужны, достаточно прописать его:</p><pre id="a9e2496b-fc71-4432-9d09-6d160cc60102" class="code code-wrap"><code>const positions = [
+	&#x27;Великий Умывальник&#x27;,
+	&#x27;Знаменитый Мойдодыр&#x27;,
+	&#x27;Умывальников Начальник&#x27;,
+	&#x27;Мочалок Командир&#x27;
+];
+
+/* Переданный колбэк будет вызван 4 раза.
+По очереди с каждым элементом массива positions */
+
+positions.forEach(function (item) {
+  console.log(item);
+});
+
+/*
+ 	Великий Умывальник
+	Знаменитый Мойдодыр
+	Умывальников Начальник
+	Мочалок Командир
+*/</code></pre><h2 id="d9fab071-dc6a-4712-a4ac-b691c1b2dce1" class="">Аргумент 2. Индекс текущего элемента</h2><p id="7b309a5e-3708-4f80-afc3-2c8c7ad27297" class="">Когда мы говорили о цикле <code>for</code>, там был счётчик цикла. Второй аргумент колбэка — фактически такой счётчик. Его можно использовать, например, для расстановки позиций в списке:</p><pre id="b833b2e8-d2dc-49b8-b912-5de93df49e65" class="code"><code>const counter = [
+  &#x27;Царь&#x27;,
+  &#x27;Царевич&#x27;,
+  &#x27;Король&#x27;,
+  &#x27;Королевич&#x27;,
+  &#x27;Сапожник&#x27;,
+  &#x27;Портной&#x27;
+];
+
+const counterIndexed = counter.map(function (person, index) {
+	return `${index + 1}. ${person}`;
+});
+
+console.log(counterIndexed);
+
+/*
+[
+  &quot;1. Царь&quot;,
+  &quot;2. Царевич&quot;,
+  &quot;3. Король&quot;,
+  &quot;4. Королевич&quot;,
+  &quot;5. Сапожник&quot;,
+  &quot;6. Портной&quot;
+]
+*/</code></pre><p id="7a22d638-e7bf-4365-81aa-a8109f1ef0a6" class="">Обратите внимание: неважно, какое имя параметра выбрано в объявлении функции — person<em>, </em>item<em> </em>или любое другое. Первый параметр считывается как текущий элемент, второй — как его индекс.</p><h2 id="d3d43866-84eb-4e73-84a2-3892e60da426" class="">Аргумент 3. Исходный массив</h2><p id="3761a86c-a703-4414-95e5-e68df4443808" class="">Исходный массив как аргумент пригодится, когда нужно обратиться к свойствам этого исходного массива:</p><pre id="30db66f9-ea71-48bd-810e-72c20aa239e4" class="code code-wrap"><code>const ivans = [
+	&#x27;Иван I Калита&#x27;,
+	&#x27;Иван II  Красный&#x27;,
+	&#x27;Иван III Великий&#x27;,
+	&#x27;Иван IV Грозный&#x27;,
+	&#x27;Иван V&#x27;,
+	&#x27;Иван VI&#x27;
+];
+
+const ivansIndexed = ivans.map(function (item, index, array) {
+	const currentIndex = `(${(index + 1)} из ${array.length})`;
+	return `${item} ${currentIndex}`;
+});
+
+console.log(ivansIndexed);
+
+/*
+[
+  &quot;Иван I Калита (1 из 6)&quot;,
+  &quot;Иван II  Красный (2 из 6)&quot;,
+  &quot;Иван III Великий (3 из 6)&quot;,
+  &quot;Иван IV Грозный (4 из 6)&quot;,
+  &quot;Иван V (5 из 6)&quot;,
+  &quot;Иван VI (6 из 6)&quot;
+]
+*/</code></pre><h1 id="b8f33a08-07f6-4864-b253-0f5c1dd1deed" class="">Сведение массива. Метод <code>reduce</code></h1><p id="8382ab70-5eb5-4d93-ae25-f60d537449b2" class="">Метод <code>reduce</code> перебирает элементы массива и сводит его к одному значению.</p><p id="d62c5c0b-9ac8-4f68-be28-71cb66905f32" class="">Проще всего показать это на примере сложения. Есть массив чисел, нужно посчитать сумму всех его элементов.</p><p id="c43b2797-8e93-47b2-bbd8-436ecdf8a4b1" class="">Так задачу решают циклом <code>for</code>:</p><pre id="c0f41c06-5935-48a4-ac50-ecc9154040f8" class="code"><code>const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+let sum = 0; // создадим переменную, где будем хранить сумму
+
+// проходим по всем элементам массива 
+// прибавляем каждый из них к переменной-аккумулятору sum 
+
+for (let i = 0; i &lt; arr.length; i += 1) {
+  sum += arr[i];
+}
+
+console.log(sum);</code></pre><p id="46d85f83-d907-4f76-b361-6ce9f906fc34" class="">А можно её решить методом <code>reduce</code>.</p><p id="2df0cadd-a347-4058-8e49-f3a50910dae0" class="">Он работает как <code>forEach</code>: перебирает элементы массива и выполняет для каждого свой код. У колбэка <code>reduce</code> те же аргументы, но добавляется один новый. Он ставится на первое место, а «старые» идут за ним: текущий элемент, индекс и исходный массив.</p><h2 id="cfc48ff6-99d4-468c-af13-3338ea303210" class="">Новый аргумент. Промежуточное значение</h2><p id="8a98525d-263c-4d7f-a307-696f02016690" class="">Промежуточное значение — новый первый аргумент и главная особенность <code>reduce</code>. На каждой итерации этот аргумент равен тому, что в прошлый раз вернул колбэк. Поэтому <code>reduce</code> часто называют &quot;<code>forEach</code> с памятью&quot;.</p><pre id="c6ea134a-2b60-4da6-b945-66dcd0926530" class="code"><code>const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+const sum = arr.reduce(function (previousValue, item) {
+  return previousValue + item;
+});
+
+console.log(sum);</code></pre><p id="8b536794-a9da-4eb3-9eb8-a2aa5a7908c3" class="">Запись <code>return previousValue + item</code> означает: «прибавь текущий элемент массива к тому, что получилось на предыдущей итерации».
+Выведем в консоль все промежуточные значения:</p><pre id="445f9340-c067-4b30-aaab-3345bbb19578" class="code code-wrap"><code>const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+const sum = arr.reduce(function (previousValue, item) {
+  // для наглядности выведем аргументы в консоль
+  console.log(`previousValue: ${previousValue}, item: ${item}`);
+  return previousValue + item;
+});
+
+console.log(`sum: ${sum}`);
+
+/*
+ previousValue: 1, item: 2
+ previousValue: 3, item: 3
+ previousValue: 6, item: 4
+ previousValue: 10, item: 5
+ previousValue: 15, item: 6
+ previousValue: 21, item: 7
+ previousValue: 28, item: 8
+ previousValue: 36, item: 9
+ sum: 45
+*/</code></pre><p id="afa1d652-f603-43bc-92f4-fc05f97c6d11" class="">На первой итерации значение <code>previousValue</code> — первый элемент массива, <code>item</code> — второй. На второй итерации <code>previousValue</code> — сумма первых двух элементов, <code>item</code> — третий элемент. После последнего <code>item</code> в <code>sum</code> будет итоговая сумма всех элементов массива.</p><figure id="1e2b1a16-2998-4011-993f-641c8e8cc9d4" class="image"><a href="./Перебор массивов (методы map, forEach, reduce)/JS_9_copy.gif"><img style="width:710px" src="./Перебор массивов (методы map, forEach, reduce)/JS_9_copy.gif"/></a><figcaption>Иллюстрация работы reduce</figcaption></figure><p id="346947f1-8d2e-4bc3-b637-ac4287c4959e" class="">Со сложением разобрались. Но непонятно, зачем нужен <code>reduce</code>, когда и <code>for</code> работает прекрасно. В бонусном уроке вы узнаете, почему разработчики предпочитают простым циклам методы <code>map</code> и <code>reduce</code>.</p><h2 id="580ba2db-c562-4aa0-921d-22b038a1d81a" class="">Начальное значение</h2><p id="b0639f74-9087-4707-b68e-88d6549c6445" class="">На первой итерации промежуточное значение — первый элемент массива. Но это значение можно задать самостоятельно. Тогда действия с массивом начнутся с него.</p><p id="d85a834a-7784-44a8-a059-9f543e33b919" class="">Первый аргумент метода <code>reduce</code> — колбэк. А вот вторым нужно задать промежуточное значение <code>previousValue</code> при первой итерации.</p><p id="18b57a09-11a4-487c-a048-6be0b5c2be02" class="">Звучит сложно, разберём на примере.</p><p id="654575e0-c0e0-400f-908c-046c89b6bf7f" class="">Есть массив `winsAndLoses`. Он хранит историю выигрышей и проигрышей одного игрока в казино. Мы хотим узнать, сколько денег у него осталось после игры, если изначально было 1000.</p><p id="9df875c9-f0a0-420d-ab1b-937e27f48042" class="">Передадим <code>reduce</code> первым аргументом колбэк, а вторым 1000:</p><pre id="c2de546e-b6e3-4562-ae1a-5bd3f9891e57" class="code code-wrap"><code>/* Создадим массив, хранящий в себе историю выигрышей
+и проигрышей одного игрока в казино. */
+const winsAndLoses = [190, 117, -381, -394, -36, 137, -473, 372, -383];
+
+/* Посчитаем, какая сумма денег останется у этого игрока
+к концу вечера, если вначале у него было с собой 1000. */
+const total = winsAndLoses.reduce(function (previousValue, item) {
+	return previousValue + item;
+}, 1000); // Начальное значение передаём методу reduce как второй аргумент.
+
+console.log(total); // 149. Чего ещё ожидать от азартных игр?</code></pre><p id="bc6c581a-1262-4054-8b97-a470b131f9e9" class="">Задачу можно решить иначе. Не передавать методу <code>reduce</code> второй аргумент, а просто прибавить <code>1000</code> к переменной <code>total</code>:</p><pre id="11f21d6f-3430-4c33-aa4d-39620bc70cd2" class="code code-wrap"><code>const total = 1000 + winsAndLoses.reduce(function (previousValue, item) {
+  return previousValue + item;
+});
+
+console.log(total); // 149</code></pre><p id="fbe3b385-74c6-44cc-a51c-d55cd7a8bf6f" class="">Это сработает, когда результат работы reduce — число или строка. Когда на выходе нужен массив или объект, второй аргумент обязателен.</p><p id="e60e5bfa-0201-4896-b82a-e0b5e67e8a10" class="">Есть популярная задача: дан массив, чьи элементы могут повторяться. Нужно создать объект, в котором ключи — это элементы массива, а значения — число повторений соответствующих элементов. Если в исходном массиве есть 3 элемента со значением «яблоко», в конечном объекте должно быть свойство «яблоко» со значением 3.</p><p id="cf354716-5db6-4bec-ba06-33f7aed00641" class="">Тогда методу <code>reduce</code> вторым аргументом передают пустой объект:</p><pre id="1b6921e5-14bc-44bd-a5a2-b6f432eea24c" class="code code-wrap"><code>const order = [&#x27;яблоко&#x27;, &#x27;банан&#x27;, &#x27;апельсин&#x27;, &#x27;банан&#x27;, &#x27;яблоко&#x27;, &#x27;банан&#x27;];
+
+const result = order.reduce(function (prevVal, item) {
+  if (!prevVal[item]) {
+    // если ключа ещё нет в объекте, значит это первое повторение
+    prevVal[item] = 1;
+  } else {
+    // иначе увеличим количество повторений на 1
+    prevVal[item] += 1;
+  }
+
+  // и вернём изменённый объект
+  return prevVal;
+}, {}); // Начальное значение — пустой объект.
+
+console.log(result); // { яблоко: 2, банан: 3, апельсин: 1 }</code></pre><p id="8c372fcf-0e4b-49fc-8228-6ae0ee86643b" class="">Здесь без второго аргумента не обойтись.</p><h2 id="ca97f37c-b81e-471d-b552-62eaae3a5728" class="">Все любят черепашек-ниндзя</h2><p id="09e46652-8503-42a3-999d-107ec1df0d6f" class="">Возьмём массив объектов и рассмотрим на нём некоторые дополнительные возможности <code>reduce</code>:</p><pre id="dd4722b1-546b-41e8-a1c9-617485e31f80" class="code code-wrap"><code>const people = [
+ {
+   name: &#x27;Leo&#x27;,
+    age: 22,
+    blackBelt: true,
+    experience: 18,
+    availableForWork: true,
+    isTurtle: true,
+    friends: [
+     {
+       name: &#x27;Micky&#x27;,
+        age: 44,
+        blackBelt: false,
+        availableForWork: true,
+        isTurtle: false
+      },
+      {
+       name: &#x27;Donny&#x27;,
+        age: 32,
+        blackBelt: true,
+        availableForWork: false,
+        isTurtle: false
+      }
+    ]
+  },
+  {
+   name: &#x27;Rafael&#x27;,
+    age: 21,
+    blackBelt: true,
+    experience: 12,
+    availableForWork: true,
+    isTurtle: true,
+    friends: [
+     {
+       name: &#x27;Leo&#x27;,
+        age: 31,
+        blackBelt: false,
+        isTurtle: false,
+        availableForWork: false
+      },
+      {
+       name: &#x27;Donny&#x27;,
+        age: 33,
+        blackBelt: true,
+        isTurtle: false,
+        availableForWork: true
+      }
+    ]
+  },
+  {
+   name: &#x27;Donatello&#x27;,
+    age: 19,
+    blackBelt: true,
+    experience: 16,
+    availableForWork: false,
+    isTurtle: true,
+    friends: [
+     {
+       name: &#x27;Nicky&#x27;,
+        age: 34,
+        blackBelt: false,
+        isTurtle: false,
+        availableForWork: true
+      },
+      {
+       name: &#x27;Splinter&#x27;,
+        age: 73,
+        blackBelt: true,
+        isTurtle: false,
+        availableForWork: false
+      }
+    ]
+  },
+  {
+   name: &#x27;Michaelangelo&#x27;,
+    age: 17,
+    blackBelt: true,
+    experience: 10,
+    availableForWork: false,
+    isTurtle: true,
+    friends: [
+     {
+       name: &#x27;April&#x27;,
+        age: 21,
+        blackBelt: false,
+        isTurtle: false,
+        availableForWork: false
+      },
+      {
+       name: &#x27;B-Bob&#x27;,
+        age: 21,
+        blackBelt: true,
+        isTurtle: false,
+        availableForWork: true
+      }
+    ]
+  }
+];</code></pre><h2 id="839ac75d-52ab-4f88-88c8-33e25888c3aa" class="">Создать единый массив из свойств объекта</h2><p id="6e602d17-f31b-4b6f-8b59-2b287d6357f7" class="">Мы имеем массив объектов, причём некоторые свойства также содержат в себе объекты. Предположим, нам нужно взять возраст всех людей (и не только) и собрать их в одном массиве. Вот как это можно сделать:</p><pre id="18d6e3ff-150b-49d7-8516-ead58f94513c" class="code code-wrap"><code>const agesOfAllPersons = people.reduce((acc, currentValue) =&gt; {
+ acc.push(currentValue.age)
+  currentValue.friends.forEach( friend =&gt; {
+      acc.push(friend.age);
+  })
+  return acc;
+}, []); // Returns [22, 44, 32, 21, 31, 33, 19, 34, 73, 17, 21, 21]</code></pre><h2 id="988f9c0c-4751-4908-b890-c941cced0fe0" class="">Создать массив из объектов, отвечающих определённым критериям</h2><p id="bfea95a8-0606-40c9-aaef-aebb1209534d" class="">Предположим, что среди всех людей нам нужно отобрать только тех, у кого имеется разрешение на работу, и собрать их в новый массив. Это можно реализовать так:</p><pre id="912d1d62-a67c-40c9-b0c7-74a9d0fef894" class="code code-wrap"><code>const availableForWork = people.reduce((acc, currentValue) =&gt; {
+ if(currentValue.availableForWork) {
+   acc.push(currentValue);
+  }
+  currentValue.friends.forEach(friend =&gt; {
+    if(friend.availableForWork) {
+      acc.push(friend);
+    }
+  });
+  return acc;
+}, []); // Вернётся объект из 6 людей, у которых есть разрешение на работу</code></pre><h2 id="1452fe4e-5abc-4b54-9b46-a9b35e61be2f" class="">Создать собственную структуру из массива</h2><p id="8acd8dc8-2779-4444-8281-b9e04efcc4fa" class="">Бывает так, что из Api вам приходят данные не в том виде, в котором хотелось бы. В примере ниже у нас есть массив объектов, и предположим, что вам нужно получить объект, у которого id = 2. В нынешней реализации вам нужно будет перебрать массив и отфильтровать нужный объект. Один раз это сделать можно, но есть предполагается несколько таких манипуляций в программе, то каждый раз это делать затратно. С <code>reduce</code> вы можете избежать этого:</p><pre id="7ce1d60f-8339-40be-b739-df30d9a39e82" class="code code-wrap"><code>const idToSelect = 2;
+const peopleArray = [
+  {
+    id: 1,
+    name: &#x27;Rafael&#x27;
+  },
+  {
+    id: 2,
+    name: &#x27;Leonardo&#x27;
+  },
+  {
+    id: 3,
+    name: &#x27;Michaelangelo&#x27;
+  },
+  {
+    id: 4,
+    name: &#x27;Donatello&#x27;
+  },
+];
+const mapPeople = peopleArray.reduce((map, person) =&gt; {
+  map[person.id] = person
+  return map;
+}, {});
+// вернётся объект вида:
+// {
+//   1: {id: 1, name: &quot;Rafael&quot;}
+//   2: {id: 2, name: &quot;Leonardo&quot;}
+//   3: {id: 3, name: &quot;Michaelangelo&quot;}
+//   4: {id: 4, name: &quot;Donatello&quot;}
+// }
+// где ключом является id объекта, а значением - сам объект.
+
+// Теперь можно просто выбрать нужный объект, обратившись к его id:
+const selectedPerson = mapPeople[idToSelect]; // {id: 2, name: &quot;Leonardo&quot;}</code></pre><h2 id="99d2d70f-067a-4d31-9830-78446318e683" class="">Частые ошибки</h2><p id="95188c9d-e242-4645-bf48-b00d0dbf362a" class="">Есть две самые популярные ошибки при работе с <code>reduce</code>.</p><p id="2a2f01e6-42d4-4ec3-8ac8-8e517a986885" class=""><strong>Первая ошибка.</strong> Забыть передать второй аргумент, когда он нужен. Вот что может случиться:</p><pre id="8ed19f3b-0c02-40df-9268-c2739ebeda85" class="code code-wrap"><code>const order = [&#x27;яблоко&#x27;, &#x27;банан&#x27;, &#x27;апельсин&#x27;, &#x27;банан&#x27;, &#x27;яблоко&#x27;, &#x27;банан&#x27;];
+
+const result = order.reduce(function (prevVal, item) {
+  if (!prevVal[item]) {
+    prevVal[item] = 1;
+  } else {
+    prevVal[item] += 1;
+  }
+
+  return prevVal;
+}); // Забыли передать пустой объект
+
+console.log(result); // &quot;яблоко&quot;</code></pre><p id="bfaa4b14-a26b-4dec-8a25-b8796b7b4ba6" class="">Совсем не то, чего мы ожидали. На первой итерации <code>prevVal</code><em> </em>получило значение первого элемента «яблоко», вернуло его, повторило несколько раз. В результате получилось просто «яблоко», а не свойства со значениями. Чтобы не ошибаться, лучше всегда вызывать <code>reduce</code> с указанием начального значения.</p><p id="998f4019-5af6-472b-a0eb-35e35eee1e26" class=""><strong>Вторая ошибка.</strong> Забыть <code>return</code><em> </em>внутри колбэка:</p><pre id="4fd30672-1bc6-47b5-a4b7-154c8af3e5f3" class="code"><code>const arr = [1, 1, 2, 3, 5, 8, 13, 21, 34];
+
+const sum = arr.reduce(function (previousValue, item) {
+  previousValue = previousValue + item;
+});
+
+console.log(sum); // undefined</code></pre><p id="44a9a75f-cc39-4267-9106-81de218b63fa" class="">Если <code>return</code> отсутствует, <code>reduce</code><em> </em>в этом примере вернёт <code>undefined</code>.</p><h2 id="106ae15b-02b1-4ad4-9d36-a348a055713f" class="">Суть метода <code>reduce</code></h2><p id="c29bf1dd-7d99-4383-9e6e-310b51dd7a12" class="">Как работает метод <code>reduce</code>:</p><ul id="442e6e28-4e33-4ae5-826d-9a39089540c3" class="bulleted-list"><li style="list-style-type:disc">сводит массив к одному значению: числу, массиву, объекту;</li></ul><ul id="d02306e4-5db1-4a5a-9146-2d3f7cb1fb41" class="bulleted-list"><li style="list-style-type:disc">принимает на вход 2 аргумента: обязательный колбэк и исходное значение его первого аргумента;</li></ul><ul id="cf88084b-7746-436a-b7b6-df41e1cef206" class="bulleted-list"><li style="list-style-type:disc">содержит в колбэке 4 аргумента: промежуточное значение, текущий элемент, его индекс и сам исходный массив.</li></ul><p id="a40fcd7d-d267-4a73-9ee2-0b1f1111b0c9" class="">Метод <code>reduce</code> — один из самых сложных. Нормально не сразу его понять, поэтому не переживайте: мы говорим о нём не в последний раз. Озарение обязательно постигнет вас, как некогда постигло и нас.</p></div></article></body></html>

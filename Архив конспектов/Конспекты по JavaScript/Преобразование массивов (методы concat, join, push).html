@@ -1,0 +1,866 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Преобразование массивов (методы concat, join, push, pop, shift, unshift, slice, splice)</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="8c34fb21-e718-4133-add9-31ee6ddfedeb" class="page sans"><header><div class="page-header-icon undefined"><span class="icon">👓</span></div><h1 class="page-title">Преобразование массивов (методы concat, join, push, pop, shift, unshift, slice, splice)</h1></header><div class="page-body"><h2 id="a48cb898-9af8-4397-9921-9b9be5756fcc" class="">Добавление элементов. Метод <code>concat</code></h2><p id="38382098-fb12-4a3f-b9b4-f2084cd3c915" class="">Метод <code>concat</code> применяется к массиву и создаёт из него новый. Все аргументы, переданные методу, будут добавлены в новый массив в том же порядке:</p><pre id="6016555d-1bb2-4251-89b3-a738d971e1a8" class="code code-wrap"><code>const toDoList = [&#x27;Посадить дерево&#x27;, &#x27;Построить дом&#x27;];
+const toDoListUpdated = toDoList.concat(&#x27;Вырастить сына&#x27;);
+
+console.log(toDoListUpdated);
+
+// [&quot;Посадить дерево&quot;, &quot;Построить дом&quot;, &quot;Вырастить сына&quot;]</code></pre><p id="657ab25e-4ab7-4959-979c-8836dc41036c" class="">Как аргумент можно передать и другой массив: его элементы будут скопированы и добавлены в новый массив:</p><pre id="d6d758b3-d613-4216-b469-08337db32c49" class="code code-wrap"><code>const moscowAttractions = [&#x27;Кремль&#x27;, &#x27;Третьяковская галерея&#x27;];
+const spbAttractions = [&#x27;Эрмитаж&#x27;, &#x27;Мариинский театр&#x27;];
+const volgogradAttractions = [&#x27;Мамаев Курган&#x27;, &#x27;Родина-мать&#x27;];
+
+const russiaAttractions = moscowAttractions.concat(spbAttractions, volgogradAttractions);
+
+// получим новый массив со значениями всех исходных массивов
+
+console.log(russiaAttractions);
+
+/*
+  [
+    &quot;Кремль&quot;,
+    &quot;Третьяковская галерея&quot;,
+    &quot;Эрмитаж&quot;,
+    &quot;Мариинский театр&quot;,
+    &quot;Мамаев Курган&quot;,
+    &quot;Родина-мать&quot;
+  ]
+*/</code></pre><p id="1a7d08ba-950f-48b2-92bd-d4f2f1106a89" class="">Метод <code>concat</code> не меняет структуру начального массива, а возвращает новый. Изменения в новом массиве не приведут к изменению исходного. Это делает код более предсказуемым.</p><h2 id="be880baa-41e8-4ee0-a35f-bc5b1ce55cf9" class="">Преобразование массива в строку. Метод <code><strong>join</strong></code></h2><p id="6ecd3159-5102-4320-bd33-712c91633480" class="">Метод <code><strong>join</strong></code> создаёт строку из элементов массива, разделённых запятой. Их порядок не меняется:</p><pre id="a8fc7ce3-3042-4f6e-b020-3de27422efdf" class="code code-wrap"><code>const bremenMusicians = [&#x27;Кот&#x27;, &#x27;Пёс&#x27;, &#x27;Трубадур&#x27;, &#x27;Осёл&#x27;, &#x27;Петух&#x27;];
+
+console.log(bremenMusicians.join());
+
+// &quot;Кот,Пёс,Трубадур,Осёл,Петух&quot;
+
+console.log(`Представляем музыкантов: ${bremenMusicians.join(&#x27;, &#x27;)}`);
+// &quot;Представляем музыкантов: Кот, Пёс, Трубадур, Осёл, Петух&quot;
+
+// при этом с исходным массивом ничего не произошло:
+console.log(bremenMusicians);
+// [&quot;Кот&quot;, &quot;Пёс&quot;, &quot;Трубадур&quot;, &quot;Осёл&quot;, &quot;Петух&quot;]</code></pre><p id="65e3bda0-f201-4d60-93de-d85192bc160f" class="">Если не передать <code>join</code> аргумент, элементы в строке будут перечислены через запятую. Но мы можем задать любой нужный разделитель:</p><pre id="195c580a-b86b-4596-ba36-9ff2070b42a3" class="code code-wrap"><code>const bremenMusicians = [&#x27;Кот&#x27;, &#x27;Пёс&#x27;, &#x27;Трубадур&#x27;, &#x27;Осёл&#x27;, &#x27;Петух&#x27;];
+
+console.log(bremenMusicians.join(&#x27; | &#x27;));
+
+// &quot;Кот | Пёс | Трубадур | Осёл | Петух&quot;</code></pre><h1 id="12128623-e986-4015-95bc-8d181595da3d" class="">Добавление и удаление последнего элемента</h1><p id="d26e6191-d485-4162-9dba-5d0a958ee346" class="">В массивах часто ведут списки, в которых добавляют и удаляют элементы. Расскажем о том, как это делать.</p><h2 id="dc560501-77ca-498a-a516-f2607eb22613" class="">Добавление элемента: метод <code>push</code></h2><p id="aee164d8-2ae9-4bf9-b98d-4360558b90c1" class="">Метод <code>push</code> добавляет переданные ему аргументы в конец массива:</p><pre id="a0fa94da-4f0b-4ac1-a459-87541e33df5e" class="code"><code>const emeraldCityHeroes = [&#x27;Лев&#x27;, &#x27;Дровосек&#x27;, &#x27;Страшила&#x27;];
+emeraldCityHeroes.push(&#x27;Элли&#x27;, &#x27;Тотошка&#x27;);
+
+console.log(emeraldCityHeroes);
+
+// [&quot;Лев&quot;, &quot;Дровосек&quot;, &quot;Страшила&quot;, &quot;Элли&quot;, &quot;Тотошка&quot;]</code></pre><h2 id="ea3e5ea8-d786-431b-8f65-74e1d42ee187" class="">Удаление элемента: метод <code>pop</code></h2><p id="d2848d3a-7ef7-4619-96c0-8ab4e601cfc9" class="">Метод <code>pop</code> удаляет последний элемент массива. Он не принимает аргументы — только возвращает значение удалённого элемента. Если массив пуст, <code>pop</code> вернёт <code>undefined</code>:</p><pre id="7fd78a0c-f734-41a7-9ab2-5b533199dea9" class="code"><code>const insects = [&#x27;Бабочка&#x27;, &#x27;Мотылёк&#x27;, &#x27;Божья коровка&#x27;, &#x27;Комар&#x27;];
+
+console.log(insects.pop()); // &quot;Комар&quot;
+console.log(insects); // [&quot;Бабочка&quot;, &quot;Мотылёк&quot;, &quot;Божья коровка&quot;]</code></pre><h1 id="fd75c5ca-644f-454d-bf5f-c8ef52c94161" class="">Добавление и удаление первого элемента</h1><p id="150b379f-d7a5-4277-86c7-ade84bb1004e" class="">Вы узнали, как работать с последним элементом массива. Расскажем, что делать с первым.</p><h2 id="cd07491d-4333-4a38-bd6f-fd8025f505b8" class="">Удаление первого элемента: метод <code><strong>shift</strong></code></h2><p id="59aa106f-1e9d-42ea-87dd-1c67c0d4dfab" class="">Метод <code><strong>shift</strong></code><strong> </strong>удаляет первый элемент массива. Исходный массив при этом изменится:</p><pre id="c8cd8a4e-386e-40c1-891e-ea7e4ca1c9df" class="code"><code>const italyCities = [&#x27;Помпеи&#x27;, &#x27;Рим&#x27;, &#x27;Неаполь&#x27;];
+
+const volcanoEruption = italyCities.shift();
+
+// метод shift() возвращает удалённый элемент
+console.log(volcanoEruption); // &quot;Помпеи&quot;
+
+// массив остался без первого элемента
+console.log(italyCities); // [&quot;Рим&quot;, &quot;Неаполь&quot;]</code></pre><p id="b8559f11-17fe-4114-9abe-2029909f1945" class="">Если массив изначально пустой, вернётся <code>undefined</code><strong>:</strong></p><pre id="807cf2a1-03ae-4d38-ab32-2c04ba83e8ad" class="code code-wrap"><code>const emptyArr = [];
+
+console.log(emptyArr.shift()); // undefined</code></pre><h2 id="37fed652-63c7-40da-b422-9a0c9de3934c" class="">Добавление элемента в начало массива: метод <code><strong>unshift</strong></code></h2><p id="951dad51-bcd0-44dd-a6bf-7d6d89da26c5" class="">Метод <code><strong>unshift</strong></code><strong> </strong>добавляет элементы в начало массива. Их передают через запятую:</p><pre id="8ebc9ee8-220c-4cb1-87ef-abdad6b00a39" class="code"><code>const queue = [&#x27;Рабочие&#x27;, &#x27;Школьники&#x27;, &#x27;Студенты&#x27;];
+
+queue.unshift(&#x27;Пенсионеры&#x27;, &#x27;Инвалиды&#x27;);
+
+console.log(queue);
+
+// [&quot;Пенсионеры&quot;, &quot;Инвалиды&quot;, &quot;Рабочие&quot;, &quot;Школьники&quot;, &quot;Студенты&quot;]
+</code></pre><p id="aea7df0f-517e-4d0e-9191-3cd3e35b90be" class="">Метод <code>unshift</code> изменит исходный массив и напишет, сколько элементов в новом массиве:</p><pre id="e6d7f949-b796-40fc-8830-74beb196934a" class="code code-wrap"><code>const queue = [&quot;Пенсионеры&quot;, &quot;Инвалиды&quot;, &quot;Рабочие&quot;, &quot;Школьники&quot;, &quot;Студенты&quot;];
+
+console.log(queue.length); // 5
+console.log(queue.unshift(&#x27;Мне только спросить&#x27;)); // 6</code></pre><h2 id="973a2bd6-1144-4fec-8b87-8f22ca2455d1" class="">Так куда добавлять? В начало или в конец?</h2><p id="41d2ea7e-91e0-428a-b3da-3969b6be7511" class="">Методы <code>shift </code>и <code>unshift</code> используют реже, чем их собратья <code>pop</code> и <code>push</code>. Работать с первым элементом затратнее, чем с последним. Для этого нужно перезаписать массив целиком: первый элемент сделать вторым, второй — третьим и так далее. Поэтому программисты строят алгоритмы так, чтобы записывать или удалять элементы массива с конца.</p><figure id="f79f3023-b9bf-4ae3-b744-0354c2705a9c" class="image"><a href="./Преобразование массивов (методы concat, join, push)/js_8-shift.gif"><img style="width:512px" src="./Преобразование массивов (методы concat, join, push)/js_8-shift.gif"/></a><figcaption>Если удалить первый элемент, всем остальным приходится сдвинуться влево</figcaption></figure><p id="8b0ba692-ce24-4cc0-8f0f-2679944929c8" class="">
+</p><figure id="ea2ded1b-95ee-4fbc-94d6-feb33ff1ef33" class="image"><a href="./Преобразование массивов (методы concat, join, push)/js_8-pop.gif"><img style="width:512px" src="./Преобразование массивов (методы concat, join, push)/js_8-pop.gif"/></a><figcaption>Если удалить последний элемент, остальные сдвигать не нужно</figcaption></figure><pre id="554f23a2-3246-4a41-87d1-adfae505cd62" class="code"><code>const queue = [&#x27;Вика&#x27;, &#x27;Петя&#x27;, &#x27;Аня&#x27;];
+
+queue[0]; // &quot;Вика&quot;
+queue[1]; // &quot;Петя&quot;
+queue[2]; // &quot;Аня&quot;
+
+queue.unshift(&#x27;Валера&#x27;); // 4
+queue; // [&quot;Валера&quot;, &quot;Вика&quot;, &quot;Петя&quot;, &quot;Аня&quot;];
+
+// индексы Вики, Пети и Ани изменились
+queue[1]; // &quot;Вика&quot;
+queue[2]; // &quot;Петя&quot;
+queue[3]; // &quot;Аня&quot;</code></pre><p id="4c684bbc-09dd-46be-93df-35e5dd097a7a" class="">Мы не меняем индексы элементов вручную — движок делает это сам. Но ему тоже нужно время. Если в массиве миллион элементов, движок совершит миллион перестановок.</p><p id="72e33523-38b0-40c8-814a-c4d71364fee5" class="">Используйте методы <code>pop</code> и <code>push</code>, а к <code>shift</code> и <code>unshift</code> прибегайте в крайнем случае.</p><h1 id="50ebc30d-c7ba-4288-80e6-995ebf6defda" class="">Управление элементами на любых позициях</h1><p id="b61378f3-39c0-4aff-89d8-23cb25e430da" class="">Вы изучили методы работы с элементами в начале и в конце массива. Перейдём к управлению элементами на любых позициях.</p><h2 id="30d9dcc5-7467-4146-90bf-eb38ea581cd9" class="">Получение части массива: метод <code><strong>slice</strong></code></h2><p id="6d241101-4149-40cf-886c-0a558121d009" class="">Метод <code><strong>slice</strong></code> копирует часть массива и делает из неё новый массив. Он принимает на вход два аргумента:</p><ul id="ccaa59c9-4d69-4bc4-a765-3e993ea6241d" class="bulleted-list"><li style="list-style-type:disc">индекс элемента, с которого нужно начать копирование (включительно);</li></ul><ul id="1a042583-b8c8-472d-a896-b705f428065f" class="bulleted-list"><li style="list-style-type:disc">индекс элемента, на котором нужно остановиться (не включительно).</li></ul><p id="30a6a5d7-3e5e-4390-b781-8f1b4d25159a" class="">Исходный массив при этом не изменяется:</p><pre id="63d51566-5980-4166-8918-b93674f12851" class="code code-wrap"><code>const months = [
+  &#x27;Январь&#x27;,
+  &#x27;Февраль&#x27;,
+  &#x27;Март&#x27;,
+  &#x27;Апрель&#x27;,
+  &#x27;Май&#x27;,
+  &#x27;Июнь&#x27;,
+  &#x27;Июль&#x27;,
+  &#x27;Август&#x27;,
+  &#x27;Сентябрь&#x27;,
+  &#x27;Октябрь&#x27;,
+  &#x27;Ноябрь&#x27;,
+  &#x27;Декабрь&#x27;
+];
+
+// начиная с индекса 2 (&quot;Март&quot;) и до, но не включая индекс 5 (&quot;Июнь&quot;)
+const spring = months.slice(2, 5);
+
+console.log(spring); // [&quot;Март&quot;, &quot;Апрель&quot;, &quot;Май&quot;]
+
+console.log(months); /* [&quot;Январь&quot;, &quot;Февраль&quot;, &quot;Март&quot;, &quot;Апрель&quot;, &quot;Май&quot;, &quot;Июнь&quot;, &quot;Июль&quot;, &quot;Август&quot;, &quot;Сентябрь&quot;, &quot;Октябрь&quot;, &quot;Ноябрь&quot;, &quot;Декабрь&quot;] */
+
+// Как видите, исходный массив остался нетронутым</code></pre><p id="1ed29d2b-8f1c-449b-8dd9-1635b34b559d" class="">Второй аргумент можно не указывать. Тогда скопированы будут все элементы до конца:</p><pre id="77584178-c957-4708-bc9e-afdffd78aca5" class="code code-wrap"><code>const months = [
+  &#x27;Январь&#x27;,
+  &#x27;Февраль&#x27;,
+  &#x27;Март&#x27;,
+  &#x27;Апрель&#x27;,
+  &#x27;Май&#x27;,
+  &#x27;Июнь&#x27;,
+  &#x27;Июль&#x27;,
+  &#x27;Август&#x27;,
+  &#x27;Сентябрь&#x27;,
+  &#x27;Октябрь&#x27;,
+  &#x27;Ноябрь&#x27;,
+  &#x27;Декабрь&#x27;
+];
+
+// взять все элементы, начиная с индекса 9 и до конца массива
+const fourthQuarter = months.slice(9);
+
+fourthQuarter; // [&quot;Октябрь&quot;, &quot;Ноябрь&quot;, &quot;Декабрь&quot;]</code></pre><p id="e62c09f4-9468-4b8d-abab-b8abc116d9dd" class="">Можно передавать как аргумент и отрицательные числа. Тогда индекс будет считаться с конца массива:</p><pre id="53186a0f-b57f-40c7-b90c-83dd2e476fc2" class="code code-wrap"><code>const months = [
+  &#x27;Январь&#x27;,
+  &#x27;Февраль&#x27;,
+  &#x27;Март&#x27;,
+  &#x27;Апрель&#x27;,
+  &#x27;Май&#x27;,
+  &#x27;Июнь&#x27;,
+  &#x27;Июль&#x27;,
+  &#x27;Август&#x27;,
+  &#x27;Сентябрь&#x27;,
+  &#x27;Октябрь&#x27;,
+  &#x27;Ноябрь&#x27;,
+  &#x27;Декабрь&#x27;
+];
+
+// начиная с четвёртого элемента с конца и до первого с конца (не включительно)
+const autumn = months.slice(-4, -1);
+console.log(autumn); // [&quot;Сентябрь&quot;, &quot;Октябрь&quot;, &quot;Ноябрь&quot;]
+
+// с третьего элемента с конца и до конца
+const fourthQuarter = months.slice(-3);
+console.log(fourthQuarter); // [&quot;Октябрь&quot;, &quot;Ноябрь&quot;, &quot;Декабрь&quot;]</code></pre><p id="3b92e97a-8455-4f80-8c22-f6f31b4b99ea" class="">Можно вызывать <code>slice</code> вообще без аргументов. Получится новый массив, состоящий из всех элементов исходного:</p><pre id="6bdf2672-6a61-43e9-92f8-c2abaabbe51a" class="code code-wrap"><code>const boringTale = [
+  &#x27;У попа была собака, он её любил,&#x27;,
+  &#x27;Она съела кусок мяса, поп её убил,&#x27;,
+  &#x27;В землю закопал,&#x27;,
+  &#x27;И надпись написал о том, что&#x27;
+];
+
+const boringTale2 = boringTale.slice();
+
+console.log(boringTale2);
+
+/*
+  [
+    &quot;У попа была собака, он её любил,&quot;,
+    &quot;Она съела кусок мяса, поп её убил,&quot;,
+    &quot;В землю закопал,&quot;,
+    &quot;И надпись написал о том, что&quot;
+  ] 
+*/</code></pre><p id="5db856b0-d519-45c5-bdff-d6f0e2795909" class="">Этот прием удобно использовать, если требуется произвести какие-то изменения в массивы, которые вы не можете сделать с помощью встроенных методов, при этом не &quot;мутируя&quot; (не изменяя) изначальный массив.</p><p id="739ad68e-4dc4-4ed6-9394-7c63e787559b" class="">Например, вы хотите где-нибудь применить к массиву <code>splice</code>, но вот старый массив изменять нельзя. Создаем новый с помощью <code>.slice()</code>, а затем применяем к нему<code> .splice()</code>.</p><h2 id="d943653e-2803-43f6-a090-630311d51d3e" class="">Замена части элементов массива: метод <code><strong>splice</strong></code></h2><p id="1c1932ac-dc6c-4b54-a26c-4de0409cecc7" class="">Метод <code><strong>splice</strong></code> выполняет два действия: удаляет элементы из массива и добавляет на их место новые. Первый аргумент метода — индекс элемента, с которого надо начать удалять. Второй — сколько элементов нужно удалить.</p><p id="3f6efc5c-dc8a-4bd7-bdd4-f0ae6a07e332" class="">Аргументы с третьего — элементы, которые мы хотим поставить на место удалённых. Их может быть сколько угодно или не быть вообще:</p><pre id="6590373d-3932-4d1a-b4da-e9d192716bd0" class="code code-wrap"><code>const week = [
+  &#x27;Понедельник&#x27;,
+  &#x27;Вторник&#x27;,
+  &#x27;Среда&#x27;,
+  &#x27;Четверг&#x27;,
+  &#x27;Пятница&#x27;,
+  &#x27;Суббота&#x27;,
+  &#x27;Воскресенье&#x27;
+];
+
+// начиная с индекса 0 удалим пять элементов и вставим на их место другие пять
+const removedItems = week.splice(0, 5, &#x27;Воскресенье&#x27;, &#x27;Суббота&#x27;, &#x27;Воскресенье&#x27;, &#x27;Суббота&#x27;, &#x27;Воскресенье&#x27;);
+
+console.log(removedItems); // [&quot;Понедельник&quot;, &quot;Вторник&quot;, &quot;Среда&quot;, &quot;Четверг&quot;, &quot;Пятница&quot;]
+
+console.log(week); // [&quot;Воскресенье&quot;, &quot;Суббота&quot;, &quot;Воскресенье&quot;, &quot;Суббота&quot;, &quot;Воскресенье&quot;, &quot;Суббота&quot;, &quot;Воскресенье&quot;]</code></pre><p id="9d487fdf-64f0-430f-9f71-24622a0f9a6d" class="">Этот код изменит исходный массив и вернёт новый из удалённых элементов. Новые значения добавлять необязательно — можно удалить существующие:</p><pre id="73dc157c-f7b1-40ad-b2ea-0e1e3ac8fff4" class="code code-wrap"><code>const planets = [
+  &#x27;Меркурий&#x27;,
+  &#x27;Венера&#x27;,
+  &#x27;Земля&#x27;,
+  &#x27;Марс&#x27;,
+  &#x27;Юпитер&#x27;,
+  &#x27;Сатурн&#x27;,
+  &#x27;Уран&#x27;,
+  &#x27;Нептун&#x27;
+];
+
+planets.splice(2, 1); // [&quot;Земля&quot;]
+console.log(planets); // [&quot;Меркурий&quot;, &quot;Венера&quot;, &quot;Марс&quot;, &quot;Юпитер&quot;, &quot;Сатурн&quot;, &quot;Уран&quot;, &quot;Нептун&quot;]</code></pre><p id="93bddb21-52bd-45f6-98c8-7710a3d61900" class="">И наоборот. Можно ничего не удалять — только добавить новые элементы:</p><pre id="47e807ce-6f3c-4a51-8fe4-5ba4d9d950d8" class="code code-wrap"><code>const planets = [
+  &#x27;Меркурий&#x27;,
+  &#x27;Венера&#x27;,
+  &#x27;Марс&#x27;,
+  &#x27;Юпитер&#x27;,
+  &#x27;Сатурн&#x27;,
+  &#x27;Уран&#x27;,
+  &#x27;Нептун&#x27;
+];
+
+planets.splice(2, 0, &quot;Земля&quot;); // []
+console.log(planets); // [&quot;Меркурий&quot;, &quot;Венера&quot;, &quot;Земля&quot;, &quot;Марс&quot;, &quot;Юпитер&quot;, &quot;Сатурн&quot;, &quot;Уран&quot;, &quot;Нептун&quot;]</code></pre><p id="1b907b23-2ae2-477c-9179-462d09225f4f" class="">Метод <code>splice</code> нужен редко: большинство задач решают простыми методами. Но раз в год и палка стреляет, так что помните о <code>splice</code>: однажды он может выручить.</p><p id="e7f25f17-1552-4383-971d-0cae634a1b03" class="">Преобразование массивов (методы concat, join, push, pop, shift, unshift, slice, splice)</p></div></article></body></html>
